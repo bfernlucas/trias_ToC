@@ -115,8 +115,39 @@ INSTITUTIONAL_ZONES = {
 }
 
 # ========== Função genérica de render ==========
+# Localized strings
+LANG = {
+    "pt": {
+        "title": "Ecossistema de stakeholders",
+        "eyebrow": "TRIAS · BRASIL · DGD 2027–2031",
+        "version": "Versão 4.0 · maio 2026",
+        "mbo_partner": "Parceiro MBO",
+        "inst_layer": "Camada institucional Trias",
+        "connections": "Conexões",
+        "edge_alignment": "Alinhamento temático/territorial",
+        "edge_peer": "Peer MBO (rede UNICOPAS/Trias)",
+        "edge_inst": "Vínculo institucional Trias",
+        "title_brasileiro": "Rede ancorada nos 4 parceiros MBO · 114 stakeholders do ecossistema brasileiro",
+        "title_completo": "Mapa completo · ecossistema brasileiro + 49 atores institucionais Trias",
+    },
+    "en": {
+        "title": "Stakeholder Ecosystem",
+        "eyebrow": "TRIAS · BRAZIL · DGD 2027–2031",
+        "version": "Version 4.0 · May 2026",
+        "mbo_partner": "MBO Partner",
+        "inst_layer": "Trias institutional layer",
+        "connections": "Connections",
+        "edge_alignment": "Thematic / territorial alignment",
+        "edge_peer": "MBO peer (UNICOPAS / Trias network)",
+        "edge_inst": "Trias institutional tie",
+        "title_brasileiro": "Network anchored on the 4 MBO partners · 114 stakeholders in the Brazilian ecosystem",
+        "title_completo": "Full map · Brazilian ecosystem + 49 Trias institutional actors",
+    },
+}
+
 def render(G, pos, out_path, title, show_institutional=True,
-           figsize=(24, 16), label_threshold=0.0):
+           figsize=(24, 16), label_threshold=0.0, lang="pt"):
+    L = LANG[lang]
     fig, ax = plt.subplots(figsize=figsize, dpi=180)
     # auto bounds based on positions
     xs = [pos[n][0] for n in pos]
@@ -201,26 +232,24 @@ def render(G, pos, out_path, title, show_institutional=True,
                         bbox=dict(facecolor="white", edgecolor="none",
                                   boxstyle="round,pad=0.06", alpha=0.65))
 
-    # === Título + meta ===
-    fig.text(0.04, 0.96, "Ecossistema de stakeholders",
+    # === Header (titulo + meta) ===
+    fig.text(0.04, 0.96, L["title"],
              fontsize=26, fontweight="bold", color="#0F172A", ha="left", va="top")
     fig.text(0.04, 0.925, title, fontsize=12, color="#334155",
              style="italic", ha="left", va="top")
-    fig.text(0.04, 0.905, "TRIAS · BRASIL · DGD 2027–2031",
+    fig.text(0.04, 0.905, L["eyebrow"],
              fontsize=8.5, color="#64748B", ha="left", va="top",
              family="monospace")
-    fig.text(0.96, 0.96, "Versão 4.0 · maio 2026",
+    fig.text(0.96, 0.96, L["version"],
              fontsize=8.5, color="#64748B", ha="right", va="top",
              family="monospace")
 
-    # === Legenda categórica ===
-    legend_y = 0.04
+    # === Node category legend ===
     legend_handles = [
         Line2D([0], [0], marker="D", color="w", markerfacecolor=PARTNER_COLOR,
                markeredgecolor="white", markeredgewidth=1.2, markersize=14,
-               label=f"Parceiro MBO ({sum(1 for n in G.nodes if G.nodes[n].get('kind')=='partner')})"),
+               label=f"{L['mbo_partner']} ({sum(1 for n in G.nodes if G.nodes[n].get('kind')=='partner')})"),
     ]
-    # Setores
     sector_counts = Counter()
     for n in G.nodes:
         if G.nodes[n].get("kind") == "stakeholder":
@@ -236,7 +265,7 @@ def render(G, pos, out_path, title, show_institutional=True,
         legend_handles.append(
             Line2D([0], [0], marker="s", color="w", markerfacecolor=INSTITUTIONAL_COLOR,
                    markeredgecolor="white", markeredgewidth=1.0, markersize=11,
-                   label=f"Camada institucional Trias ({n_inst})")
+                   label=f"{L['inst_layer']} ({n_inst})")
         )
 
     leg = ax.legend(handles=legend_handles, loc="lower left",
@@ -246,23 +275,23 @@ def render(G, pos, out_path, title, show_institutional=True,
                     facecolor="white", edgecolor="#E1E5EB", ncol=1)
     leg.get_frame().set_linewidth(0.8)
 
-    # === Tipos de aresta ===
+    # === Edge legend ===
     edge_handles = [
         Line2D([0], [0], color="#0F172A", alpha=0.30, linewidth=1.4,
-               label="Alinhamento temático/territorial"),
+               label=L["edge_alignment"]),
         Line2D([0], [0], color="#B91C1C", alpha=0.5, linewidth=1.4,
-               linestyle="--", label="Peer MBO (rede UNICOPAS/Trias)"),
+               linestyle="--", label=L["edge_peer"]),
     ]
     if show_institutional:
         edge_handles.append(
             Line2D([0], [0], color=INSTITUTIONAL_COLOR, alpha=0.4, linewidth=1.0,
-                   label="Vínculo institucional Trias")
+                   label=L["edge_inst"])
         )
     leg2 = ax.legend(handles=edge_handles, loc="lower right",
                      bbox_to_anchor=(1.0, -0.02),
                      frameon=True, fontsize=9, labelspacing=0.6,
                      handletextpad=0.6, borderpad=0.8,
-                     facecolor="white", edgecolor="#E1E5EB", title="Conexões",
+                     facecolor="white", edgecolor="#E1E5EB", title=L["connections"],
                      title_fontsize=9)
     leg2.get_title().set_fontweight("600")
     leg2.get_title().set_color("#0F172A")
@@ -275,24 +304,35 @@ def render(G, pos, out_path, title, show_institutional=True,
     plt.close()
     print(f"PNG salvo: {out_path}")
 
-# ========== Render 1: ecossistema brasileiro (sem camada institucional) ==========
+# ========== Renders PT-BR ==========
 G_br = G.copy()
 inst_nodes = [n for n in G_br.nodes if G_br.nodes[n].get("kind") == "trias_institutional"]
 G_br.remove_nodes_from(inst_nodes)
 pos_br = compute_layout(G_br, PARTNERS_XY, seed=42, iterations=800, k=1.5)
 render(G_br, pos_br,
        OUT_NET / "ecossistema_brasileiro.png",
-       title="Rede ancorada nos 4 parceiros MBO · 114 stakeholders do ecossistema brasileiro",
+       title=LANG["pt"]["title_brasileiro"],
        show_institutional=False,
-       figsize=(26, 17))
+       figsize=(26, 17), lang="pt")
 
-# ========== Render 2: ecossistema completo (com camada institucional) ==========
 pos_full = compute_layout(G, PARTNERS_XY, INSTITUTIONAL_ZONES, seed=42,
                           iterations=1000, k=1.2)
 render(G, pos_full,
        OUT_NET / "ecossistema_completo.png",
-       title="Mapa completo · ecossistema brasileiro + 49 atores institucionais Trias",
+       title=LANG["pt"]["title_completo"],
        show_institutional=True,
-       figsize=(30, 20))
+       figsize=(30, 20), lang="pt")
+
+# ========== Renders English ==========
+render(G_br, pos_br,
+       OUT_NET / "ecosystem_brazil.png",
+       title=LANG["en"]["title_brasileiro"],
+       show_institutional=False,
+       figsize=(26, 17), lang="en")
+render(G, pos_full,
+       OUT_NET / "ecosystem_full.png",
+       title=LANG["en"]["title_completo"],
+       show_institutional=True,
+       figsize=(30, 20), lang="en")
 
 print("Done.")
