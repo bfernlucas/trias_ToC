@@ -61,6 +61,63 @@ for rec in records:
     rec["notes"] = _IKF_PAT.sub("o financiador analisado", rec["notes"])
     rec["description"] = _IKF_PAT.sub("o financiador analisado", rec["description"])
 
+# Reclassifica setor em 6 categorias operacionais (Setor privado, Academia,
+# Organizações sociais, Governo, Cooperação internacional, Outros). A
+# classificação original tinha 5 categorias mais abstratas e misturava
+# financiadores domésticos com internacionais. As regras abaixo usam
+# setor original + tipo + HQ para refinar.
+def _is_brazilian(rec):
+    """Heurística: HQ no Brasil ou nome contém 'Brasil/Brasileira'."""
+    blob = ((rec.get("hq", "") or "") + " " + (rec.get("name", "") or "")
+            + " " + (rec.get("territory", "") or "")).lower()
+    br_markers = ["brazil", "brasil", "brasília", "brasilia", "são paulo",
+                  "sao paulo", "rio de janeiro", "belém", "belem", "manaus",
+                  "salvador", "fortaleza", "recife", "porto alegre", "curitiba",
+                  "belo horizonte", "minas gerais", "rondônia", "rondonia",
+                  "pará,", "para,", "amazonas", " mg,", " sp,", " rj,", " ba,",
+                  " ce,", " pe,", " rs,", " pr,", " pa,", " ro,", " am,"]
+    return any(m in blob for m in br_markers)
+
+def reclassify_sector(rec):
+    sector_l = (rec.get("sector") or "").lower()
+    type_l = (rec.get("type") or "").lower()
+    # Academia (pesquisa, evidência, conhecimento)
+    if any(k in type_l for k in ["academia", "research center", "think tank",
+                                  "monitoring, evaluation"]):
+        return "Academia"
+    # Setor privado
+    if any(k in type_l for k in ["private compan", "impact invest",
+                                  "institutional investor", "commercial bank",
+                                  "industry platform"]):
+        return "Setor privado"
+    # Cooperação internacional (cooperação bilateral + multilateral)
+    if any(k in type_l for k in ["bilateral cooperation", "multilateral organization",
+                                  "multilateral development bank"]):
+        return "Cooperação internacional"
+    # Development bank: split por origem
+    if "development bank" in type_l:
+        return "Governo" if _is_brazilian(rec) else "Cooperação internacional"
+    # Philanthropy foundation: split por origem
+    if "philanthropy foundation" in type_l:
+        return "Organizações sociais" if _is_brazilian(rec) else "Cooperação internacional"
+    # Governo
+    if any(k in type_l for k in ["public agencies", "federal government",
+                                  "regulator"]) or sector_l == "public sector":
+        return "Governo"
+    # Organizações sociais (terceiro setor, base)
+    if any(k in type_l for k in ["local implementer", "grassroots network",
+                                  "social moviment", "alliance",
+                                  "multi-stakeholder"]):
+        return "Organizações sociais"
+    if sector_l == "civil society organization (cso)":
+        return "Organizações sociais"
+    return "Outros"
+
+# Aplica nova classificação e preserva original em sector_original
+for rec in records:
+    rec["sector_original"] = rec["sector"]
+    rec["sector"] = reclassify_sector(rec)
+
 print(f"Loaded {len(records)} stakeholders.")
 
 # ========== 2. Perfis-âncora dos parceiros ==========
@@ -917,12 +974,15 @@ n_b2 = sum(1 for r in results if len(r["scores"]) == 2)
 n_b1 = sum(1 for r in results if len(r["scores"]) == 1)
 
 # Paleta institucional moderna — neutros frios + índigo/carmim
+# Reclassificação em 6 categorias operacionais (setor privado, academia,
+# organizações sociais, governo, cooperação internacional, outros)
 SECTOR_COLOR = {
-    "Civil Society Organization (CSO)": "#3B5380",  # azul corporativo profundo
-    "Funders":                          "#7A5F38",  # bronze institucional
-    "Private sector":                   "#4D7A6A",  # verde corporativo
-    "Public sector":                    "#5C6B7A",  # slate profissional
-    "Others":                           "#6B5882",  # índigo neutro
+    "Organizações sociais":      "#3B5380",  # azul corporativo profundo
+    "Cooperação internacional":  "#7A5F38",  # bronze institucional
+    "Setor privado":             "#4D7A6A",  # verde corporativo
+    "Governo":                   "#5C6B7A",  # slate profissional
+    "Academia":                  "#6B5882",  # índigo neutro
+    "Outros":                    "#9CA3AF",  # slate claro
 }
 PARTNER_COLOR = "#B91C1C"  # carmim — MBO partners
 

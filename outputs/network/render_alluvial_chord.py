@@ -31,6 +31,16 @@ results = ns["results"]
 TRIAS_MODE_RULES = ns["TRIAS_MODE_RULES"]
 print(f"Graph: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
+# PT → EN translation for sector labels in the chart
+SECTOR_LABEL_EN = {
+    "Organizações sociais":     "Civil society organizations",
+    "Cooperação internacional": "International cooperation",
+    "Setor privado":            "Private sector",
+    "Academia":                 "Academia",
+    "Governo":                  "Government",
+    "Outros":                   "Others",
+}
+
 # Distinct palette for Trias roles (warm + violet, no overlap with sectors)
 ROLE_COLOR = {
     "Process Facilitator":      "#F2A93B",  # amber
@@ -169,7 +179,7 @@ def render_alluvial(out_path):
 
     for s, (y0, y1) in sector_bins.items():
         draw_block(COL_X["sector"][0], COL_X["sector"][1], y0, y1,
-                   SECTOR_COLOR[s], s, sector_totals[s], side="left")
+                   SECTOR_COLOR[s], SECTOR_LABEL_EN.get(s, s), sector_totals[s], side="left")
     for r, (y0, y1) in role_bins.items():
         draw_block(COL_X["role"][0], COL_X["role"][1], y0, y1,
                    ROLE_COLOR[r], r, role_totals_left[r], side="middle")

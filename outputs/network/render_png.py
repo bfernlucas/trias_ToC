@@ -254,11 +254,20 @@ def render(G, pos, out_path, title, show_institutional=True,
     for n in G.nodes:
         if G.nodes[n].get("kind") == "stakeholder":
             sector_counts[G.nodes[n].get("sector", "Others")] += 1
+    SECTOR_EN = {
+        "Organizações sociais":     "Civil society organizations",
+        "Cooperação internacional": "International cooperation",
+        "Setor privado":            "Private sector",
+        "Academia":                 "Academia",
+        "Governo":                  "Government",
+        "Outros":                   "Others",
+    }
     for sector, color in SECTOR_COLOR.items():
+        label = SECTOR_EN.get(sector, sector) if lang == "en" else sector
         legend_handles.append(
             Line2D([0], [0], marker="o", color="w", markerfacecolor=color,
                    markeredgecolor="white", markeredgewidth=1.0, markersize=11,
-                   label=f"{sector} ({sector_counts.get(sector, 0)})")
+                   label=f"{label} ({sector_counts.get(sector, 0)})")
         )
     if show_institutional:
         n_inst = sum(1 for n in G.nodes if G.nodes[n].get("kind") == "trias_institutional")

@@ -37,11 +37,11 @@ A rede é uma **projeção bipartite**: cada stakeholder externo recebe uma ares
 
 ### Setor
 
-- **Civil Society Organization (CSO)** — 128 (35,6%)
-- **Others** — 73 (20,3%)
-- **Private sector** — 59 (16,4%)
-- **Public sector** — 51 (14,2%)
-- **Funders** — 49 (13,6%)
+- **Organizações sociais** — 120 (33,3%)
+- **Setor privado** — 92 (25,6%)
+- **Academia** — 56 (15,6%)
+- **Cooperação internacional** — 55 (15,3%)
+- **Governo** — 37 (10,3%)
 
 ### Tipo de organização (top 10)
 
@@ -161,11 +161,11 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Inclusão de mulheres e jovens nos espaços de decisão
 
 **Composição do ecossistema conectado** (41 stakeholders):
-- Civil Society Organization (CSO) — 20
-- Others — 10
-- Funders — 7
-- Public sector — 2
-- Private sector — 2
+- Organizações sociais — 26
+- Academia — 8
+- Setor privado — 5
+- Governo — 1
+- Cooperação internacional — 1
 
 **Distribuição de adicionalidade** das conexões:
 - Média — 29
@@ -198,11 +198,11 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Articulação com IKI, GIZ, MDA para complementaridade pós-2028
 
 **Composição do ecossistema conectado** (58 stakeholders):
-- Civil Society Organization (CSO) — 25
-- Private sector — 11
-- Others — 9
-- Funders — 7
-- Public sector — 6
+- Organizações sociais — 25
+- Academia — 15
+- Setor privado — 14
+- Governo — 3
+- Cooperação internacional — 1
 
 **Distribuição de adicionalidade** das conexões:
 - Média — 37
@@ -235,11 +235,11 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Liderança feminina (70% das beneficiárias)
 
 **Composição do ecossistema conectado** (73 stakeholders):
-- Civil Society Organization (CSO) — 34
-- Others — 21
-- Private sector — 10
-- Public sector — 6
-- Funders — 2
+- Organizações sociais — 35
+- Academia — 18
+- Setor privado — 10
+- Cooperação internacional — 7
+- Governo — 3
 
 **Distribuição de adicionalidade** das conexões:
 - Baixa — 41
@@ -273,8 +273,8 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Conectividade digital e ferramentas de traceabilidade
 
 **Composição do ecossistema conectado** (4 stakeholders):
-- Others — 3
-- Civil Society Organization (CSO) — 1
+- Organizações sociais — 3
+- Setor privado — 1
 
 **Distribuição de adicionalidade** das conexões:
 - Baixa — 4
@@ -330,21 +330,21 @@ Bridges são organizações com alinhamento simultâneo a dois ou mais parceiros
 
 Betweenness centrality mede o quanto um nó está em caminhos curtos entre outros nós. Em redes ancoradas como esta, os 4 parceiros dominam por construção; entre os stakeholders externos, os brokers são os que mais agregam fluxo de informação/recursos potenciais.
 
-- **Instituto Ibirapitanga** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Fundo Brasileiro para a Biodiversidade (FUNBIO)** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Clima e Sociedade (iCS)** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Climate Ventures Brasil (Climate Ventures)** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Talanoa** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Alana** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Arapyaú** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Instituto Semeia** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Alcoa** — betweenness 0.0000 · Private sector
-- **Norsk Hydro ASA (Hydro)** — betweenness 0.0000 · Private sector
-- **The Nature Conservancy Brasil (TNC Brasil)** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Conservação Internacional Brasil (CI-Brasil)** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **WWF-Brasil** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **WRI Brasil** — betweenness 0.0000 · Civil Society Organization (CSO)
-- **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** — betweenness 0.0000 · Public sector
+- **Instituto Ibirapitanga** — betweenness 0.0000 · Organizações sociais
+- **Fundo Brasileiro para a Biodiversidade (FUNBIO)** — betweenness 0.0000 · Organizações sociais
+- **Instituto Clima e Sociedade (iCS)** — betweenness 0.0000 · Academia
+- **Instituto Climate Ventures Brasil (Climate Ventures)** — betweenness 0.0000 · Academia
+- **Instituto Talanoa** — betweenness 0.0000 · Academia
+- **Instituto Alana** — betweenness 0.0000 · Organizações sociais
+- **Instituto Arapyaú** — betweenness 0.0000 · Organizações sociais
+- **Instituto Semeia** — betweenness 0.0000 · Organizações sociais
+- **Alcoa** — betweenness 0.0000 · Setor privado
+- **Norsk Hydro ASA (Hydro)** — betweenness 0.0000 · Setor privado
+- **The Nature Conservancy Brasil (TNC Brasil)** — betweenness 0.0000 · Organizações sociais
+- **Conservação Internacional Brasil (CI-Brasil)** — betweenness 0.0000 · Organizações sociais
+- **WWF-Brasil** — betweenness 0.0000 · Organizações sociais
+- **WRI Brasil** — betweenness 0.0000 · Academia
+- **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** — betweenness 0.0000 · Academia
 
 
 ## 6. Lógica de intervenção Trias e modos de articulação
