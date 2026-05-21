@@ -20,3 +20,9 @@ para os próximos anos, conforme o draft do programa.
 - Idioma padrão: português. Termos técnicos em inglês quando consagrados.
 - Nomes de arquivo: `kebab-case`, sem acentos, com data quando relevante (`YYYY-MM-DD-titulo.md`).
 - Fontes externas em `docs-referencia/` devem ter um arquivo `.md` companheiro com citação completa e link.
+
+## Visualização interativa
+
+A rede do ecossistema (D3.js, estilo Kumu) está em `docs/index.html` —
+ancorada nos 4 parceiros MBO. Para publicá-la, ativar **Settings → Pages →
+Source: branch, /docs**. Ver `docs/README.md` para detalhes.

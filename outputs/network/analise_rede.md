@@ -2,6 +2,9 @@
 
 Rede de stakeholders ancorada nos 4 parceiros MBO da Trias Brasil (UNICAFES Pará, UNICAFES Rondônia, CSA Brasil e UNICATADORES). Fonte: `Stakeholder Ecosystem Mapping.xlsx`.
 
+
+**Visualização interativa**: ver `docs/index.html` (publicado via GitHub Pages quando habilitado no repo).
+
 ## Resumo
 
 - **360** stakeholders na base de origem
@@ -19,8 +22,8 @@ Edges ponderadas por alinhamento temático/territorial:
 - role no ecossistema (+0.5/role, cap 1)
 - keywords específicas por parceiro (+2/keyword, cap 8) — principal diferenciador
 - alcance nacional (+0.5)
-- **gate amazônico**: para UNICAFES PA/RO, sem biome amazônica nem keyword amazônica o score zera (evita falsos positivos de grandes empresas de cobertura nacional)
-- **gate de catadores**: para UNICATADORES, exige pelo menos uma keyword de resíduos/catador/circular
+- **gate amazônico**: para UNICAFES PA/RO, sem biome amazônica nem keyword amazônica o score zera
+- **gate de catadores**: para UNICATADORES, exige keyword de resíduo/catador/circular
 
 Threshold para criar edge: score ≥ 4.5.
 
@@ -64,65 +67,65 @@ Threshold para criar edge: score ≥ 4.5.
 
 ### UNICAFES Pará
 
-- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 10.0 · Grassroots networks · National
-- **Instituto Ouro Verde (IOV)** — score 9.5 · Local implementers · Regional
-- **Articulação Nacional de Agroecologia (ANA)** — score 8.0 · Grassroots networks · National
-- **Manioca** — score 7.5 · Private companies (SMEs / local enterprises) · Regional
-- **Instituto Peabiru** — score 7.5 · Local implementers · Regional
-- **AS-PTA – Agricultura Familiar e Agroecologia (AS-PTA)** — score 6.5 · Local implementers · Regional
-- **Movimento dos Trabalhadores Rurais Sem Terra (MST)** — score 6.5 · Social moviments · National
-- **Movimento dos Pequenos Agricultores (MPA)** — score 6.5 · Social moviments · National
-- **Instituto Arapyaú** — score 6.0 · Philanthropy foundations · National
-- **Instituto Conexões Sustentáveis (Conexsus)** — score 6.0 · Local implementers · National
+- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 10.0 · Grassroots networks
+- **Instituto Ouro Verde (IOV)** — score 9.5 · Local implementers
+- **Articulação Nacional de Agroecologia (ANA)** — score 8.0 · Grassroots networks
+- **Manioca** — score 7.5 · Private companies (SMEs / local enterprises)
+- **Instituto Peabiru** — score 7.5 · Local implementers
+- **AS-PTA – Agricultura Familiar e Agroecologia (AS-PTA)** — score 6.5 · Local implementers
+- **Movimento dos Trabalhadores Rurais Sem Terra (MST)** — score 6.5 · Social moviments
+- **Movimento dos Pequenos Agricultores (MPA)** — score 6.5 · Social moviments
+- **Instituto Arapyaú** — score 6.0 · Philanthropy foundations
+- **Instituto Conexões Sustentáveis (Conexsus)** — score 6.0 · Local implementers
 
 ### UNICAFES Rondônia
 
-- **Instituto Arapyaú** — score 8.0 · Philanthropy foundations · National
-- **Instituto Conexões Sustentáveis (Conexsus)** — score 8.0 · Local implementers · National
-- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 8.0 · Grassroots networks · National
-- **Banco da Amazônia S.A. (BASA)** — score 7.5 · Development banks · Regional
-- **Good Energies Foundation** — score 7.5 · Philanthropy foundations · Cross-border / international
-- **Centro Internacional de Pesquisa Florestal e Agroflorestal (CIFOR-ICRAF)** — score 7.5 · Monitoring, Evaluation, and Learning · Cross-border / international
-- **Instituto de Pesquisa Ambiental da Amazônia (IPAM)** — score 7.0 · Monitoring, Evaluation, and Learning · Regional
-- **Alcoa** — score 6.0 · Private companies (large / leading) · Cross-border / international
-- **Norsk Hydro ASA (Hydro)** — score 6.0 · Private companies (large / leading) · Cross-border / international
-- **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** — score 6.0 · Research centers · National
+- **Instituto Arapyaú** — score 8.0 · Philanthropy foundations
+- **Instituto Conexões Sustentáveis (Conexsus)** — score 8.0 · Local implementers
+- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 8.0 · Grassroots networks
+- **Banco da Amazônia S.A. (BASA)** — score 7.5 · Development banks
+- **Good Energies Foundation** — score 7.5 · Philanthropy foundations
+- **Centro Internacional de Pesquisa Florestal e Agroflorestal (CIFOR-ICRAF)** — score 7.5 · Monitoring, Evaluation, and Learning
+- **Instituto de Pesquisa Ambiental da Amazônia (IPAM)** — score 7.0 · Monitoring, Evaluation, and Learning
+- **Alcoa** — score 6.0 · Private companies (large / leading)
+- **Norsk Hydro ASA (Hydro)** — score 6.0 · Private companies (large / leading)
+- **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** — score 6.0 · Research centers
 
 ### CSA Brasil
 
-- **Movimento de Mulheres Camponesas (MMC)** — score 11.0 · Social moviments · National
-- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 9.5 · Grassroots networks · National
-- **Articulação Nacional de Agroecologia (ANA)** — score 9.5 · Grassroots networks · National
-- **Movimento dos Trabalhadores Rurais Sem Terra (MST)** — score 9.5 · Social moviments · National
-- **Movimento dos Pequenos Agricultores (MPA)** — score 9.5 · Social moviments · National
-- **Natura** — score 9.0 · Private companies (large / leading) · National
-- **Carrefour Brasil** — score 9.0 · Private companies (large / leading) · Cross-border / international
-- **Cáritas Brasileira** — score 9.0 · Social moviments · National
-- **Instituto Ouro Verde (IOV)** — score 8.5 · Local implementers · Regional
-- **Misereor (Misereor)** — score 8.5 · Bilateral cooperation agencies · Cross-border / international
+- **Movimento de Mulheres Camponesas (MMC)** — score 11.0 · Social moviments
+- **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** — score 9.5 · Grassroots networks
+- **Articulação Nacional de Agroecologia (ANA)** — score 9.5 · Grassroots networks
+- **Movimento dos Trabalhadores Rurais Sem Terra (MST)** — score 9.5 · Social moviments
+- **Movimento dos Pequenos Agricultores (MPA)** — score 9.5 · Social moviments
+- **Natura** — score 9.0 · Private companies (large / leading)
+- **Carrefour Brasil** — score 9.0 · Private companies (large / leading)
+- **Cáritas Brasileira** — score 9.0 · Social moviments
+- **Instituto Ouro Verde (IOV)** — score 8.5 · Local implementers
+- **Misereor (Misereor)** — score 8.5 · Bilateral cooperation agencies
 
 ### UNICATADORES
 
-- **Movimento Nacional de Catadores de Materiais Recicláveis (MNCR)** — score 10.5 · Social moviments · National
-- **União Nacional de Catadoras e Catadores (Unicatadores)** — score 10.5 · Grassroots networks · National
-- **Associação Nacional das Empresas de Transportes Urbanos (NTU)** — score 6.0 · Industry platforms and sectoral initiatives · National
-- **Movimento dos Trabalhadores Sem Teto (MTST)** — score 4.5 · Social moviments · National
+- **Movimento Nacional de Catadores de Materiais Recicláveis (MNCR)** — score 10.5 · Social moviments
+- **União Nacional de Catadoras e Catadores (Unicatadores)** — score 10.5 · Grassroots networks
+- **Associação Nacional das Empresas de Transportes Urbanos (NTU)** — score 6.0 · Industry platforms and sectoral initiatives
+- **Movimento dos Trabalhadores Sem Teto (MTST)** — score 4.5 · Social moviments
 
 
 ## Top 15 por betweenness centrality (potenciais brokers)
 
-- CSA Brasil — 0.6407
-- UNICAFES Rondônia — 0.3301
-- UNICAFES Pará — 0.2788
-- Centro de Desenvolvimento Agroecológico Sa… — 0.1777
+- CSA Brasil — 0.6398
+- UNICAFES Rondônia — 0.3960
+- UNICAFES Pará — 0.2139
 - UNICATADORES — 0.0675
-- Instituto do Homem e Meio Ambiente da Amaz… — 0.0030
-- AMAZ — 0.0030
-- Instituto de Desenvolvimento Sustentável M… — 0.0030
-- Instituto Centro de Vida (ICV) — 0.0030
-- Fundo pela Amazônia — 0.0030
 - Instituto Ibirapitanga — 0.0000
-- Fundo Brasileiro para a Biodiversidade (FU… — 0.0000
+- Fundo Brasileiro para a Biodiversidade (FUNBIO) — 0.0000
 - Instituto Clima e Sociedade (iCS) — 0.0000
-- Instituto Climate Ventures Brasil (Climate… — 0.0000
+- Instituto Climate Ventures Brasil (Climate Ventures) — 0.0000
 - Instituto Talanoa — 0.0000
+- Instituto Alana — 0.0000
+- Instituto Arapyaú — 0.0000
+- Instituto Semeia — 0.0000
+- Alcoa — 0.0000
+- Norsk Hydro ASA (Hydro) — 0.0000
+- The Nature Conservancy Brasil (TNC Brasil) — 0.0000
