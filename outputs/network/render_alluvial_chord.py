@@ -133,53 +133,88 @@ def render_alluvial(out_path):
     fig.text(0.97, 0.96, "Version 4.0 · May 2026",
              fontsize=8.5, color="#64748B", ha="right", va="top", family="monospace")
 
-    COL_X = {"sector": (0.5, 1.6), "role": (4.0, 5.1), "partner": (8.6, 9.7)}
-    PAD = 1.8
+    COL_X = {"sector": (0.5, 1.8), "role": (4.3, 5.9), "partner": (8.4, 9.7)}
+    PAD = 1.4                                     # gap entre blocos numa coluna
     total_flow = sum(flows_s_r.values())
-    USABLE_H = 86.0
-    H_SCALE = USABLE_H / total_flow
+    USABLE_H = 84.0
+    TOP_Y = 88.0
 
-    def alloc_bins(items, total_flow):
-        y = 90
+    # Filtra itens vazios e ordena por tamanho
+    sector_items = sorted([(s, sector_totals.get(s, 0)) for s in sectors_set
+                            if sector_totals.get(s, 0) > 0], key=lambda x: -x[1])
+    role_items = sorted([(r, role_totals_left.get(r, 0)) for r in ROLES_ORDER
+                          if role_totals_left.get(r, 0) > 0], key=lambda x: -x[1])
+    partner_items = sorted([(p, partner_totals.get(p, 0)) for p in partners_set
+                             if partner_totals.get(p, 0) > 0], key=lambda x: -x[1])
+
+    # h_unit ÚNICO compartilhado por blocos e fluxos — chave para alinhamento.
+    # Calibrado pela coluna com mais blocos (maior soma de paddings).
+    max_gaps = max(len(sector_items) - 1, len(role_items) - 1,
+                    len(partner_items) - 1, 0)
+    H_UNIT = (USABLE_H - max_gaps * PAD) / total_flow if total_flow > 0 else 0
+    H_SCALE = H_UNIT
+
+    def alloc_bins(items, h_unit, pad, top_y=TOP_Y, center=True):
+        """Aloca blocos top-down; centraliza verticalmente para uniformidade."""
+        col_h = sum(v for _, v in items) * h_unit + max(0, len(items) - 1) * pad
+        if center:
+            y = top_y - (USABLE_H - col_h) / 2
+        else:
+            y = top_y
         result = {}
-        n_items = len([k for k, v in items if v > 0])
-        n_gaps = max(0, n_items - 1)
-        available = USABLE_H - n_gaps * PAD
-        h_unit = available / total_flow if total_flow > 0 else 0
         for k, v in items:
             if v <= 0: continue
             h = v * h_unit
             result[k] = (y - h, y)
-            y -= h + PAD
+            y -= h + pad
         return result
 
-    sector_items = sorted([(s, sector_totals.get(s, 0)) for s in sectors_set], key=lambda x: -x[1])
-    sector_bins = alloc_bins(sector_items, total_flow)
-    role_items = sorted([(r, role_totals_left.get(r, 0)) for r in ROLES_ORDER], key=lambda x: -x[1])
-    role_bins = alloc_bins(role_items, total_flow)
-    partner_items = sorted([(p, partner_totals.get(p, 0)) for p in partners_set], key=lambda x: -x[1])
-    partner_bins = alloc_bins(partner_items, total_flow)
+    sector_bins = alloc_bins(sector_items, H_UNIT, PAD)
+    role_bins = alloc_bins(role_items, H_UNIT, PAD)
+    partner_bins = alloc_bins(partner_items, H_UNIT, PAD)
 
     def draw_block(x0, x1, y0, y1, color, label, count, side="left"):
+        # bloco com leve sombra para destacar
         rect = plt.Rectangle((x0, y0), x1 - x0, y1 - y0,
-                             facecolor=color, edgecolor="white", linewidth=1.5, zorder=3)
+                             facecolor=color, edgecolor="white", linewidth=2.0,
+                             zorder=3)
         ax.add_patch(rect)
         ycen = (y0 + y1) / 2
+        h = y1 - y0
+        # Decide se a label vai dentro do bloco (se for grande) ou fora
+        label_inside = h >= 7.5 and side == "middle"
         if side == "left":
-            ax.text(x0 - 0.15, ycen, f"{label}", ha="right", va="center",
+            ax.text(x0 - 0.2, ycen, label, ha="right", va="center",
                     fontsize=10.5, color="#0F172A", fontweight="500", zorder=4)
-            ax.text(x0 - 0.15, ycen - 1.8, f"n={count:.0f}", ha="right", va="top",
-                    fontsize=8, color="#64748B", zorder=4)
+            ax.text(x0 - 0.2, ycen - 1.6, f"n={count:.0f}", ha="right", va="top",
+                    fontsize=8, color="#94A3B8", zorder=4,
+                    family="monospace")
         elif side == "right":
-            ax.text(x1 + 0.15, ycen, f"{label}", ha="left", va="center",
+            ax.text(x1 + 0.2, ycen, label, ha="left", va="center",
                     fontsize=10.5, color="#0F172A", fontweight="500", zorder=4)
-            ax.text(x1 + 0.15, ycen - 1.8, f"n={count:.0f}", ha="left", va="top",
-                    fontsize=8, color="#64748B", zorder=4)
-        else:
-            ax.text(x1 + 0.15, ycen, f"{label}", ha="left", va="center",
-                    fontsize=10.5, color="#0F172A", fontweight="500", zorder=4)
-            ax.text(x1 + 0.15, ycen - 1.8, f"n={count:.0f}", ha="left", va="top",
-                    fontsize=8, color="#64748B", zorder=4)
+            ax.text(x1 + 0.2, ycen - 1.6, f"n={count:.0f}", ha="left", va="top",
+                    fontsize=8, color="#94A3B8", zorder=4,
+                    family="monospace")
+        else:  # middle (roles)
+            if label_inside:
+                xcen = (x0 + x1) / 2
+                # ajusta font-size se texto longo
+                fs = 9.5 if len(label) > 18 else 10.5
+                ax.text(xcen, ycen + 0.4, label, ha="center", va="center",
+                        fontsize=fs, color="#FFFFFF", fontweight="600", zorder=5)
+                ax.text(xcen, ycen - 1.6, f"n={count:.0f}", ha="center", va="center",
+                        fontsize=8, color="#FFFFFF", zorder=5,
+                        family="monospace", alpha=0.85)
+            else:
+                ax.text(x1 + 0.2, ycen, label, ha="left", va="center",
+                        fontsize=10.5, color="#0F172A", fontweight="500", zorder=5,
+                        bbox=dict(facecolor="white", edgecolor="none",
+                                  pad=1.5, alpha=0.85))
+                ax.text(x1 + 0.2, ycen - 1.6, f"n={count:.0f}", ha="left", va="top",
+                        fontsize=8, color="#94A3B8", zorder=5,
+                        family="monospace",
+                        bbox=dict(facecolor="white", edgecolor="none",
+                                  pad=1.5, alpha=0.85))
 
     for s, (y0, y1) in sector_bins.items():
         draw_block(COL_X["sector"][0], COL_X["sector"][1], y0, y1,
@@ -191,7 +226,8 @@ def render_alluvial(out_path):
         draw_block(COL_X["partner"][0], COL_X["partner"][1], y0, y1,
                    PARTNER_COLOR, p, partner_totals[p], side="right")
 
-    def draw_flow(x0, x1, y0_top, y0_bot, y1_top, y1_bot, color, alpha=0.4):
+    def draw_flow(x0, x1, y0_top, y0_bot, y1_top, y1_bot, color, alpha=0.42):
+        # ribbon com curvas suaves e leve borda branca para separar
         xm = (x0 + x1) / 2
         verts_top = [(x0, y0_top), (xm, y0_top), (xm, y1_top), (x1, y1_top)]
         verts_bot = [(x1, y1_bot), (xm, y1_bot), (xm, y0_bot), (x0, y0_bot)]
@@ -200,8 +236,8 @@ def render_alluvial(out_path):
                  + [MplPath.CLOSEPOLY])
         verts = verts_top + verts_bot + [(x0, y0_top)]
         path = MplPath(verts, codes)
-        patch = mpatches.PathPatch(path, facecolor=color, edgecolor="none",
-                                    alpha=alpha, zorder=2)
+        patch = mpatches.PathPatch(path, facecolor=color, edgecolor="white",
+                                    linewidth=0.4, alpha=alpha, zorder=2)
         ax.add_patch(patch)
 
     left_cursors = {s: sector_bins[s][1] for s in sector_bins}
@@ -239,14 +275,19 @@ def render_alluvial(out_path):
         mid_cursors_out[r] = y0_bot
         right_cursors[p] = y1_bot
 
-    # Column headers
-    ax.text(COL_X["sector"][0] - 0.15, 94, "SECTOR", ha="right", va="bottom",
-            fontsize=8.5, color="#94A3B8", fontweight="bold")
-    ax.text((COL_X["role"][0] + COL_X["role"][1])/2, 94,
+    # Column headers — descritivos, alinhados ao topo da banda útil
+    ax.text((COL_X["sector"][0] + COL_X["sector"][1])/2, TOP_Y + 2.5,
+            "SECTOR", ha="center", va="bottom",
+            fontsize=9, color="#94A3B8", fontweight="bold",
+            family="monospace")
+    ax.text((COL_X["role"][0] + COL_X["role"][1])/2, TOP_Y + 2.5,
             "TRIAS ROLE MOBILIZED", ha="center", va="bottom",
-            fontsize=8.5, color="#94A3B8", fontweight="bold")
-    ax.text(COL_X["partner"][1] + 0.15, 94, "MBO PARTNER", ha="left", va="bottom",
-            fontsize=8.5, color="#94A3B8", fontweight="bold")
+            fontsize=9, color="#94A3B8", fontweight="bold",
+            family="monospace")
+    ax.text((COL_X["partner"][0] + COL_X["partner"][1])/2, TOP_Y + 2.5,
+            "MBO PARTNER", ha="center", va="bottom",
+            fontsize=9, color="#94A3B8", fontweight="bold",
+            family="monospace")
 
     plt.savefig(out_path, dpi=180, facecolor="white", bbox_inches="tight", pad_inches=0.3)
     plt.close()
