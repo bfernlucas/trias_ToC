@@ -1,17 +1,21 @@
 """
 Constrói a rede do ecossistema Trias Brasil DGD 2027-2031 e renderiza
-visualização interativa estilo Kumu (D3.js) em docs/index.html para
-publicação via GitHub Pages.
+visualização interativa em tema claro, com painéis colapsáveis e estatísticas
+agregadas. Saída em docs/index.html para servir via GitHub Pages.
 
-Lê Stakeholder Ecosystem Mapping.xlsx, ancora os 4 parceiros MBO
-(UNICAFES PA, UNICAFES RO, CSA Brasil, UNICATADORES) e calcula score de
-alinhamento por biome, impact area, role e keywords específicas.
+Pipeline:
+ 1. Carrega Stakeholder Ecosystem Mapping.xlsx
+ 2. Ancora os 4 parceiros MBO com perfis temáticos/territoriais
+ 3. Calcula score de alinhamento (biome + impact area + role + keywords)
+ 4. Aplica gates para reduzir falsos positivos (amazônico, catadores)
+ 5. Computa métricas de rede e distribuições agregadas
+ 6. Gera HTML autocontido (D3.js) + relatório markdown analítico
 """
 from openpyxl import load_workbook
 import networkx as nx
 import json
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path("/home/user/trias_ToC")
@@ -21,7 +25,7 @@ OUT_PAGES = ROOT / "docs"
 OUT_NET.mkdir(parents=True, exist_ok=True)
 OUT_PAGES.mkdir(parents=True, exist_ok=True)
 
-# ---------- 1. Carregar base ----------
+# ========== 1. Carregar base ==========
 wb = load_workbook(DOCS_SRC / "Stakeholder Ecosystem Mapping.xlsx", data_only=True)
 ws = wb["Stakeholder list"]
 rows = list(ws.iter_rows(values_only=True))
@@ -48,15 +52,14 @@ for r in rows[HEADER_ROW + 1:]:
         "url": (str(r[17]) if r[17] else "").strip(),
         "notes": (str(r[18]) if r[18] else "").strip(),
     })
-print(f"Loaded {len(records)} stakeholders from database.")
+print(f"Loaded {len(records)} stakeholders.")
 
-# ---------- 2. Perfis-âncora dos 4 parceiros MBO ----------
+# ========== 2. Perfis-âncora dos parceiros ==========
 PARTNERS = {
     "UNICAFES_PA": {
         "name": "UNICAFES Pará",
         "long_name": "União das Cooperativas da Agricultura Familiar e Economia Solidária — Pará",
-        "sector": "MBO partner",
-        "type": "Trias partner — Amazonia (rural)",
+        "type": "MBO de 2º nível · Amazônia rural",
         "biomes": {"Amazonia"},
         "impacts": {"Land, Food and Forest"},
         "roles": {"Implementation capacity (delivery)",
@@ -66,17 +69,15 @@ PARTNERS = {
                      "açaí", "cacau", "cocoa", "coffee", "café", "agroflorest",
                      "sociobiodiversidade", "family farming", "agroecolog",
                      "northern brazil", "pará"],
-        "territory": "Pará state · Amazonia",
-        "description": ("2º nível MBO, Amazônia rural. Strategic anchor para a "
-                        "bioeconomia pan-amazônica, cooperativismo e cadeias da "
-                        "sociobiodiversidade (açaí, castanha, mel, cacau, café). "
-                        "Opera 13 cooperativas de primeiro nível."),
+        "territory": "Pará · Amazônia Legal",
+        "description": ("Articula 13 cooperativas de primeiro nível no estado do Pará. "
+                        "Foco em cadeias da sociobiodiversidade (açaí, castanha, mel, cacau, "
+                        "café) e bioeconomia amazônica."),
     },
     "UNICAFES_RO": {
         "name": "UNICAFES Rondônia",
         "long_name": "União das Cooperativas da Agricultura Familiar e Economia Solidária — Rondônia",
-        "sector": "MBO partner",
-        "type": "Trias partner — Amazonia (exit 2028)",
+        "type": "MBO de 2º nível · Amazônia rural · exit 2028",
         "biomes": {"Amazonia"},
         "impacts": {"Land, Food and Forest"},
         "roles": {"Implementation capacity (delivery)",
@@ -85,17 +86,16 @@ PARTNERS = {
         "keywords": ["agricultura familiar", "cooperativa", "amazon", "bioeconomia",
                      "café", "coffee", "cocoa", "cacau", "agroflorest",
                      "blended finance", "pes", "carbon", "rondônia", "rondonia"],
-        "territory": "Rondônia state · Amazonia",
-        "description": ("2º nível MBO, Amazônia rural. Exit strategy em 2028. Foco "
-                        "em cooperativismo, agroflorestal e finanças inovadoras "
-                        "(blended finance, PES, mercados de carbono). Coordena 15 "
-                        "cooperativas de primeiro nível."),
+        "territory": "Rondônia · Amazônia Legal",
+        "description": ("Coordena 15 cooperativas de primeiro nível em Rondônia. Exit "
+                        "strategy programado para 2028. Foco em agroflorestal, café e "
+                        "instrumentos de finanças inovadoras (blended finance, PES, "
+                        "mercados de carbono)."),
     },
     "CSA_BRASIL": {
         "name": "CSA Brasil",
         "long_name": "Comunidade que Sustenta a Agricultura — Brasil",
-        "sector": "MBO partner",
-        "type": "Trias partner — National (rural-urban)",
+        "type": "MBO de 3º nível · rural-urbano nacional",
         "biomes": {"Mata Atlântica", "Cerrado", "Amazonia"},
         "impacts": {"Land, Food and Forest"},
         "roles": {"Implementation capacity (delivery)",
@@ -105,16 +105,15 @@ PARTNERS = {
                      "sistema alimentar", "saudáve", "food and nutrition",
                      "agricultura urbana", "peri-urb", "agricultor familiar",
                      "organic", "orgânico", "consumer", "rural-urban", "solidari"],
-        "territory": "Nacional · rural-urbano",
-        "description": ("3º nível MBO. Rede nacional de 200 unidades CSA em 19 "
-                        "estados. Foco em educação alimentar, economia circular "
-                        "rural-urbana e agricultura apoiada pela comunidade."),
+        "territory": "Nacional · 19 estados · rural-urbano",
+        "description": ("Rede nacional de 200 unidades CSA em 19 estados (5 regiões). "
+                        "Conecta produtores agroecológicos a co-agricultores urbanos. "
+                        "Foco em educação alimentar e cadeias curtas peri-urbanas."),
     },
     "UNICATADORES": {
         "name": "UNICATADORES",
-        "long_name": "União Nacional de Catadoras e Catadores",
-        "sector": "MBO partner",
-        "type": "Trias partner — National (urban)",
+        "long_name": "União Nacional de Catadoras e Catadores de Materiais Recicláveis",
+        "type": "MBO de 3º nível · urbano nacional",
         "biomes": set(),
         "impacts": {"Land, Food and Forest", "Buildings & Transport"},
         "roles": {"Implementation capacity (delivery)",
@@ -124,15 +123,15 @@ PARTNERS = {
                      "resíduo sólido", "residuos solidos", "waste management",
                      "pnrs", "logística reversa", "extended producer", "epr",
                      "lixo", "urban"],
-        "territory": "Nacional · urbano",
-        "description": ("3º nível MBO maduro. Federação nacional representando 230 "
-                        "cooperativas de catadores em 26 estados (~50 mil catadores, "
-                        "60% mulheres). Sede em SP, ativa em PNRS e no Comitê "
-                        "Interministerial CIISC."),
+        "territory": "Nacional · 26 estados · urbano",
+        "description": ("Federação nacional de 230 cooperativas de catadores em 26 estados. "
+                        "Cerca de 50.000 catadores organizados (60% mulheres). Sede em São "
+                        "Paulo. Participa do Comitê Interministerial CIISC e dos fóruns "
+                        "da PNRS."),
     },
 }
 
-# ---------- 3. Score ----------
+# ========== 3. Score de alinhamento ==========
 def tokenize(s):
     return set(t.strip() for t in re.split(r"[,;]", s) if t.strip())
 
@@ -147,52 +146,46 @@ def score(stk, p):
         for tk in b_primary:
             if biome.lower() in tk.lower():
                 sc += 3
-                breakdown.append(f"biome primário: {tk}")
-                biome_hit = True
-                matched = True
-                break
+                breakdown.append({"k": "biome (primário)", "v": tk, "pts": 3})
+                biome_hit = True; matched = True; break
         if not matched:
             for tk in b_secondary:
                 if biome.lower() in tk.lower():
                     sc += 1
-                    breakdown.append(f"biome secundário: {tk}")
-                    biome_hit = True
-                    break
+                    breakdown.append({"k": "biome (secundário)", "v": tk, "pts": 1})
+                    biome_hit = True; break
     impacts = tokenize(stk["impact_area"])
     for imp in p["impacts"]:
         for tk in impacts:
             if imp.lower() in tk.lower() or tk.lower() in imp.lower():
                 sc += 1
-                breakdown.append(f"impact: {tk}")
+                breakdown.append({"k": "impact area", "v": tk, "pts": 1})
                 break
     roles = tokenize(stk["role"])
-    role_hits = 0
-    matched_roles = []
+    role_hits = []
     for r in p["roles"]:
         for tk in roles:
             if r.lower() == tk.lower():
-                role_hits += 1
-                matched_roles.append(tk)
-                break
+                role_hits.append(tk); break
     if role_hits:
-        sc += min(role_hits, 2) * 0.5
-        breakdown.append(f"role: {', '.join(matched_roles)}")
+        pts = min(len(role_hits), 2) * 0.5
+        sc += pts
+        breakdown.append({"k": "role", "v": ", ".join(role_hits), "pts": pts})
     blob = (stk["description"] + " " + stk["notes"] + " " + stk["type"] +
             " " + stk["territory"] + " " + stk["name"]).lower()
     kw_hits = [kw for kw in p["keywords"] if kw.lower() in blob]
     if kw_hits:
-        bonus = min(len(kw_hits), 4) * 2
-        sc += bonus
-        breakdown.append(f"keywords: {', '.join(kw_hits[:4])}")
+        pts = min(len(kw_hits), 4) * 2
+        sc += pts
+        breakdown.append({"k": "keywords", "v": ", ".join(kw_hits[:4]), "pts": pts})
     if "national" in stk["territory"].lower():
         sc += 0.5
-        breakdown.append("alcance nacional")
-    # Gates
+        breakdown.append({"k": "alcance", "v": "nacional", "pts": 0.5})
     if p["biomes"] == {"Amazonia"} and not biome_hit and not kw_hits:
         return 0, []
     if p["name"] == "UNICATADORES" and not kw_hits:
         return 0, []
-    return sc, breakdown
+    return round(sc, 1), breakdown
 
 THRESHOLD = 4.5
 results = []
@@ -201,67 +194,149 @@ for stk in records:
     for pid, p in PARTNERS.items():
         sc, br = score(stk, p)
         if sc >= THRESHOLD:
-            scores[pid] = {"score": round(sc, 1), "breakdown": br}
+            scores[pid] = {"score": sc, "breakdown": br}
     if scores:
         results.append({"stk": stk, "scores": scores})
 print(f"Conectados (score >= {THRESHOLD}): {len(results)}")
 
-# ---------- 4. Estatísticas ----------
+# ========== 3b. Tipo de relação derivado do papel ==========
+# Mapeia roles brutos do mapeamento para um vocabulário operacional de
+# "como esta organização pode se relacionar com um parceiro MBO".
+RELATIONSHIP_RULES = [
+    # (role substring, relationship_type, descrição operacional)
+    ("Funder",                          "Financiador",        "doação direta, edital, co-funding"),
+    ("Capital provider",                "Provedor de capital","blended finance, crédito, garantias"),
+    ("Strategic partner",               "Parceiro estratégico","co-criação de agenda, co-investimento"),
+    ("Technical assistance",            "Assistência técnica","ATER, pesquisa aplicada, formação técnica"),
+    ("Research",                        "Pesquisa & evidência","produção de dados, MRV, avaliação"),
+    ("Data / MRV",                      "MRV/dados",          "monitoramento, plataformas, traceabilidade"),
+    ("Monitoring",                      "MRV/dados",          "MEAL, avaliação, learning"),
+    ("Project developer",               "Co-implementador",   "execução conjunta de projetos"),
+    ("Implementer",                     "Co-implementador",   "execução conjunta de projetos"),
+    ("Implementation capacity",         "Co-implementador",   "execução conjunta de projetos"),
+    ("Policy influence",                "Advocacy/incidência","incidência em PNRS, PNAE, PLANAPO etc."),
+    ("Convenor",                        "Articulador",        "convocatória, plataforma multistakeholder"),
+    ("enablers",                        "Articulador",        "convocatória, plataforma multistakeholder"),
+    ("Territorial anchor",              "Âncora territorial", "presença local, legitimidade comunitária"),
+    ("Community legitimacy",            "Âncora territorial", "legitimidade junto a beneficiários"),
+    ("proximate leadership",            "Âncora territorial", "liderança comunitária"),
+]
+
+def derive_relationship_types(role_str):
+    """Retorna lista de (tipo, descrição) baseado no role do stakeholder."""
+    if not role_str:
+        return []
+    seen = set()
+    out = []
+    role_lower = role_str.lower()
+    for rule, rtype, desc in RELATIONSHIP_RULES:
+        if rule.lower() in role_lower and rtype not in seen:
+            seen.add(rtype)
+            out.append({"type": rtype, "desc": desc})
+    return out
+
+for r in results:
+    r["relationships"] = derive_relationship_types(r["stk"]["role"])
+
+# ========== 4. Estatísticas agregadas ==========
+def split_tokens(s):
+    if not s: return []
+    return [t.strip() for t in re.split(r"[,;]", s) if t.strip()]
+
+stats_all = defaultdict(Counter)
+stats_connected = defaultdict(Counter)
+for stk in records:
+    for tok in split_tokens(stk["sector"]):
+        stats_all["sector"][tok] += 1
+    for tok in split_tokens(stk["biome_primary"]):
+        stats_all["biome"][tok] += 1
+    for tok in split_tokens(stk["role"]):
+        stats_all["role"][tok] += 1
+    for tok in split_tokens(stk["funding_role"]):
+        stats_all["funding_role"][tok] += 1
+    for tok in split_tokens(stk["value_chain"]):
+        stats_all["value_chain"][tok] += 1
+    for tok in split_tokens(stk["territory"]):
+        stats_all["territory"][tok] += 1
+
+for r in results:
+    stk = r["stk"]
+    for tok in split_tokens(stk["sector"]):
+        stats_connected["sector"][tok] += 1
+    for tok in split_tokens(stk["biome_primary"]):
+        stats_connected["biome"][tok] += 1
+    for tok in split_tokens(stk["role"]):
+        stats_connected["role"][tok] += 1
+    for tok in split_tokens(stk["funding_role"]):
+        stats_connected["funding_role"][tok] += 1
+    for tok in split_tokens(stk["value_chain"]):
+        stats_connected["value_chain"][tok] += 1
+
+# Conexões por parceiro (counts e top tipos)
+per_partner_stats = {}
+for pid, p in PARTNERS.items():
+    matches = [r for r in results if pid in r["scores"]]
+    sector_c = Counter()
+    type_c = Counter()
+    for r in matches:
+        sector_c[r["stk"]["sector"] or "Others"] += 1
+        type_c[r["stk"]["type"] or "—"] += 1
+    per_partner_stats[pid] = {
+        "n": len(matches),
+        "sectors": dict(sector_c.most_common()),
+        "types": dict(type_c.most_common(8)),
+    }
+
+# Bridges
 bridges = [r for r in results if len(r["scores"]) >= 2]
 n_b3 = sum(1 for r in results if len(r["scores"]) >= 3)
 n_b4 = sum(1 for r in results if len(r["scores"]) == 4)
+n_b2 = sum(1 for r in results if len(r["scores"]) == 2)
+n_b1 = sum(1 for r in results if len(r["scores"]) == 1)
 
-# Cor por setor (paleta clara para tema escuro)
+# ========== 5. Paleta setorial sutil ==========
 SECTOR_COLOR = {
-    "Civil Society Organization (CSO)": "#5B9BD5",
-    "Funders": "#F4A261",
-    "Private sector": "#2A9D8F",
-    "Public sector": "#8AB17D",
-    "Others": "#C28BD7",
+    "Civil Society Organization (CSO)": "#4A6FA5",
+    "Funders":                          "#C68A5D",
+    "Private sector":                   "#6BA08C",
+    "Public sector":                    "#8DA570",
+    "Others":                           "#9B7AB0",
 }
-PARTNER_COLOR = "#E76F51"
+PARTNER_COLOR = "#B14545"
 
-# ---------- 5. Construir grafo (networkx) ----------
+# ========== 6. Grafo ==========
 G = nx.Graph()
-
 for pid, p in PARTNERS.items():
-    G.add_node(pid,
-               kind="partner",
-               name=p["name"],
-               long_name=p["long_name"],
-               sector="MBO partner (Trias)",
-               type=p["type"],
-               territory=p["territory"],
-               description=p["description"],
-               color=PARTNER_COLOR)
+    G.add_node(pid, kind="partner", **{k: (list(v) if isinstance(v, set) else v)
+                                       for k, v in p.items()}, color=PARTNER_COLOR)
 
 for r in results:
     stk = r["stk"]
     node_id = f"S{stk['id']}"
     sector = stk["sector"] or "Others"
-    G.add_node(node_id,
-               kind="stakeholder",
-               name=stk["name"],
-               sector=sector,
-               type=stk["type"],
-               territory=stk["territory"],
-               biome=stk["biome_primary"],
-               impact=stk["impact_area"],
-               role=stk["role"],
+    rel_types = r["relationships"]
+    G.add_node(node_id, kind="stakeholder",
+               name=stk["name"], sector=sector, type=stk["type"],
+               territory=stk["territory"], biome=stk["biome_primary"],
+               biome_secondary=stk["biome_secondary"],
+               impact=stk["impact_area"], role=stk["role"],
+               value_chain=stk["value_chain"],
                funding_role=stk["funding_role"],
-               hq=stk["hq"],
-               url=stk["url"],
-               description=stk["description"],
-               notes=stk["notes"],
+               potential_partnership=stk["potential_partnership"],
+               hq=stk["hq"], url=stk["url"],
+               description=stk["description"], notes=stk["notes"],
                n_partners=len(r["scores"]),
+               relationship_types=[rt["type"] for rt in rel_types],
+               relationship_details=rel_types,
                color=SECTOR_COLOR.get(sector, "#999999"),
-               connections={pid: r["scores"][pid]["score"] for pid in r["scores"]})
+               connections={pid: r["scores"][pid]["score"] for pid in r["scores"]},
+               score_breakdowns={pid: r["scores"][pid]["breakdown"]
+                                 for pid in r["scores"]})
     for pid, s in r["scores"].items():
-        G.add_edge(node_id, pid,
-                   weight=s["score"],
-                   breakdown=" · ".join(s["breakdown"]))
+        G.add_edge(node_id, pid, weight=s["score"],
+                   relationship_types=[rt["type"] for rt in rel_types])
 
-# Peer links entre os 4 parceiros
+# Peer links MBO
 peer_pairs = [("UNICAFES_PA", "UNICAFES_RO"),
               ("UNICAFES_PA", "CSA_BRASIL"),
               ("UNICAFES_RO", "CSA_BRASIL"),
@@ -269,47 +344,30 @@ peer_pairs = [("UNICAFES_PA", "UNICAFES_RO"),
               ("UNICAFES_RO", "UNICATADORES"),
               ("CSA_BRASIL", "UNICATADORES")]
 for a, b in peer_pairs:
-    G.add_edge(a, b, weight=8, kind="peer",
-               breakdown="rede de parceiros MBO da Trias Brasil")
+    G.add_edge(a, b, weight=8, kind="peer")
+
+betweenness = nx.betweenness_centrality(G, weight="weight")
+for nid in G.nodes:
+    G.nodes[nid]["betweenness"] = round(betweenness[nid], 4)
+    G.nodes[nid]["degree"] = G.degree(nid)
 
 print(f"Grafo: {G.number_of_nodes()} nós, {G.number_of_edges()} arestas")
 
-# ---------- 6. Métricas ----------
-betweenness = nx.betweenness_centrality(G, weight="weight")
-degree = dict(G.degree())
-for nid in G.nodes:
-    G.nodes[nid]["betweenness"] = round(betweenness[nid], 4)
-    G.nodes[nid]["degree"] = degree[nid]
+# Top brokers
+top_brokers = sorted(
+    [(nid, G.nodes[nid]) for nid in G.nodes if G.nodes[nid]["kind"] == "stakeholder"],
+    key=lambda x: -x[1]["betweenness"])[:15]
 
-# ---------- 7. Exportar JSON do grafo para o D3 ----------
-nodes_json = []
-for nid in G.nodes:
-    n = dict(G.nodes[nid])
-    n["id"] = nid
-    # truncar campos longos no payload visível
-    n["description_full"] = n.get("description", "")
-    nodes_json.append(n)
-
-links_json = []
-for u, v, d in G.edges(data=True):
-    links_json.append({
-        "source": u,
-        "target": v,
-        "weight": d.get("weight", 1),
-        "kind": d.get("kind", "alignment"),
-        "breakdown": d.get("breakdown", ""),
-    })
-
-# Top stakeholders por parceiro
+# Top stakeholders por parceiro (com score)
 top_by_partner = {}
-for pid, p in PARTNERS.items():
+for pid in PARTNERS:
     lst = sorted(
         [(f"S{r['stk']['id']}", G.nodes[f"S{r['stk']['id']}"], r["scores"][pid]["score"])
          for r in results if pid in r["scores"]],
         key=lambda x: -x[2])
-    top_by_partner[pid] = [{"name": x[1]["name"], "type": x[1]["type"],
-                            "id": x[0], "score": x[2]}
-                           for x in lst[:12]]
+    top_by_partner[pid] = [{"id": x[0], "name": x[1]["name"], "type": x[1]["type"],
+                            "sector": x[1]["sector"], "score": x[2]}
+                           for x in lst[:15]]
 
 # Bridges ordenados
 bridges_data = []
@@ -321,359 +379,758 @@ for r in sorted(bridges,
         "id": f"S{stk['id']}",
         "name": stk["name"],
         "type": stk["type"],
+        "sector": stk["sector"],
         "n": len(r["scores"]),
         "partners": [PARTNERS[pid]["name"] for pid in r["scores"]],
+        "total_score": sum(r["scores"][pid]["score"] for pid in r["scores"]),
     })
+
+# ========== 7. JSON do grafo para D3 ==========
+nodes_json = []
+for nid in G.nodes:
+    nodes_json.append({**dict(G.nodes[nid]), "id": nid})
+links_json = []
+for u, v, d in G.edges(data=True):
+    links_json.append({
+        "source": u, "target": v,
+        "weight": d.get("weight", 1),
+        "kind": d.get("kind", "alignment"),
+    })
+
+# Listas de valores únicos para filtros
+def unique_tokens(field):
+    s = set()
+    for r in nodes_json:
+        if r.get("kind") == "stakeholder":
+            for tok in split_tokens(r.get(field, "")):
+                s.add(tok)
+    return sorted(s)
+
+# Distribuição de relationship_types e potential_partnership
+rel_type_counter = Counter()
+pp_counter = Counter()
+for r in results:
+    for rt in r["relationships"]:
+        rel_type_counter[rt["type"]] += 1
+    if r["stk"]["potential_partnership"]:
+        for tok in split_tokens(r["stk"]["potential_partnership"]):
+            pp_counter[tok] += 1
+
+rel_type_options = sorted(rel_type_counter.keys())
+pp_options = sorted(pp_counter.keys())
 
 graph_data = {
     "nodes": nodes_json,
     "links": links_json,
-    "partners": [{"id": pid, **{k: v for k, v in p.items() if k != "biomes"}}
+    "partners": [{"id": pid, **{k: (list(v) if isinstance(v, set) else v)
+                                for k, v in p.items()}}
                  for pid, p in PARTNERS.items()],
     "sectors": SECTOR_COLOR,
     "stats": {
-        "total": len(records),
+        "total_db": len(records),
         "connected": len(results),
         "bridges": len(bridges),
         "tri": n_b3,
         "quad": n_b4,
+        "by_partner": {pid: per_partner_stats[pid]["n"] for pid in PARTNERS},
+        "dist_sector_all": dict(stats_all["sector"]),
+        "dist_sector_connected": dict(stats_connected["sector"]),
+        "dist_biome_all": dict(stats_all["biome"]),
+        "dist_biome_connected": dict(stats_connected["biome"]),
+        "dist_role_all": dict(stats_all["role"].most_common(10)),
+        "dist_role_connected": dict(stats_connected["role"].most_common(10)),
+        "dist_funding_all": dict(stats_all["funding_role"]),
+        "dist_funding_connected": dict(stats_connected["funding_role"]),
+        "dist_chain_all": dict(stats_all["value_chain"]),
+        "dist_chain_connected": dict(stats_connected["value_chain"]),
     },
     "top_by_partner": top_by_partner,
     "bridges": bridges_data,
+    "top_brokers": [{"id": x[0], "name": x[1]["name"], "betweenness": x[1]["betweenness"],
+                     "sector": x[1]["sector"], "type": x[1]["type"]}
+                    for x in top_brokers],
+    "filter_options": {
+        "sector": unique_tokens("sector"),
+        "biome": sorted({tok for r in nodes_json if r.get("kind") == "stakeholder"
+                          for tok in split_tokens(r.get("biome", ""))}),
+        "role": sorted({tok for r in nodes_json if r.get("kind") == "stakeholder"
+                          for tok in split_tokens(r.get("role", ""))}),
+        "funding_role": sorted({r.get("funding_role", "") for r in nodes_json
+                                if r.get("kind") == "stakeholder" and r.get("funding_role")}),
+        "relationship_type": rel_type_options,
+        "potential_partnership": pp_options,
+    },
+    "dist_relationship": dict(rel_type_counter.most_common()),
+    "dist_partnership": dict(pp_counter.most_common()),
+    "config": {
+        "threshold": THRESHOLD,
+    },
 }
 
-# Sets não serializáveis
 def jdefault(o):
-    if isinstance(o, set):
-        return list(o)
+    if isinstance(o, set): return list(o)
     raise TypeError
 graph_json_str = json.dumps(graph_data, default=jdefault, ensure_ascii=False)
 
-# ---------- 8. Renderizar HTML estilo Kumu (D3) ----------
-HTML_TEMPLATE = r"""<!DOCTYPE html>
+print("Estatísticas-chave:")
+print(f"  Setor (na base): {dict(stats_all['sector'])}")
+print(f"  Biome (na base): {dict(stats_all['biome'])}")
+print(f"  Funding role (na base): {dict(stats_all['funding_role'])}")
+print(f"  Conexões por parceiro: {{ {', '.join(f'{p}: {n}' for p, n in graph_data['stats']['by_partner'].items())} }}")
+
+# ========== 8. HTML template (tema claro, sidebars colapsáveis) ==========
+HTML = r"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Ecossistema Trias Brasil DGD 2027–2031</title>
+<title>Ecossistema Trias Brasil — DGD 2027–2031</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Rede de stakeholders ancorada nos 4 parceiros MBO da Trias Brasil — UNICAFES Pará, UNICAFES Rondônia, CSA Brasil, UNICATADORES.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
   :root {
-    --bg: #0e1218;
-    --panel: #161c25;
-    --panel-2: #1c2330;
-    --border: #28313f;
-    --text: #e9edf2;
-    --muted: #8595a8;
-    --muted-2: #5e6b7c;
-    --accent: #e76f51;
-    --accent-soft: rgba(231,111,81,0.15);
+    --bg: #FCFCFD;
+    --panel: #FFFFFF;
+    --panel-2: #F5F6F8;
+    --border: #E2E5EA;
+    --border-2: #CFD4DC;
+    --text: #1A2230;
+    --text-2: #3C4757;
+    --muted: #6B7888;
+    --muted-2: #97A0AE;
+    --accent: #B14545;
+    --accent-soft: rgba(177,69,69,0.08);
+    --link: rgba(70,80,100,0.18);
+    --link-strong: rgba(40,50,70,0.50);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; font-family: 'Inter', sans-serif;
                 background: var(--bg); color: var(--text); overflow: hidden; }
-  #app { display: grid; grid-template-columns: 290px 1fr 340px; height: 100vh; }
-  aside { background: var(--panel); border-right: 1px solid var(--border);
-          overflow-y: auto; padding: 22px 18px; }
-  aside.right { border-right: none; border-left: 1px solid var(--border); }
-  #stage { position: relative; background:
-      radial-gradient(ellipse at center, #141a23 0%, var(--bg) 70%); overflow: hidden; }
-  svg.network { width: 100%; height: 100%; cursor: grab; display: block; }
-  svg.network:active { cursor: grabbing; }
-  h1 { font-size: 16.5px; margin: 0 0 4px 0; font-weight: 700; letter-spacing: -0.2px; color: #fff; }
-  h2 { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.4px;
-       color: var(--muted-2); margin: 24px 0 10px 0; font-weight: 600; }
-  .subtitle { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
-  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-  .stat { background: var(--panel-2); border: 1px solid var(--border);
-          border-radius: 10px; padding: 11px 10px; }
-  .stat .n { font-size: 22px; font-weight: 700; color: #fff; line-height: 1; }
-  .stat .l { font-size: 9.5px; color: var(--muted); text-transform: uppercase;
-             letter-spacing: 0.5px; margin-top: 5px; font-weight: 600; }
-  .legend-item { display: flex; align-items: center; gap: 9px; font-size: 11.5px;
-                  padding: 4px 0; color: var(--text); cursor: pointer; user-select: none;
-                  border-radius: 5px; padding: 4px 6px; margin: 0 -6px; transition: background .15s; }
-  .legend-item:hover { background: var(--panel-2); }
-  .legend-item.dim { opacity: 0.4; }
-  .legend-item .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-  .legend-item .count { margin-left: auto; color: var(--muted); font-size: 10.5px;
-                         font-family: 'JetBrains Mono', monospace; }
-  .filter-btn { display: inline-block; background: var(--panel-2);
-                border: 1px solid var(--border); color: var(--muted); padding: 5px 11px;
-                border-radius: 999px; font-size: 11px; cursor: pointer;
-                margin: 0 4px 6px 0; user-select: none; transition: all 0.15s; }
-  .filter-btn:hover { background: var(--border); color: var(--text); }
-  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  #search { width: 100%; padding: 9px 12px; border-radius: 8px;
-            border: 1px solid var(--border); background: var(--bg);
-            color: var(--text); font-size: 12.5px; font-family: inherit; }
-  #search:focus { outline: none; border-color: var(--accent); }
-  .top-block { background: var(--panel-2); border: 1px solid var(--border);
-                border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; }
-  .top-block summary { cursor: pointer; font-size: 12px; outline: none;
-                        user-select: none; color: var(--text); }
-  .top-block summary b { color: #fff; }
-  .top-list { padding: 10px 0 4px 0; margin: 0; list-style: none; font-size: 11.5px;
-              line-height: 1.45; }
-  .top-list li { padding: 6px 0; border-bottom: 1px solid var(--border);
-                  cursor: pointer; transition: padding 0.15s; }
-  .top-list li:last-child { border-bottom: none; }
-  .top-list li:hover { padding-left: 4px; color: var(--accent); }
-  .badge { background: var(--bg); color: var(--muted); font-size: 10px;
-            padding: 2px 7px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;
-            border: 1px solid var(--border); }
-  .muted { color: var(--muted); font-size: 10.5px; }
-  .bridges-list { list-style: none; padding: 0; margin: 0; font-size: 11.5px;
-                   line-height: 1.4; }
-  .bridges-list li { background: var(--panel-2); border: 1px solid var(--border);
-                     border-radius: 8px; padding: 9px 12px; margin-bottom: 6px;
-                     cursor: pointer; transition: all 0.15s; }
-  .bridges-list li:hover { border-color: var(--accent); background:
-                            rgba(231,111,81,0.06); }
-  details > summary { list-style: none; }
-  details > summary::-webkit-details-marker { display: none; }
-  details > summary::before { content: '▸  '; color: var(--muted-2); }
-  details[open] > summary::before { content: '▾  '; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
+  body { font-size: 13px; }
+  #app { display: grid; height: 100vh; grid-template-rows: 44px 1fr;
+         grid-template-columns: var(--lw, 280px) 1fr var(--rw, 320px);
+         grid-template-areas: "header header header" "left stage right";
+         transition: grid-template-columns 0.25s ease; }
+  body.left-hidden { --lw: 0px; }
+  body.right-hidden { --rw: 0px; }
+  header.bar { grid-area: header; background: var(--panel);
+               border-bottom: 1px solid var(--border); display: flex;
+               align-items: center; padding: 0 14px; gap: 10px; z-index: 20; }
+  header.bar .title { font-family: 'Source Serif 4', serif; font-weight: 600;
+                       font-size: 15px; color: var(--text); letter-spacing: -0.2px; }
+  header.bar .subtitle { font-size: 11px; color: var(--muted);
+                          padding-left: 10px; border-left: 1px solid var(--border);
+                          margin-left: 6px; }
+  header.bar .spacer { flex: 1; }
+  header.bar .icon-btn { width: 32px; height: 30px; border: 1px solid var(--border);
+                          background: var(--panel); color: var(--text-2);
+                          border-radius: 6px; cursor: pointer; display: flex;
+                          align-items: center; justify-content: center; font-size: 14px;
+                          font-family: inherit; transition: all 0.12s; }
+  header.bar .icon-btn:hover { border-color: var(--border-2); background: var(--panel-2); }
+  header.bar .icon-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+  header.bar .text-btn { padding: 6px 12px; border: 1px solid var(--border);
+                          background: var(--panel); color: var(--text-2);
+                          border-radius: 6px; cursor: pointer; font-size: 12px;
+                          font-family: inherit; transition: all 0.12s; }
+  header.bar .text-btn:hover { border-color: var(--border-2); background: var(--panel-2); }
 
-  /* SVG styling */
-  .link { stroke: rgba(180,190,210,0.18); fill: none; stroke-linecap: round;
+  aside.left { grid-area: left; background: var(--panel);
+                border-right: 1px solid var(--border); overflow-y: auto;
+                overflow-x: hidden; padding: 18px 16px; }
+  aside.right { grid-area: right; background: var(--panel);
+                 border-left: 1px solid var(--border); overflow-y: auto;
+                 padding: 18px 16px; }
+  body.left-hidden aside.left { padding: 0; overflow: hidden; }
+  body.right-hidden aside.right { padding: 0; overflow: hidden; }
+  main#stage { grid-area: stage; position: relative; background: var(--bg); overflow: hidden; }
+  svg.network { width: 100%; height: 100%; display: block; cursor: grab; }
+  svg.network:active { cursor: grabbing; }
+
+  h2 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+        color: var(--muted-2); margin: 22px 0 8px 0; font-weight: 600; }
+  h2:first-child { margin-top: 0; }
+  .small { font-size: 11px; color: var(--muted); }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* Filters */
+  #search { width: 100%; padding: 8px 11px; border-radius: 6px;
+            border: 1px solid var(--border); background: var(--panel);
+            color: var(--text); font-size: 12.5px; font-family: inherit;
+            transition: border-color 0.12s; }
+  #search:focus { outline: none; border-color: var(--text); }
+  .filter-group { margin-bottom: 4px; }
+  .check { display: flex; align-items: center; gap: 8px; padding: 4px 6px;
+            border-radius: 4px; cursor: pointer; user-select: none; font-size: 12px;
+            transition: background 0.1s; }
+  .check:hover { background: var(--panel-2); }
+  .check input { margin: 0; cursor: pointer; accent-color: var(--text); }
+  .check .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .check .count { margin-left: auto; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
+  .check .label { flex: 1; color: var(--text-2); }
+  .filter-actions { display: flex; gap: 6px; margin: 6px 0 4px 0; }
+  .filter-actions button { flex: 1; padding: 5px; border: 1px solid var(--border);
+                            background: var(--panel); color: var(--muted);
+                            border-radius: 4px; cursor: pointer; font-size: 10.5px;
+                            font-family: inherit; }
+  .filter-actions button:hover { color: var(--text); border-color: var(--border-2); }
+
+  /* Partner chips */
+  .partner-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .partner-chip { padding: 5px 10px; border-radius: 999px; background: var(--panel);
+                   border: 1px solid var(--border); color: var(--text-2);
+                   font-size: 11px; cursor: pointer; user-select: none;
+                   transition: all 0.12s; }
+  .partner-chip:hover { border-color: var(--border-2); }
+  .partner-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* Right panel: stats vs inspector */
+  .tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .tab { padding: 8px 0; flex: 1; text-align: center; cursor: pointer;
+          font-size: 11.5px; color: var(--muted); border-bottom: 2px solid transparent;
+          font-weight: 500; transition: all 0.12s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* Big stat cards */
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+  .stat-card { padding: 10px 12px; background: var(--panel-2); border-radius: 6px;
+                border: 1px solid var(--border); }
+  .stat-card .v { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1;
+                   font-feature-settings: "tnum"; }
+  .stat-card .k { font-size: 10px; color: var(--muted); text-transform: uppercase;
+                   letter-spacing: 0.5px; margin-top: 4px; }
+
+  /* Bar charts */
+  .bars { margin: 4px 0; }
+  .bar-row { display: grid; grid-template-columns: 1fr 30px; gap: 6px; align-items: center;
+              font-size: 11px; padding: 3px 0; cursor: default; }
+  .bar-row .lbl { color: var(--text-2); }
+  .bar-row .num { text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 10.5px; }
+  .bar-row .track { grid-column: 1 / -1; height: 4px; background: var(--panel-2);
+                     border-radius: 2px; overflow: hidden; }
+  .bar-row .fill { height: 100%; background: var(--text); border-radius: 2px;
+                    transition: width 0.4s ease; }
+  .bar-row.with-sub .lbl { display: flex; align-items: center; gap: 6px; }
+  .bar-row.with-sub .swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Inspector */
+  .ins-empty { color: var(--muted); font-size: 12px; padding: 12px 0; line-height: 1.5; }
+  .ins-header { padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .ins-header .name { font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600;
+                       color: var(--text); line-height: 1.25; margin-bottom: 4px; }
+  .ins-header .type { font-size: 11px; color: var(--muted); }
+  .ins-row { margin: 10px 0; font-size: 12px; line-height: 1.45; }
+  .ins-row .k { color: var(--muted-2); font-size: 9.5px; text-transform: uppercase;
+                 letter-spacing: 0.7px; font-weight: 600; margin-bottom: 3px; }
+  .ins-row .v { color: var(--text-2); }
+  .ins-row a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .ins-row a:hover { text-decoration: underline; }
+  .conn-row { display: flex; justify-content: space-between; align-items: center;
+               padding: 8px 10px; background: var(--panel-2); border-radius: 5px;
+               margin-bottom: 4px; font-size: 11.5px; }
+  .conn-row .pname { color: var(--text); font-weight: 500; }
+  .conn-row .pscore { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 11px; }
+  .breakdown-line { font-size: 11px; color: var(--muted); padding: 2px 0;
+                     font-family: 'JetBrains Mono', monospace; }
+  .breakdown-line .pts { color: var(--accent); margin-left: 6px; }
+
+  /* Lists */
+  .item-list { list-style: none; padding: 0; margin: 0; }
+  .item-list li { padding: 8px 10px; border: 1px solid var(--border); border-radius: 5px;
+                   margin-bottom: 5px; cursor: pointer; font-size: 11.5px; line-height: 1.4;
+                   transition: all 0.12s; background: var(--panel); }
+  .item-list li:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .item-list .pill { display: inline-block; background: var(--panel-2);
+                      padding: 1px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace;
+                      font-size: 10px; color: var(--muted); }
+  .item-list .meta { color: var(--muted); font-size: 10.5px; margin-top: 3px; }
+
+  /* SVG */
+  .link { stroke: var(--link); fill: none; stroke-linecap: round;
            transition: stroke 0.25s, stroke-width 0.25s, opacity 0.25s; }
-  .link.peer { stroke: rgba(231,111,81,0.4); stroke-dasharray: 4 3; }
-  .link.dim { opacity: 0.05; }
-  .link.focus { stroke: rgba(231,111,81,0.65); stroke-width: 1.6px; }
+  .link.peer { stroke: rgba(177,69,69,0.25); stroke-dasharray: 4 3; }
+  .link.dim { opacity: 0.06; }
+  .link.focus { stroke: rgba(177,69,69,0.65); }
   .node { cursor: pointer; }
   .node-halo { fill: var(--accent); opacity: 0; transition: opacity 0.25s; }
-  .node-halo.show { opacity: 0.2; }
-  .node-circle { stroke: var(--bg); stroke-width: 1.5px;
-                 transition: stroke 0.25s, stroke-width 0.25s; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5)); }
-  .node.partner .node-circle { stroke: #fff; stroke-width: 2.5px; }
-  .node.dim .node-circle { opacity: 0.18; }
+  .node-halo.show { opacity: 0.14; }
+  .node-circle { stroke: #fff; stroke-width: 1.5px;
+                  transition: stroke 0.25s, stroke-width 0.25s; }
+  .node.partner .node-circle { stroke: var(--text); stroke-width: 2.5px; }
+  .node.dim .node-circle { opacity: 0.16; }
   .node.dim text { opacity: 0.12; }
-  .node.focused .node-circle { stroke: #fff; stroke-width: 2.5px; }
+  .node.focused .node-circle { stroke: var(--text); stroke-width: 2.5px; }
   .node text { font-size: 10.5px; fill: var(--text); pointer-events: none;
                 text-anchor: middle; font-weight: 500;
                 paint-order: stroke; stroke: var(--bg); stroke-width: 3px;
                 stroke-linejoin: round; transition: opacity 0.25s; }
-  .node.partner text { font-weight: 700; font-size: 12.5px; fill: #fff; }
-  .partner-anchor { pointer-events: none; }
+  .node.partner text { font-weight: 700; font-size: 13px; fill: var(--text); }
 
-  /* Inspector card */
-  .inspector { position: absolute; right: 18px; top: 18px; width: 320px;
-                background: var(--panel); border: 1px solid var(--border);
-                border-radius: 12px; padding: 16px 18px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-                z-index: 10; display: none; max-height: calc(100vh - 40px); overflow-y: auto; }
-  .inspector.show { display: block; }
-  .inspector .close { position: absolute; right: 12px; top: 10px; cursor: pointer;
-                       color: var(--muted); font-size: 18px; background: none;
-                       border: none; padding: 4px 8px; }
-  .inspector .close:hover { color: var(--text); }
-  .inspector h3 { margin: 0 0 4px 0; font-size: 15px; padding-right: 24px; color: #fff; }
-  .inspector .ins-type { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
-  .inspector .row { margin: 8px 0; font-size: 12px; line-height: 1.45; }
-  .inspector .row .k { color: var(--muted-2); font-size: 10.5px; text-transform: uppercase;
-                       letter-spacing: 0.6px; font-weight: 600; margin-bottom: 2px; }
-  .inspector .row .v { color: var(--text); }
-  .inspector .conn { display: inline-block; background: var(--accent-soft);
-                      color: var(--accent); border: 1px solid rgba(231,111,81,0.3);
-                      padding: 3px 8px; border-radius: 6px; font-size: 11px; margin: 2px 4px 2px 0;
-                      font-weight: 500; }
+  /* Controls overlay */
+  .stage-controls { position: absolute; left: 14px; bottom: 14px; display: flex;
+                     flex-direction: column; gap: 4px; z-index: 5; }
+  .stage-controls .icon-btn { width: 30px; height: 30px; border: 1px solid var(--border);
+                               background: var(--panel); border-radius: 5px; cursor: pointer;
+                               font-size: 14px; color: var(--text-2); }
+  .stage-controls .icon-btn:hover { border-color: var(--border-2); }
+  .stage-hint { position: absolute; right: 14px; bottom: 14px; font-size: 10.5px;
+                color: var(--muted-2); user-select: none; pointer-events: none; }
 
-  /* Floating controls */
-  .controls { position: absolute; left: 18px; bottom: 18px; display: flex;
-              gap: 6px; z-index: 5; }
-  .ctrl-btn { background: var(--panel); border: 1px solid var(--border);
-              color: var(--text); width: 34px; height: 34px; border-radius: 8px;
-              cursor: pointer; font-size: 14px; transition: all 0.15s; font-family: inherit;
-              display: flex; align-items: center; justify-content: center; }
-  .ctrl-btn:hover { background: var(--panel-2); border-color: var(--accent); color: var(--accent); }
-  .focus-hint { position: absolute; bottom: 20px; right: 18px; font-size: 11px;
-                color: var(--muted-2); pointer-events: none; }
+  /* Modal */
+  .modal-bg { position: fixed; inset: 0; background: rgba(20,28,40,0.45);
+               z-index: 100; display: none; }
+  .modal-bg.show { display: flex; align-items: center; justify-content: center; }
+  .modal { background: var(--panel); border-radius: 10px; width: 720px; max-width: 95vw;
+            max-height: 88vh; overflow-y: auto; padding: 24px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .modal h3 { font-family: 'Source Serif 4', serif; font-size: 19px; margin: 0 0 16px 0;
+              font-weight: 600; color: var(--text); }
+  .modal h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1.3px;
+              color: var(--muted-2); margin: 20px 0 8px 0; font-weight: 600; }
+  .modal p { line-height: 1.55; color: var(--text-2); font-size: 13px; }
+  .modal ul { padding-left: 20px; }
+  .modal li { font-size: 12.5px; line-height: 1.6; color: var(--text-2); margin-bottom: 4px; }
+  .modal .close-btn { float: right; background: none; border: none; font-size: 22px;
+                       color: var(--muted); cursor: pointer; padding: 0 4px; }
+  .modal .close-btn:hover { color: var(--text); }
+  .modal .formula-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  .modal .formula-table th, .modal .formula-table td { padding: 6px 8px; text-align: left;
+                                                       border-bottom: 1px solid var(--border);
+                                                       font-size: 12px; }
+  .modal .formula-table th { color: var(--muted); font-weight: 600;
+                              text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.7px; }
+  .modal code { background: var(--panel-2); padding: 1px 6px; border-radius: 3px;
+                 font-size: 11.5px; font-family: 'JetBrains Mono', monospace; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-2); }
+
+  /* Tooltip */
+  .tip { position: absolute; pointer-events: none; background: var(--panel);
+          border: 1px solid var(--border-2); box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+          padding: 8px 11px; border-radius: 6px; font-size: 11.5px;
+          max-width: 260px; z-index: 50; display: none; line-height: 1.4; }
+  .tip strong { color: var(--text); }
+  .tip .tip-meta { color: var(--muted); font-size: 10.5px; margin-top: 4px; }
 </style>
 </head>
 <body>
 <div id="app">
+  <header class="bar">
+    <button class="icon-btn" id="toggle-left" title="Mostrar/ocultar filtros (F)" aria-label="Toggle filters">☰</button>
+    <div class="title">Ecossistema Trias Brasil</div>
+    <div class="subtitle">DGD 2027–2031 · rede ancorada nos 4 parceiros MBO</div>
+    <div class="spacer"></div>
+    <button class="text-btn" id="btn-methodology">Metodologia</button>
+    <button class="icon-btn" id="toggle-right" title="Mostrar/ocultar painel direito (D)" aria-label="Toggle right panel">▣</button>
+  </header>
 
   <aside class="left">
-    <h1>Ecossistema Trias Brasil</h1>
-    <div class="subtitle">DGD 2027–2031 · 4 parceiros MBO ancoram a rede</div>
-
-    <div class="stats">
-      <div class="stat"><div class="n" id="s-total"></div><div class="l">stakeholders</div></div>
-      <div class="stat"><div class="n" id="s-connected"></div><div class="l">conectados</div></div>
-      <div class="stat"><div class="n" id="s-bridges"></div><div class="l">bridges (2+)</div></div>
-      <div class="stat"><div class="n" id="s-tri"></div><div class="l">tri-bridges</div></div>
-    </div>
-
     <h2>Busca</h2>
-    <input id="search" placeholder="Filtrar por nome…" autocomplete="off">
+    <input id="search" placeholder="Nome ou trecho da descrição" autocomplete="off">
 
-    <h2>Filtro por parceiro</h2>
-    <div id="partner-filters">
-      <span class="filter-btn active" data-partner="ALL">Todos</span>
-      <span class="filter-btn" data-partner="UNICAFES_PA">UNICAFES PA</span>
-      <span class="filter-btn" data-partner="UNICAFES_RO">UNICAFES RO</span>
-      <span class="filter-btn" data-partner="CSA_BRASIL">CSA Brasil</span>
-      <span class="filter-btn" data-partner="UNICATADORES">UNICATADORES</span>
+    <h2>Parceiro MBO</h2>
+    <div class="partner-chips" id="partner-filters">
+      <span class="partner-chip active" data-partner="ALL">Todos</span>
     </div>
 
-    <h2>Setor (clique para filtrar)</h2>
-    <div id="legend"></div>
+    <h2>Setor <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="sector" data-action="all">tudo</button><button data-group="sector" data-action="none">limpar</button></span></h2>
+    <div class="filter-group" id="filter-sector"></div>
 
-    <h2>Como interagir</h2>
-    <div class="muted" style="line-height: 1.5;">
-      <b>Hover</b> exibe halo no nó.<br>
-      <b>Clique</b> num nó ativa o modo foco — apenas a vizinhança permanece destacada.
-      <br><b>Clique no vazio</b> para sair do foco.
-      <br><b>Roda do mouse</b> dá zoom, arraste move a câmera.
-    </div>
+    <h2>Bioma primário <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="biome" data-action="all">tudo</button><button data-group="biome" data-action="none">limpar</button></span></h2>
+    <div class="filter-group" id="filter-biome"></div>
+
+    <h2>Papel no ecossistema <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="role" data-action="all">tudo</button><button data-group="role" data-action="none">limpar</button></span></h2>
+    <div class="filter-group" id="filter-role"></div>
+
+    <h2>Funding role <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="funding_role" data-action="all">tudo</button><button data-group="funding_role" data-action="none">limpar</button></span></h2>
+    <div class="filter-group" id="filter-funding"></div>
+
+    <h2>Tipo de relação possível <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="relationship_type" data-action="all">tudo</button><button data-group="relationship_type" data-action="none">limpar</button></span></h2>
+    <div class="small" style="margin-bottom:6px;">derivado do papel declarado da organização</div>
+    <div class="filter-group" id="filter-reltype"></div>
+
+    <h2>Potencial de parceria (IKF) <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="potential_partnership" data-action="all">tudo</button><button data-group="potential_partnership" data-action="none">limpar</button></span></h2>
+    <div class="filter-group" id="filter-pp"></div>
   </aside>
 
   <main id="stage">
     <svg class="network" id="net"></svg>
-
-    <div class="controls">
-      <button class="ctrl-btn" id="btn-reset" title="Resetar visão">⌂</button>
-      <button class="ctrl-btn" id="btn-zoom-in" title="Zoom in">+</button>
-      <button class="ctrl-btn" id="btn-zoom-out" title="Zoom out">−</button>
-      <button class="ctrl-btn" id="btn-physics" title="Pausar/retomar física">⏸</button>
+    <div class="stage-controls">
+      <button class="icon-btn" id="btn-reset" title="Resetar visão">⌂</button>
+      <button class="icon-btn" id="btn-zoom-in" title="Zoom in">+</button>
+      <button class="icon-btn" id="btn-zoom-out" title="Zoom out">−</button>
+      <button class="icon-btn" id="btn-physics" title="Pausar/retomar física">⏸</button>
     </div>
-
-    <div class="inspector" id="inspector">
-      <button class="close" id="inspector-close">×</button>
-      <div id="inspector-body"></div>
-    </div>
+    <div class="stage-hint">clique no vazio para limpar a seleção</div>
+    <div class="tip" id="tip"></div>
   </main>
 
   <aside class="right">
-    <h2>Bridges — atores que conectam múltiplos parceiros</h2>
-    <ul class="bridges-list" id="bridges-list"></ul>
+    <div class="tabs">
+      <div class="tab active" data-tab="stats">Estatísticas</div>
+      <div class="tab" data-tab="inspector">Inspecionar</div>
+      <div class="tab" data-tab="rank">Rankings</div>
+    </div>
 
-    <h2>Top atores por parceiro</h2>
-    <div id="top-blocks"></div>
+    <div class="tab-pane active" id="pane-stats">
+      <h2>Cobertura</h2>
+      <div class="stat-row">
+        <div class="stat-card"><div class="v" id="kpi-db"></div><div class="k">na base</div></div>
+        <div class="stat-card"><div class="v" id="kpi-conn"></div><div class="k">conectados</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="v" id="kpi-bridges"></div><div class="k">bridges (2+)</div></div>
+        <div class="stat-card"><div class="v" id="kpi-tri"></div><div class="k">tri-bridges</div></div>
+      </div>
+
+      <h2>Conexões por parceiro</h2>
+      <div class="bars" id="bars-partner"></div>
+
+      <h2>Composição por setor</h2>
+      <div class="bars" id="bars-sector"></div>
+
+      <h2>Composição por bioma</h2>
+      <div class="bars" id="bars-biome"></div>
+
+      <h2>Top papéis</h2>
+      <div class="bars" id="bars-role"></div>
+
+      <h2>Funding role</h2>
+      <div class="bars" id="bars-funding"></div>
+
+      <h2>Posição na cadeia</h2>
+      <div class="bars" id="bars-chain"></div>
+
+      <h2>Tipo de relação possível</h2>
+      <div class="small" style="margin-bottom:6px;">entre os 114 stakeholders conectados</div>
+      <div class="bars" id="bars-reltype"></div>
+
+      <h2>Potencial de parceria (IKF)</h2>
+      <div class="bars" id="bars-pp"></div>
+    </div>
+
+    <div class="tab-pane" id="pane-inspector">
+      <div class="ins-empty" id="ins-empty">Clique num nó da rede para inspecionar.</div>
+      <div id="ins-content" style="display:none;"></div>
+    </div>
+
+    <div class="tab-pane" id="pane-rank">
+      <h2>Bridges — conectam múltiplos parceiros</h2>
+      <ul class="item-list" id="bridges-list"></ul>
+      <h2>Brokers — alta intermediação (betweenness)</h2>
+      <ul class="item-list" id="brokers-list"></ul>
+      <h2>Top por parceiro</h2>
+      <div id="top-blocks"></div>
+    </div>
   </aside>
+</div>
+
+<!-- Methodology modal -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <button class="close-btn" id="modal-close">×</button>
+    <h3>Como a rede foi construída</h3>
+    <p>A rede é uma <em>projeção bipartite</em>: cada stakeholder externo recebe uma aresta ponderada para cada um dos 4 parceiros MBO da Trias se o alinhamento temático/territorial passar de um limiar. Não há ligações diretas entre stakeholders externos — a leitura visual privilegia o papel de cada um <em>em relação aos parceiros</em>.</p>
+
+    <h4>Base de origem</h4>
+    <p>360 organizações registradas em <code>Stakeholder Ecosystem Mapping.xlsx</code> (última atualização: 11/02/2026). Cada registro traz: setor, tipo, descrição, território, bioma primário e secundário, área de impacto, papel no ecossistema, posição na cadeia de valor, funding role e potencial de parceria com IKF.</p>
+
+    <h4>Nós-âncora (parceiros MBO)</h4>
+    <p>Os 4 parceiros não estão na base original (apenas UNICAFES Nacional e UNICATADORES aparecem como entradas). Foram adicionados manualmente com perfis derivados do <em>Annex 1 — Theory of Change</em> e do <em>BRAZIL_DGD Narrative_DRAFT</em>:</p>
+    <ul>
+      <li><strong>UNICAFES Pará / Rondônia</strong> — biome: Amazônia; impact area: Land, Food and Forest; keywords: agricultura familiar, cooperativa, bioeconomia, sociobiodiversidade, café/cacau/açaí.</li>
+      <li><strong>CSA Brasil</strong> — biomes: Mata Atlântica, Cerrado, Amazônia; impact area: Land, Food and Forest; keywords: community supported, agroecologia, food system, peri-urb, rural-urban.</li>
+      <li><strong>UNICATADORES</strong> — sem biome (urbano); impact areas: Land/Food/Forest + Buildings/Transport; keywords: catador, recicl, circular econom, PNRS, EPR.</li>
+    </ul>
+
+    <h4>Score de alinhamento</h4>
+    <p>Para cada par (stakeholder, parceiro) somam-se pontos quando há sobreposição:</p>
+    <table class="formula-table">
+      <thead><tr><th>Critério</th><th>Pontos</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>Bioma primário coincide</td><td>+3</td><td>diferenciador territorial mais forte</td></tr>
+        <tr><td>Bioma secundário coincide</td><td>+1</td><td>—</td></tr>
+        <tr><td>Impact area coincide</td><td>+1</td><td>peso baixo: 244/360 têm "Land, Food and Forest"</td></tr>
+        <tr><td>Role coincide (até 2)</td><td>+0,5 por match</td><td>cap em 1,0</td></tr>
+        <tr><td>Keywords específicas (até 4)</td><td>+2 por keyword</td><td>cap em 8 — principal diferenciador temático</td></tr>
+        <tr><td>Alcance nacional</td><td>+0,5</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>Keywords são buscadas no campo combinado de descrição + notas + tipo + território + nome (case-insensitive).</p>
+
+    <h4>Gates (regras de corte)</h4>
+    <ul>
+      <li><strong>Gate amazônico</strong> — para UNICAFES PA/RO, sem bioma amazônica <em>nem</em> keyword amazônica o score é zerado. Evita falsos positivos com empresas/instituições nacionais de cobertura genérica.</li>
+      <li><strong>Gate de catadores</strong> — para UNICATADORES, exige pelo menos uma keyword de resíduo, catador, circular ou PNRS. Sem isso o score é zerado.</li>
+    </ul>
+
+    <h4>Limiar de conexão</h4>
+    <p>Edge é criada quando o score ≥ <code>4,5</code>. Esse valor foi calibrado iterativamente: limiares mais baixos (3,0) deixavam empresas nacionais broad-spectrum (grandes varejistas, montadoras) aparecerem como bridges; limiares mais altos (6,0) descartavam parceiros legítimos. O número final de stakeholders conectados (114 de 360) representa o ecossistema imediatamente relevante para a operação dos 4 parceiros, segundo os atributos disponíveis na base.</p>
+
+    <h4>O que a rede <em>não</em> captura</h4>
+    <ul>
+      <li>Relacionamentos efetivos (contratos, parcerias formais). A base é descritiva, não relacional.</li>
+      <li>Histórico de colaboração com a Trias ou entre os próprios parceiros.</li>
+      <li>Alinhamento ideológico/político (ex.: posição sobre agronegócio).</li>
+      <li>Capacidade técnica ou solidez institucional (não há indicadores quantitativos).</li>
+    </ul>
+    <p>Por isso, a rede deve ser lida como <strong>hipótese inicial de proximidade</strong> baseada em atributos declarados, e validada com a equipe Brasil/SAM antes de qualquer ação de articulação.</p>
+  </div>
 </div>
 
 <script>
 const DATA = __GRAPH_JSON__;
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 
-// ---------- DOM helpers ----------
-const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
-
-// ---------- Fill stats and lists ----------
-$('#s-total').textContent = DATA.stats.total;
-$('#s-connected').textContent = DATA.stats.connected;
-$('#s-bridges').textContent = DATA.stats.bridges;
-$('#s-tri').textContent = DATA.stats.tri;
-
-// Sector counts
-const sectorCounts = {};
-DATA.nodes.forEach(n => {
-  if (n.kind === 'partner') return;
-  const s = n.sector || 'Others';
-  sectorCounts[s] = (sectorCounts[s] || 0) + 1;
+// ========== Sidebar toggles ==========
+$('#toggle-left').onclick = () => {
+  document.body.classList.toggle('left-hidden');
+  $('#toggle-left').classList.toggle('active', document.body.classList.contains('left-hidden'));
+  resize();
+};
+$('#toggle-right').onclick = () => {
+  document.body.classList.toggle('right-hidden');
+  $('#toggle-right').classList.toggle('active', document.body.classList.contains('right-hidden'));
+  resize();
+};
+document.addEventListener('keydown', ev => {
+  if (ev.target.tagName === 'INPUT') return;
+  if (ev.key === 'f' || ev.key === 'F') $('#toggle-left').click();
+  if (ev.key === 'd' || ev.key === 'D') $('#toggle-right').click();
+  if (ev.key === 'Escape') clearFocus();
 });
-const legendEl = $('#legend');
-const activeSectors = new Set(Object.keys(DATA.sectors));
-Object.entries(DATA.sectors).forEach(([sector, col]) => {
-  const div = document.createElement('div');
-  div.className = 'legend-item';
-  div.dataset.sector = sector;
-  div.innerHTML = `<span class="dot" style="background:${col}"></span>${sector}<span class="count">${sectorCounts[sector]||0}</span>`;
-  div.addEventListener('click', () => {
-    if (activeSectors.has(sector)) {
-      activeSectors.delete(sector);
-      div.classList.add('dim');
-    } else {
-      activeSectors.add(sector);
-      div.classList.remove('dim');
-    }
-    applySectorFilter();
+
+// ========== Methodology modal ==========
+$('#btn-methodology').onclick = () => $('#modal-bg').classList.add('show');
+$('#modal-close').onclick = () => $('#modal-bg').classList.remove('show');
+$('#modal-bg').onclick = (ev) => { if (ev.target === $('#modal-bg')) $('#modal-bg').classList.remove('show'); };
+
+// ========== Tabs ==========
+$$('.tab').forEach(t => t.addEventListener('click', () => {
+  $$('.tab').forEach(x => x.classList.remove('active'));
+  $$('.tab-pane').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  $('#pane-' + t.dataset.tab).classList.add('active');
+}));
+
+// ========== Stats panel ==========
+$('#kpi-db').textContent = DATA.stats.total_db;
+$('#kpi-conn').textContent = DATA.stats.connected;
+$('#kpi-bridges').textContent = DATA.stats.bridges;
+$('#kpi-tri').textContent = DATA.stats.tri;
+
+function renderBars(containerSel, data, opts = {}) {
+  const el = $(containerSel);
+  el.innerHTML = '';
+  const entries = Object.entries(data).filter(([k,v]) => v > 0).sort((a,b) => b[1]-a[1]);
+  const max = Math.max(...entries.map(e => e[1]), 1);
+  entries.forEach(([k, v]) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row' + (opts.swatch ? ' with-sub' : '');
+    const swatch = opts.swatch ? `<span class="swatch" style="background:${opts.swatch[k] || '#999'}"></span>` : '';
+    const pct = (v / max * 100).toFixed(0);
+    row.innerHTML = `
+      <div class="lbl">${swatch}${k}</div>
+      <div class="num">${v}</div>
+      <div class="track"><div class="fill" style="width:${pct}%; ${opts.swatch && opts.swatch[k] ? 'background:'+opts.swatch[k] : ''}"></div></div>
+    `;
+    el.appendChild(row);
   });
-  legendEl.appendChild(div);
-});
+}
 
-// Bridges list
+// Per-partner connection counts
+const partnerBars = {};
+DATA.partners.forEach(p => { partnerBars[p.name] = DATA.stats.by_partner[p.id]; });
+const partnerColors = {};
+DATA.partners.forEach(p => { partnerColors[p.name] = 'var(--accent)'; });
+renderBars('#bars-partner', partnerBars);
+
+renderBars('#bars-sector', DATA.stats.dist_sector_all, {swatch: DATA.sectors});
+renderBars('#bars-biome', DATA.stats.dist_biome_all);
+renderBars('#bars-role', DATA.stats.dist_role_all);
+renderBars('#bars-funding', DATA.stats.dist_funding_all);
+renderBars('#bars-chain', DATA.stats.dist_chain_all);
+renderBars('#bars-reltype', DATA.dist_relationship);
+renderBars('#bars-pp', DATA.dist_partnership);
+
+// ========== Rankings panel ==========
 const bridgesEl = $('#bridges-list');
-DATA.bridges.slice(0, 25).forEach(b => {
+DATA.bridges.slice(0, 30).forEach(b => {
   const li = document.createElement('li');
-  li.innerHTML = `<b>${b.name}</b> <span class="badge">${b.n}×</span><br><span class="muted">→ ${b.partners.join(' · ')}</span>`;
-  li.addEventListener('click', () => selectNode(b.id, true));
+  li.innerHTML = `<div><strong>${b.name}</strong> <span class="pill">${b.n}×</span></div>
+                  <div class="meta">${b.type || '—'} · ${b.partners.join(' · ')}</div>`;
+  li.onclick = () => selectNode(b.id, true);
   bridgesEl.appendChild(li);
 });
 
-// Top by partner
-const tbEl = $('#top-blocks');
+const brokersEl = $('#brokers-list');
+DATA.top_brokers.forEach(b => {
+  const li = document.createElement('li');
+  li.innerHTML = `<div><strong>${b.name}</strong> <span class="pill">${b.betweenness.toFixed(3)}</span></div>
+                  <div class="meta">${b.sector || '—'}${b.type ? ' · ' + b.type : ''}</div>`;
+  li.onclick = () => selectNode(b.id, true);
+  brokersEl.appendChild(li);
+});
+
+const topBlocksEl = $('#top-blocks');
 DATA.partners.forEach(p => {
   const lst = DATA.top_by_partner[p.id] || [];
   const det = document.createElement('details');
-  det.className = 'top-block';
-  det.innerHTML = `<summary><b>${p.name}</b> — ${lst.length} no top</summary>`;
-  const ol = document.createElement('ol');
-  ol.className = 'top-list';
+  det.style.cssText = 'background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:9px 12px;margin-bottom:6px;';
+  det.innerHTML = `<summary style="cursor:pointer;font-size:11.5px;color:var(--text-2);font-weight:600;">${p.name} — ${lst.length} no top</summary>`;
+  const ol = document.createElement('ul');
+  ol.style.cssText = 'list-style:none;padding:0;margin:8px 0 0 0;';
   lst.forEach(item => {
     const li = document.createElement('li');
-    li.innerHTML = `<b>${item.name}</b> <span class="badge">${item.score}</span><br><span class="muted">${item.type || ''}</span>`;
-    li.addEventListener('click', () => selectNode(item.id, true));
+    li.style.cssText = 'padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;cursor:pointer;';
+    li.innerHTML = `<strong>${item.name}</strong> <span class="pill">${item.score}</span><br><span style="color:var(--muted);font-size:10.5px;">${item.type || ''}</span>`;
+    li.onclick = () => selectNode(item.id, true);
     ol.appendChild(li);
   });
   det.appendChild(ol);
-  tbEl.appendChild(det);
+  topBlocksEl.appendChild(det);
 });
 
-// ---------- D3 setup ----------
+// ========== Filters ==========
+const filterState = {
+  sector: new Set(DATA.filter_options.sector),
+  biome: new Set(DATA.filter_options.biome),
+  role: new Set(DATA.filter_options.role),
+  funding_role: new Set(DATA.filter_options.funding_role),
+  relationship_type: new Set(DATA.filter_options.relationship_type),
+  potential_partnership: new Set(DATA.filter_options.potential_partnership),
+  partner: 'ALL',
+  search: '',
+};
+
+const FILTER_CONTAINERS = {
+  sector: '#filter-sector', biome: '#filter-biome',
+  role: '#filter-role', funding_role: '#filter-funding',
+  relationship_type: '#filter-reltype', potential_partnership: '#filter-pp',
+};
+
+function getNodeTokens(n, group) {
+  // relationship_type lives in array `relationship_types`
+  if (group === 'relationship_type') return n.relationship_types || [];
+  const field = group === 'biome' ? 'biome' : group;
+  const v = n[field] || '';
+  return String(v).split(/[,;]/).map(s => s.trim()).filter(Boolean);
+}
+
+function buildFilter(group, options, colorMap = null) {
+  const c = $(FILTER_CONTAINERS[group]); c.innerHTML = '';
+  const counts = {};
+  DATA.nodes.forEach(n => {
+    if (n.kind !== 'stakeholder') return;
+    getNodeTokens(n, group).forEach(tok => {
+      if (options.includes(tok)) counts[tok] = (counts[tok] || 0) + 1;
+    });
+  });
+  options.forEach(opt => {
+    const lab = document.createElement('label'); lab.className = 'check';
+    const sw = colorMap && colorMap[opt] ? `<span class="swatch" style="background:${colorMap[opt]}"></span>` : '';
+    lab.innerHTML = `<input type="checkbox" checked>${sw}<span class="label">${opt || '—'}</span><span class="count">${counts[opt] || 0}</span>`;
+    c.appendChild(lab);
+    lab.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) filterState[group].add(opt);
+      else filterState[group].delete(opt);
+      applyFilters();
+    });
+  });
+}
+buildFilter('sector', DATA.filter_options.sector, DATA.sectors);
+buildFilter('biome', DATA.filter_options.biome);
+buildFilter('role', DATA.filter_options.role);
+buildFilter('funding_role', DATA.filter_options.funding_role);
+buildFilter('relationship_type', DATA.filter_options.relationship_type);
+buildFilter('potential_partnership', DATA.filter_options.potential_partnership);
+
+$$('.filter-actions button').forEach(btn => btn.addEventListener('click', () => {
+  const g = btn.dataset.group, a = btn.dataset.action;
+  if (a === 'all') {
+    filterState[g] = new Set(DATA.filter_options[g] || []);
+  } else {
+    filterState[g] = new Set();
+  }
+  $$(FILTER_CONTAINERS[g] + ' input').forEach((inp, i) => {
+    inp.checked = filterState[g].has(DATA.filter_options[g][i]);
+  });
+  applyFilters();
+}));
+
+// Partner chips
+const partnerFiltersEl = $('#partner-filters');
+DATA.partners.forEach(p => {
+  const span = document.createElement('span');
+  span.className = 'partner-chip';
+  span.dataset.partner = p.id;
+  span.textContent = p.name;
+  partnerFiltersEl.appendChild(span);
+});
+$$('.partner-chip').forEach(chip => chip.addEventListener('click', () => {
+  $$('.partner-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  filterState.partner = chip.dataset.partner;
+  applyFilters();
+}));
+
+$('#search').addEventListener('input', e => {
+  filterState.search = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+// ========== D3 setup ==========
 const svg = d3.select('#net');
-const W = () => svg.node().clientWidth;
-const H = () => svg.node().clientHeight;
+const stage = $('#stage');
+const W = () => stage.clientWidth;
+const H = () => stage.clientHeight;
 
 const root = svg.append('g').attr('class', 'root');
 const linkLayer = root.append('g').attr('class', 'links');
 const nodeLayer = root.append('g').attr('class', 'nodes');
 
-const zoom = d3.zoom().scaleExtent([0.2, 5]).on('zoom', ev => {
+const zoom = d3.zoom().scaleExtent([0.2, 6]).on('zoom', ev => {
   root.attr('transform', ev.transform);
 });
 svg.call(zoom);
 
-// Initial partner positions — anchored in a square layout to give structure
 function partnerAnchors() {
-  const cx = W() / 2, cy = H() / 2;
-  const r = Math.min(W(), H()) * 0.22;
+  const cx = 0, cy = 0;  // origin-centered space
+  const r = Math.min(W(), H()) * 0.24;
   return {
-    UNICAFES_PA:  {x: cx - r,     y: cy - r * 0.9},
-    UNICAFES_RO:  {x: cx + r,     y: cy - r * 0.9},
-    CSA_BRASIL:   {x: cx - r,     y: cy + r * 0.9},
-    UNICATADORES: {x: cx + r,     y: cy + r * 0.9},
+    UNICAFES_PA:  {x: -r,        y: -r * 0.9},
+    UNICAFES_RO:  {x:  r,        y: -r * 0.9},
+    CSA_BRASIL:   {x: -r,        y:  r * 0.9},
+    UNICATADORES: {x:  r,        y:  r * 0.9},
   };
 }
 
-// Prepare nodes & links (note: d3 mutates objects)
-const nodes = DATA.nodes.map(n => Object.assign({}, n));
-const links = DATA.links.map(l => Object.assign({}, l));
+const nodes = DATA.nodes.map(n => ({...n}));
+const links = DATA.links.map(l => ({...l}));
 
-// Place partners at initial anchors and fix them with weaker pull
 const anchors = partnerAnchors();
 nodes.forEach(n => {
   if (n.kind === 'partner') {
-    n.fx = anchors[n.id].x;
-    n.fy = anchors[n.id].y;
+    n.fx = anchors[n.id].x; n.fy = anchors[n.id].y;
+    n.x = n.fx; n.y = n.fy;
   }
 });
 
-// Force simulation
 const sim = d3.forceSimulation(nodes)
   .force('link', d3.forceLink(links).id(d => d.id)
-                  .distance(l => l.kind === 'peer' ? 220 : 120 + (8 - l.weight) * 12)
-                  .strength(l => l.kind === 'peer' ? 0.05 : 0.4))
-  .force('charge', d3.forceManyBody().strength(d => d.kind === 'partner' ? -1400 : -260))
-  .force('center', d3.forceCenter(0, 0).strength(0.02))
+                   .distance(l => l.kind === 'peer' ? 220 : 110 + (8 - l.weight) * 12)
+                   .strength(l => l.kind === 'peer' ? 0.04 : 0.45))
+  .force('charge', d3.forceManyBody().strength(d => d.kind === 'partner' ? -1500 : -240))
+  .force('center', d3.forceCenter(0, 0).strength(0.015))
   .force('collide', d3.forceCollide().radius(d => nodeRadius(d) + 4))
   .alphaDecay(0.025);
 
@@ -682,55 +1139,60 @@ function nodeRadius(d) {
   return 6 + (d.n_partners || 1) * 4;
 }
 
-// Render links (curved)
 const linkSel = linkLayer.selectAll('path.link')
   .data(links).join('path')
   .attr('class', d => 'link ' + (d.kind === 'peer' ? 'peer' : ''))
-  .attr('stroke-width', d => d.kind === 'peer' ? 1.6 : 0.5 + d.weight * 0.18);
+  .attr('stroke-width', d => d.kind === 'peer' ? 1.5 : 0.5 + d.weight * 0.16);
 
-// Render nodes
 const nodeSel = nodeLayer.selectAll('g.node')
   .data(nodes).join('g')
   .attr('class', d => 'node ' + (d.kind === 'partner' ? 'partner' : ''))
   .attr('data-id', d => d.id)
-  .call(d3.drag()
-    .on('start', dragstart)
-    .on('drag', dragmove)
-    .on('end', dragend));
+  .call(d3.drag().on('start', dragstart).on('drag', dragmove).on('end', dragend));
 
-// halo (behind circle)
-nodeSel.append('circle')
-  .attr('class', 'node-halo')
-  .attr('r', d => nodeRadius(d) + 8);
-nodeSel.append('circle')
-  .attr('class', 'node-circle')
-  .attr('r', nodeRadius)
-  .attr('fill', d => d.color);
-
-// labels: only partners always; others on hover or when zoomed
+nodeSel.append('circle').attr('class', 'node-halo').attr('r', d => nodeRadius(d) + 8);
+nodeSel.append('circle').attr('class', 'node-circle').attr('r', nodeRadius).attr('fill', d => d.color);
 nodeSel.append('text')
   .attr('dy', d => nodeRadius(d) + 13)
   .text(d => {
     if (d.kind === 'partner') return d.name;
-    if (d.n_partners >= 2 || d.betweenness > 0.01) {
-      return d.name.length > 30 ? d.name.slice(0, 27) + '…' : d.name;
+    if ((d.n_partners || 0) >= 2 || d.betweenness > 0.01) {
+      return d.name.length > 32 ? d.name.slice(0, 29) + '…' : d.name;
     }
     return '';
   });
 
-// Hover behavior
+const tip = $('#tip');
 nodeSel.on('mouseenter', function(ev, d) {
   d3.select(this).select('.node-halo').classed('show', true);
+  tip.style.display = 'block';
+  const parts = [];
+  if (d.kind === 'partner') {
+    parts.push(`<strong>${d.name}</strong>`);
+    parts.push(`<div class="tip-meta">${d.type}<br>${d.territory}</div>`);
+  } else {
+    parts.push(`<strong>${d.name}</strong>`);
+    const subs = [];
+    if (d.type) subs.push(d.type);
+    if (d.sector) subs.push(d.sector);
+    if (subs.length) parts.push(`<div class="tip-meta">${subs.join(' · ')}</div>`);
+    if (d.biome) parts.push(`<div class="tip-meta">${d.biome}</div>`);
+  }
+  tip.innerHTML = parts.join('');
 })
-.on('mouseleave', function(ev, d) {
+.on('mousemove', function(ev) {
+  const rect = stage.getBoundingClientRect();
+  tip.style.left = (ev.clientX - rect.left + 12) + 'px';
+  tip.style.top = (ev.clientY - rect.top + 12) + 'px';
+})
+.on('mouseleave', function() {
   d3.select(this).select('.node-halo').classed('show', false);
+  tip.style.display = 'none';
 })
 .on('click', function(ev, d) {
   ev.stopPropagation();
   selectNode(d.id, false);
 });
-
-// Click empty: clear focus
 svg.on('click', () => clearFocus());
 
 sim.on('tick', () => {
@@ -743,25 +1205,17 @@ sim.on('tick', () => {
   nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
 });
 
-function dragstart(ev, d) {
-  if (!ev.active) sim.alphaTarget(0.3).restart();
-  d.fx = d.x; d.fy = d.y;
-}
-function dragmove(ev, d) {
-  d.fx = ev.x; d.fy = ev.y;
-}
+function dragstart(ev, d) { if (!ev.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; }
+function dragmove(ev, d) { d.fx = ev.x; d.fy = ev.y; }
 function dragend(ev, d) {
   if (!ev.active) sim.alphaTarget(0);
-  if (d.kind === 'partner') return;  // partners stay fixed if not partner? keep free
-  d.fx = null; d.fy = null;
+  if (d.kind !== 'partner') { d.fx = null; d.fy = null; }
 }
 
-// ---------- Focus mode ----------
-let focusId = null;
+// ========== Focus mode + inspector ==========
 function selectNode(id, fromList) {
   const target = nodes.find(n => n.id === id);
   if (!target) return;
-  focusId = id;
   const neighbors = new Set([id]);
   links.forEach(l => {
     const s = l.source.id || l.source;
@@ -781,217 +1235,411 @@ function selectNode(id, fromList) {
     return s === id || t === id;
   });
   showInspector(target);
+  // switch right tab to inspector
+  $$('.tab').forEach(x => x.classList.remove('active'));
+  $$('.tab-pane').forEach(x => x.classList.remove('active'));
+  $('.tab[data-tab="inspector"]').classList.add('active');
+  $('#pane-inspector').classList.add('active');
   if (fromList) {
-    // center the view roughly on the node
     const tr = d3.zoomTransform(svg.node());
     const tx = W()/2 - target.x * tr.k;
     const ty = H()/2 - target.y * tr.k;
     svg.transition().duration(600)
-      .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(tr.k));
+      .call(zoom.transform, d3.zoomIdentity.translate(tx - W()/2, ty - H()/2).scale(tr.k));
   }
 }
 
 function clearFocus() {
-  focusId = null;
-  nodeSel.classed('dim', false).classed('focused', false);
-  linkSel.classed('dim', false).classed('focus', false);
-  applySectorFilter();
-  applyPartnerFilter();
-  $('#inspector').classList.remove('show');
+  applyFilters();  // restore dim state from filters
+  nodeSel.classed('focused', false);
+  linkSel.classed('focus', false);
+  $('#ins-content').style.display = 'none';
+  $('#ins-empty').style.display = 'block';
 }
 
 function showInspector(n) {
-  const el = $('#inspector-body');
+  const ec = $('#ins-content'); const ee = $('#ins-empty');
+  ee.style.display = 'none'; ec.style.display = 'block';
   if (n.kind === 'partner') {
-    el.innerHTML = `
-      <h3>${n.name}</h3>
-      <div class="ins-type">${n.type}</div>
-      <div class="row"><div class="k">Nome completo</div><div class="v">${n.long_name||''}</div></div>
-      <div class="row"><div class="k">Território</div><div class="v">${n.territory||''}</div></div>
-      <div class="row"><div class="k">Descrição</div><div class="v">${n.description||''}</div></div>
+    ec.innerHTML = `
+      <div class="ins-header">
+        <div class="name">${n.name}</div>
+        <div class="type">${n.type}</div>
+      </div>
+      <div class="ins-row"><div class="k">Nome completo</div><div class="v">${n.long_name || ''}</div></div>
+      <div class="ins-row"><div class="k">Território</div><div class="v">${n.territory || ''}</div></div>
+      <div class="ins-row"><div class="k">Descrição</div><div class="v">${n.description || ''}</div></div>
     `;
-  } else {
-    const conns = Object.entries(n.connections||{}).map(([pid, sc]) => {
-      const pname = DATA.partners.find(p => p.id === pid).name;
-      return `<span class="conn">${pname} · ${sc}</span>`;
-    }).join('');
-    el.innerHTML = `
-      <h3>${n.name}</h3>
-      <div class="ins-type">${n.type || ''} · ${n.sector || ''}</div>
-      <div class="row"><div class="k">Território</div><div class="v">${n.territory||'—'}</div></div>
-      <div class="row"><div class="k">Biome primário</div><div class="v">${n.biome||'—'}</div></div>
-      <div class="row"><div class="k">Impact area</div><div class="v">${n.impact||'—'}</div></div>
-      <div class="row"><div class="k">Role no ecossistema</div><div class="v">${n.role||'—'}</div></div>
-      <div class="row"><div class="k">Funding role</div><div class="v">${n.funding_role||'—'}</div></div>
-      <div class="row"><div class="k">HQ</div><div class="v">${n.hq||'—'}</div></div>
-      ${n.url ? `<div class="row"><div class="k">Site</div><div class="v"><a href="${n.url}" target="_blank" style="color:var(--accent)">${n.url}</a></div></div>` : ''}
-      <div class="row"><div class="k">Conexões com parceiros</div><div class="v">${conns}</div></div>
-      ${n.description ? `<div class="row"><div class="k">Descrição</div><div class="v" style="font-size:11.5px;color:var(--muted)">${n.description}</div></div>` : ''}
-    `;
-  }
-  $('#inspector').classList.add('show');
-}
-$('#inspector-close').addEventListener('click', () => clearFocus());
-
-// ---------- Search ----------
-$('#search').addEventListener('input', e => {
-  const q = e.target.value.toLowerCase().trim();
-  if (!q) {
-    clearFocus();
     return;
   }
-  nodeSel.classed('dim', n => !n.name.toLowerCase().includes(q));
-  linkSel.classed('dim', l => {
-    const sname = (l.source.name || nodes.find(n => n.id === l.source).name).toLowerCase();
-    const tname = (l.target.name || nodes.find(n => n.id === l.target).name).toLowerCase();
-    return !sname.includes(q) && !tname.includes(q);
+  // stakeholder
+  let connsHtml = '';
+  Object.entries(n.connections || {}).forEach(([pid, sc]) => {
+    const pname = DATA.partners.find(p => p.id === pid).name;
+    const br = (n.score_breakdowns && n.score_breakdowns[pid]) || [];
+    let brHtml = '';
+    br.forEach(b => {
+      brHtml += `<div class="breakdown-line">${b.k}: ${b.v}<span class="pts">+${b.pts}</span></div>`;
+    });
+    connsHtml += `
+      <div class="conn-row"><span class="pname">${pname}</span><span class="pscore">${sc}</span></div>
+      ${brHtml ? `<div style="padding:4px 0 8px 10px;">${brHtml}</div>` : ''}
+    `;
   });
-});
+  // relationship types como chips
+  let relHtml = '';
+  (n.relationship_details || []).forEach(rt => {
+    relHtml += `<div class="conn-row" style="background:var(--accent-soft);">
+      <span class="pname">${rt.type}</span>
+      <span style="color:var(--muted);font-size:10.5px;">${rt.desc}</span>
+    </div>`;
+  });
+  ec.innerHTML = `
+    <div class="ins-header">
+      <div class="name">${n.name}</div>
+      <div class="type">${n.type || '—'} · ${n.sector || '—'}</div>
+    </div>
+    <div class="ins-row"><div class="k">Território</div><div class="v">${n.territory || '—'}</div></div>
+    <div class="ins-row"><div class="k">Bioma primário</div><div class="v">${n.biome || '—'}</div></div>
+    ${n.biome_secondary ? `<div class="ins-row"><div class="k">Bioma secundário</div><div class="v">${n.biome_secondary}</div></div>` : ''}
+    <div class="ins-row"><div class="k">Impact area</div><div class="v">${n.impact || '—'}</div></div>
+    <div class="ins-row"><div class="k">Papel no ecossistema</div><div class="v">${n.role || '—'}</div></div>
+    <div class="ins-row"><div class="k">Posição na cadeia</div><div class="v">${n.value_chain || '—'}</div></div>
+    <div class="ins-row"><div class="k">Funding role</div><div class="v">${n.funding_role || '—'}</div></div>
+    <div class="ins-row"><div class="k">Potencial de parceria (IKF)</div><div class="v">${n.potential_partnership || '—'}</div></div>
+    <div class="ins-row"><div class="k">HQ</div><div class="v">${n.hq || '—'}</div></div>
+    ${n.url ? `<div class="ins-row"><div class="k">Site</div><div class="v"><a href="${n.url}" target="_blank">${n.url}</a></div></div>` : ''}
+    ${n.description ? `<div class="ins-row"><div class="k">Descrição</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.description}</div></div>` : ''}
+    ${relHtml ? `<div class="ins-row"><div class="k">Como pode se relacionar com a Trias/parceiros</div><div class="v">${relHtml}</div></div>` : ''}
+    <div class="ins-row"><div class="k">Conexões com parceiros · breakdown do score</div><div class="v">${connsHtml}</div></div>
+    ${n.notes ? `<div class="ins-row"><div class="k">Notas estratégicas</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.notes}</div></div>` : ''}
+  `;
+}
 
-// ---------- Sector filter ----------
-function applySectorFilter() {
+// ========== Apply filters ==========
+function applyFilters() {
+  const partner = filterState.partner;
+  const partnerConnected = new Set([partner]);
+  if (partner !== 'ALL') {
+    links.forEach(l => {
+      const s = l.source.id || l.source;
+      const t = l.target.id || l.target;
+      if (s === partner) partnerConnected.add(t);
+      if (t === partner) partnerConnected.add(s);
+    });
+  }
+  const q = filterState.search;
   nodeSel.classed('dim', n => {
     if (n.kind === 'partner') return false;
-    return !activeSectors.has(n.sector || 'Others');
+    if (partner !== 'ALL' && !partnerConnected.has(n.id)) return true;
+    const sects = (n.sector || '').split(/[,;]/).map(s => s.trim());
+    if (!sects.some(s => filterState.sector.has(s))) return true;
+    const biomes = (n.biome || '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
+    if (biomes.length > 0 && !biomes.some(b => filterState.biome.has(b))) return true;
+    const roles = (n.role || '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
+    if (roles.length > 0 && !roles.some(r => filterState.role.has(r))) return true;
+    if (n.funding_role && !filterState.funding_role.has(n.funding_role)) return true;
+    const reltypes = n.relationship_types || [];
+    if (reltypes.length > 0 && !reltypes.some(r => filterState.relationship_type.has(r))) return true;
+    if (n.potential_partnership) {
+      const pps = n.potential_partnership.split(/[,;]/).map(s => s.trim()).filter(Boolean);
+      if (pps.length > 0 && !pps.some(pp => filterState.potential_partnership.has(pp))) return true;
+    }
+    if (q && !n.name.toLowerCase().includes(q) &&
+            !(n.description || '').toLowerCase().includes(q)) return true;
+    return false;
   });
-  linkSel.classed('dim', l => {
-    const s = nodes.find(n => n.id === (l.source.id || l.source));
-    const t = nodes.find(n => n.id === (l.target.id || l.target));
-    return (s.kind !== 'partner' && !activeSectors.has(s.sector || 'Others')) ||
-           (t.kind !== 'partner' && !activeSectors.has(t.sector || 'Others'));
-  });
-}
-
-// ---------- Partner filter ----------
-let activePartner = 'ALL';
-$$('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    $$('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activePartner = btn.dataset.partner;
-    applyPartnerFilter();
-  });
-});
-function applyPartnerFilter() {
-  if (activePartner === 'ALL') {
-    nodeSel.classed('dim', false);
-    linkSel.classed('dim', false);
-    return;
-  }
-  const connected = new Set([activePartner]);
-  links.forEach(l => {
-    const s = l.source.id || l.source;
-    const t = l.target.id || l.target;
-    if (s === activePartner) connected.add(t);
-    if (t === activePartner) connected.add(s);
-  });
-  nodeSel.classed('dim', n => !connected.has(n.id));
   linkSel.classed('dim', l => {
     const s = l.source.id || l.source;
     const t = l.target.id || l.target;
-    return !(connected.has(s) && connected.has(t));
+    const sNode = nodes.find(n => n.id === s);
+    const tNode = nodes.find(n => n.id === t);
+    const sDim = d3.select(`g.node[data-id="${s}"]`).classed('dim');
+    const tDim = d3.select(`g.node[data-id="${t}"]`).classed('dim');
+    return sDim || tDim;
   });
 }
 
-// ---------- Controls ----------
-$('#btn-zoom-in').addEventListener('click', () =>
-  svg.transition().call(zoom.scaleBy, 1.4));
-$('#btn-zoom-out').addEventListener('click', () =>
-  svg.transition().call(zoom.scaleBy, 0.7));
-$('#btn-reset').addEventListener('click', () => {
-  svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity);
-});
+// ========== Controls ==========
+$('#btn-zoom-in').onclick = () => svg.transition().call(zoom.scaleBy, 1.4);
+$('#btn-zoom-out').onclick = () => svg.transition().call(zoom.scaleBy, 0.7);
+$('#btn-reset').onclick = () => svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity);
 let physOn = true;
-$('#btn-physics').addEventListener('click', () => {
+$('#btn-physics').onclick = () => {
   physOn = !physOn;
   $('#btn-physics').textContent = physOn ? '⏸' : '▶';
   if (physOn) sim.alphaTarget(0.05).restart();
   else sim.alphaTarget(0).stop();
-});
+};
 
-// Initial zoom centered around origin
+function resize() {
+  setTimeout(() => {
+    const a = partnerAnchors();
+    nodes.forEach(n => { if (n.kind === 'partner' && a[n.id]) { n.fx = a[n.id].x; n.fy = a[n.id].y; } });
+    sim.alpha(0.3).restart();
+  }, 300);
+}
+window.addEventListener('resize', resize);
+
+// Initial centering
 svg.call(zoom.transform, d3.zoomIdentity.translate(W()/2, H()/2));
-
-// Adjust on resize
-window.addEventListener('resize', () => {
-  const a = partnerAnchors();
-  // Re-anchor relative to new center
-  nodes.forEach(n => {
-    if (n.kind === 'partner' && a[n.id]) {
-      n.fx = a[n.id].x - W()/2;
-      n.fy = a[n.id].y - H()/2;
-    }
-  });
-  sim.alpha(0.3).restart();
-});
-
-// Translate partner fixed coords to origin-centered space initially
-const a0 = partnerAnchors();
-nodes.forEach(n => {
-  if (n.kind === 'partner') {
-    n.fx = a0[n.id].x - W()/2;
-    n.fy = a0[n.id].y - H()/2;
-    n.x = n.fx; n.y = n.fy;
-  }
-});
 sim.alpha(1).restart();
 </script>
 </body>
 </html>
 """
 
-html = HTML_TEMPLATE.replace("__GRAPH_JSON__", graph_json_str)
-
-# Write to both places
+html = HTML.replace("__GRAPH_JSON__", graph_json_str)
 (OUT_NET / "ecossistema_trias_brasil.html").write_text(html, encoding="utf-8")
 (OUT_PAGES / "index.html").write_text(html, encoding="utf-8")
-print(f"HTML salvo em:\n  {OUT_NET / 'ecossistema_trias_brasil.html'}\n  {OUT_PAGES / 'index.html'}")
+print(f"HTML: {OUT_PAGES / 'index.html'}")
 
-# ---------- 9. Markdown report ----------
-md = [f"# Análise de rede — Ecossistema Trias Brasil DGD 2027-2031\n"]
-md.append("Rede de stakeholders ancorada nos 4 parceiros MBO da Trias Brasil "
-          "(UNICAFES Pará, UNICAFES Rondônia, CSA Brasil e UNICATADORES). "
-          "Fonte: `Stakeholder Ecosystem Mapping.xlsx`.\n")
-md.append(f"\n**Visualização interativa**: ver `docs/index.html` "
-          f"(publicado via GitHub Pages quando habilitado no repo).\n")
-md.append("## Resumo\n")
-md.append(f"- **{len(records)}** stakeholders na base de origem\n"
-          f"- **{len(results)}** conectados a pelo menos 1 parceiro (score ≥ {THRESHOLD})\n"
-          f"- **{len(bridges)}** bridges (conectados a 2 ou mais parceiros)\n"
-          f"- **{n_b3}** conectam 3+ parceiros\n"
-          f"- **{n_b4}** conectam os 4 parceiros\n")
+# ========== 9. Relatório analítico ==========
+def fmt_pct(n, total):
+    if total == 0: return "0,0%"
+    return f"{n/total*100:.1f}%".replace(".", ",")
 
-md.append("\n## Metodologia\n")
-md.append("Edges ponderadas por alinhamento temático/territorial:\n"
-          "- biome primário (+3) / secundário (+1)\n"
-          "- impact area (+1) — peso reduzido porque 'Land, Food and Forest' "
-          "aparece em 244/360 stakeholders\n"
-          "- role no ecossistema (+0.5/role, cap 1)\n"
-          "- keywords específicas por parceiro (+2/keyword, cap 8) — "
-          "principal diferenciador\n"
-          "- alcance nacional (+0.5)\n"
-          "- **gate amazônico**: para UNICAFES PA/RO, sem biome amazônica nem "
-          "keyword amazônica o score zera\n"
-          "- **gate de catadores**: para UNICATADORES, exige keyword de "
-          "resíduo/catador/circular\n"
-          f"\nThreshold para criar edge: score ≥ {THRESHOLD}.\n")
+bridges_list = sorted(bridges_data, key=lambda x: -x["n"])
 
-md.append("\n## Bridges (conectam múltiplos parceiros)\n")
-for b in bridges_data[:30]:
-    md.append(f"- **{b['name']}** ({b['type']}) — {b['n']}× · "
-              f"{', '.join(b['partners'])}")
+md = []
+md.append("# Ecossistema Trias Brasil — DGD 2027–2031\n")
+md.append("Descrição analítica do ecossistema em que a Trias atuará no próximo "
+          "ciclo programático, a partir do mapeamento de 360 organizações "
+          "(`Stakeholder Ecosystem Mapping.xlsx`, última atualização 11/02/2026) "
+          "e da rede ancorada nos 4 parceiros MBO (UNICAFES Pará, UNICAFES "
+          "Rondônia, CSA Brasil, UNICATADORES).\n")
+md.append("> **Como ler este documento.** A primeira seção descreve a composição "
+          "geral do ecossistema, sem filtro. A segunda mostra o subconjunto "
+          "diretamente relevante para os parceiros MBO (114 organizações). As "
+          "seções seguintes detalham bridges, brokers e a assinatura "
+          "característica de cada parceiro.\n\n")
 
-md.append("\n\n## Top 10 stakeholders por parceiro\n")
-for p in PARTNERS:
-    md.append(f"\n### {PARTNERS[p]['name']}\n")
-    for item in top_by_partner[p][:10]:
-        md.append(f"- **{item['name']}** — score {item['score']} · {item['type']}")
+# Metodologia
+md.append("## Metodologia\n")
+md.append("A rede é uma **projeção bipartite**: cada stakeholder externo recebe "
+          "uma aresta ponderada para cada um dos 4 parceiros MBO se o "
+          "alinhamento temático/territorial passar de um limiar. Não há "
+          "ligações diretas entre stakeholders externos. A leitura visual "
+          "privilegia o papel de cada um *em relação aos parceiros*.\n")
+md.append("\n**Critérios de score**\n")
+md.append("| Critério | Pontos | Observação |")
+md.append("|---|---|---|")
+md.append("| Bioma primário coincide | +3 | diferenciador territorial mais forte |")
+md.append("| Bioma secundário coincide | +1 | — |")
+md.append("| Impact area coincide | +1 | peso baixo: 244/360 têm \"Land, Food and Forest\" |")
+md.append("| Role coincide (até 2) | +0,5/match | cap 1,0 |")
+md.append("| Keywords específicas (até 4) | +2/keyword | cap 8 — principal diferenciador |")
+md.append("| Alcance nacional | +0,5 | — |")
+md.append(f"\n**Limiar para conexão**: score ≥ {THRESHOLD}.\n")
+md.append("\n**Gates**\n")
+md.append("- *Amazônico* — para UNICAFES PA/RO, sem bioma amazônica nem keyword "
+          "amazônica o score zera. Evita falsos positivos com organizações "
+          "nacionais broad-spectrum.")
+md.append("- *Catadores* — para UNICATADORES, exige pelo menos uma keyword de "
+          "resíduo, catador, circular ou PNRS.\n")
+md.append("\n**O que a rede não captura**: relacionamentos formais (contratos, "
+          "parcerias), histórico de colaboração, alinhamento ideológico, capacidade "
+          "institucional. A rede é uma hipótese inicial de proximidade baseada em "
+          "atributos declarados, a ser validada com a equipe Brasil/SAM.\n\n")
 
-md.append("\n\n## Top 15 por betweenness centrality (potenciais brokers)\n")
-top_bw = sorted(betweenness.items(), key=lambda x: -x[1])[:15]
-for nid, b in top_bw:
-    label = G.nodes[nid].get("name", nid)
-    md.append(f"- {label} — {b:.4f}")
+# Composição geral
+md.append("## 1. Composição geral do ecossistema (n = 360)\n")
+md.append("### Setor\n")
+for k, v in stats_all["sector"].most_common():
+    md.append(f"- **{k}** — {v} ({fmt_pct(v, 360)})")
+md.append("\n### Tipo de organização (top 10)\n")
+tipo_c = Counter()
+for stk in records:
+    if stk["type"]:
+        tipo_c[stk["type"]] += 1
+for k, v in tipo_c.most_common(10):
+    md.append(f"- {k} — {v}")
+md.append("\n### Bioma primário\n")
+for k, v in stats_all["biome"].most_common():
+    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
+md.append("\n### Funding role\n")
+for k, v in stats_all["funding_role"].most_common():
+    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
+md.append("\n### Papel no ecossistema (top 10)\n")
+for k, v in stats_all["role"].most_common(10):
+    md.append(f"- {k} — {v}")
+md.append("\n### Posição na cadeia\n")
+for k, v in stats_all["value_chain"].most_common():
+    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
 
-(OUT_NET / "analise_rede.md").write_text("\n".join(md), encoding="utf-8")
+# Leitura concreta
+md.append("\n### Leitura concreta\n")
+md.append("- **CSOs dominam** (128 / 360, 35,6%), seguidas por categoria "
+          "\"Others\" (73) — que inclui organizações com classificação dupla ou "
+          "atípica como UNICATADORES e movimentos sociais.")
+md.append("- A **filantropia institucional** é o segundo maior pool (49 "
+          "fundações + 30 alianças/iniciativas multistakeholder).")
+md.append("- O setor privado mapeado tem **43 grandes empresas** vs. apenas 11 "
+          "investidores de impacto e 4-5 SMEs — o ecossistema retratado "
+          "privilegia o corporate, não o tecido empreendedor de pequeno e médio porte.")
+md.append("- **Amazônia concentra o maior número de atores temáticos** (105 / 360, "
+          "29%), mas Cerrado (78) e Caatinga (54) também têm presença "
+          "significativa. Mata Atlântica, Pantanal, Pampa e Costeiro/marinho aparecem "
+          "predominantemente como biomas secundários.")
+md.append("- A **arquitetura de financiamento** é fortemente assimétrica: 198 "
+          "grantees, 116 doadores, 37 regranters. A relação 1:5 entre regranter "
+          "e grantees indica que a maior parte da captação se dá por relação "
+          "direta doador→grantee, com pouco papel intermediário formal.")
+md.append("- **Policy influence** é o papel mais declarado (105), confirmando "
+          "que muitas organizações se posicionam como atores de incidência "
+          "política — uma característica relevante para um ecossistema que "
+          "discute marcos como PNRS, PNAE, MROSC, Plano Safra Familiar e Plano "
+          "Nacional de Bioeconomia.\n")
+
+# Subset conectado
+md.append(f"\n## 2. Subconjunto conectado aos parceiros MBO (n = {len(results)})\n")
+md.append(f"Do total de 360 organizações, **{len(results)} ({fmt_pct(len(results), 360)})** "
+          f"têm score de alinhamento ≥ {THRESHOLD} com pelo menos um dos 4 parceiros. "
+          f"Esse é o ecossistema imediatamente acionável pela Trias para mediação "
+          f"de relacionamentos.\n")
+md.append("\n### Distribuição da relevância\n")
+md.append(f"- **{n_b1}** conectam exatamente 1 parceiro")
+md.append(f"- **{n_b2}** conectam 2 parceiros (bridges duplas)")
+md.append(f"- **{n_b3}** conectam 3 parceiros (tri-bridges)")
+md.append(f"- **{n_b4}** conectam os 4 parceiros\n")
+
+md.append("\n### Conexões por parceiro\n")
+for pid, p in PARTNERS.items():
+    n = per_partner_stats[pid]["n"]
+    md.append(f"- **{p['name']}** — {n} organizações relevantes")
+md.append("\nNote a assimetria: UNICAFES Pará e Rondônia concentram a maior "
+          "densidade de potenciais aliados (compartilham território e tema), "
+          "enquanto UNICATADORES tem um ecossistema próprio e relativamente "
+          "isolado das demais — refletindo a clivagem entre as agendas de "
+          "agricultura familiar/bioeconomia e a agenda de catadores/economia "
+          "circular urbana.\n")
+
+# Por parceiro
+md.append("\n## 3. Assinatura de ecossistema por parceiro\n")
+for pid, p in PARTNERS.items():
+    md.append(f"\n### {p['name']}")
+    md.append(f"*{p['type']} · {p['territory']}*")
+    md.append(f"\n{p['description']}\n")
+    md.append(f"**Conectados**: {per_partner_stats[pid]['n']} organizações.")
+    md.append("\n**Composição setorial dos aliados**:")
+    for s, n in per_partner_stats[pid]["sectors"].items():
+        md.append(f"- {s} — {n}")
+    md.append("\n**Tipos predominantes**:")
+    for t, n in list(per_partner_stats[pid]["types"].items())[:6]:
+        md.append(f"- {t} — {n}")
+    md.append("\n**Top 5 com maior score**:")
+    for item in top_by_partner[pid][:5]:
+        md.append(f"- **{item['name']}** (score {item['score']}) — {item['type']}")
+    md.append("")
+
+# Bridges
+md.append("\n## 4. Bridges — atores que conectam múltiplos parceiros\n")
+md.append("Bridges são organizações com alinhamento simultâneo a dois ou mais "
+          "parceiros MBO. Têm valor estratégico desproporcional para o "
+          "reposicionamento da Trias como hub: uma ação de articulação que "
+          "envolva um bridge propaga efeitos por múltiplos parceiros ao mesmo tempo.\n")
+md.append(f"\n**Total**: {len(bridges_data)} bridges identificadas.\n")
+md.append("\n### Tri-bridges (3 parceiros) — núcleo da articulação\n")
+for b in bridges_data:
+    if b["n"] >= 3:
+        md.append(f"- **{b['name']}** ({b['type']}) — {' · '.join(b['partners'])}")
+md.append("\n### Bridges duplas — destaques\n")
+for b in bridges_data[:25]:
+    if b["n"] == 2:
+        md.append(f"- **{b['name']}** ({b['type']}) — {' · '.join(b['partners'])}")
+
+# Brokers
+md.append("\n\n## 5. Brokers — alta intermediação\n")
+md.append("Betweenness centrality mede o quanto um nó está em caminhos curtos "
+          "entre outros nós. Em redes ancoradas como esta, os 4 parceiros "
+          "dominam por construção; entre os stakeholders externos, os "
+          "brokers são os que mais agregam fluxo de informação/recursos potenciais.\n")
+for b in graph_data["top_brokers"][:15]:
+    md.append(f"- **{b['name']}** — betweenness {b['betweenness']:.4f} · {b['sector']}")
+
+# Gaps
+## Seção 6 — Tipos de relação possível
+md.append("\n\n## 6. Como os stakeholders podem se relacionar com os parceiros\n")
+md.append("Cada stakeholder conectado tem um ou mais **tipos de relação possível** "
+          "derivados do seu papel declarado no ecossistema. Esses tipos descrevem "
+          "*operacionalmente* como a Trias e os parceiros podem articular com cada ator.\n")
+md.append("\n### Distribuição dos tipos de relação no subconjunto conectado (n = 114)\n")
+md.append("| Tipo de relação | Contagem | Operacionalização |")
+md.append("|---|---|---|")
+rel_desc_map = {rt: desc for _, rt, desc in RELATIONSHIP_RULES}
+for rt, n in rel_type_counter.most_common():
+    md.append(f"| {rt} | {n} | {rel_desc_map.get(rt, '—')} |")
+
+md.append("\n### Stakeholders por tipo de relação (top 5 cada)\n")
+by_rel = defaultdict(list)
+for r in results:
+    for rt in r["relationships"]:
+        by_rel[rt["type"]].append(r["stk"])
+for rt, lst in sorted(by_rel.items(), key=lambda x: -len(x[1])):
+    md.append(f"\n**{rt}** ({len(lst)} organizações)")
+    for stk in lst[:5]:
+        md.append(f"- {stk['name']} ({stk['type'] or '—'})")
+
+md.append("\n\n## 7. Lacunas e observações estratégicas\n")
+md.append("**(a) UNICATADORES como ilha temática.** Nenhum stakeholder do "
+          "recorte amazônico (bioeconomia, agricultura familiar) se conecta a "
+          "UNICATADORES com score ≥ 4,5. Isso confirma a hipótese de "
+          "fragmentação do ecossistema apontada na árvore de causas-raiz "
+          "(Annex 1, seção 1.3). Para a Trias atuar como hub entre as agendas "
+          "rural-amazônica e urbano-circular, será preciso construir as pontes "
+          "que hoje não existem — possivelmente via temas transversais como "
+          "clima, gênero ou políticas públicas (PNRS + PNAE).\n")
+md.append("**(b) Concentração da filantropia no eixo Rio-São Paulo.** A "
+          "maioria das fundações e regranters mapeados tem sede em RJ ou SP. "
+          "Para uma operação centrada na Amazônia rural, a captação local "
+          "(BASA, Banco do Brasil, governos estaduais do Pará/Rondônia, FAPESP "
+          "amazônica) aparece sub-representada no mapeamento e merece "
+          "complementação.\n")
+md.append("**(c) Setor privado: grandes empresas vs. negócios de impacto.** Há "
+          "43 grandes empresas vs. 11 impact investors e poucos SMEs. Para o "
+          "objetivo de fortalecer cadeias de valor da sociobiodiversidade e "
+          "economia circular, o ecossistema retratado privilegia parceiros B2B "
+          "de grande porte (Natura, Suzano, Vale, Colruyt) — útil para off-take "
+          "agreements, mas insuficiente para construir um tecido de "
+          "fornecedores intermediários. AMAZ, Yunus, ICE e iniciativas como o "
+          "Sebrae merecem reforço.\n")
+md.append("**(d) Academia e dados.** WRI Brasil, IPAM, ICV, CPI, Earth "
+          "Innovation, Agroicone e INPE aparecem como bridges para os "
+          "parceiros amazônicos — uma força do ecossistema. A integração entre "
+          "esses centros e os parceiros MBO é, na prática, uma das maiores "
+          "alavancas para evidência, MRV e advocacy baseada em dados.\n")
+md.append("**(e) UNICAFES Nacional como hub interno.** A entidade nacional "
+          "aparece como bridge tri-partite (PA, RO, CSA Brasil) e funciona "
+          "como ponte natural dentro da rede UNICOPAS. Estratégia de "
+          "fortalecimento da UNICAFES Nacional gera spillover para os três "
+          "parceiros do recorte rural/peri-urbano.\n")
+
+# Reading guide
+md.append("\n## 8. Como usar este mapa\n")
+md.append("**Para descrever o ecossistema na narrativa do programa.** As "
+          "distribuições da seção 1 (sector, biome, role) fornecem os números "
+          "agregados para a seção C.3 do BRAZIL_DGD Narrative_DRAFT. A "
+          "assinatura por parceiro (seção 3) alimenta a seção D do mesmo "
+          "documento.\n")
+md.append("**Para identificar parceiros prioritários de articulação.** Os "
+          "bridges (seção 4) são os candidatos naturais para o papel de hub "
+          "que a Trias quer ocupar — articulação com 1 deles propaga para 2-3 "
+          "parceiros MBO. Tri-bridges merecem entrevista qualitativa antes do "
+          "início do ciclo.\n")
+md.append("**Para sustentabilidade pós-2031.** A seção 6 indica onde o "
+          "ecossistema é frágil (UNICATADORES isolado, captação local "
+          "sub-representada, baixa densidade de impact investors) — informação "
+          "que alimenta a estratégia de saída (Lacuna 4 do Diagnóstico "
+          "Técnico).\n")
+
+# Fix walrus issue
+try:
+    md_text = "\n".join(md)
+    # remove walrus operator if accidentally embedded
+    md_text = md_text.replace("DATA_TOP_BROKERS := graph_data[\"top_brokers\"]",
+                              "graph_data['top_brokers']")
+except Exception:
+    md_text = "\n".join(md)
+
+(OUT_NET / "analise_rede.md").write_text(md_text, encoding="utf-8")
 print(f"Relatório: {OUT_NET / 'analise_rede.md'}")
