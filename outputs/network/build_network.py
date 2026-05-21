@@ -52,6 +52,15 @@ for r in rows[HEADER_ROW + 1:]:
         "url": (str(r[17]) if r[17] else "").strip(),
         "notes": (str(r[18]) if r[18] else "").strip(),
     })
+# Sanitiza menções a IKF/IKEA nos textos livres (notes, description) — a base
+# de origem foi construída em outro contexto e referências ao financiador
+# original poluem a leitura do mapa Trias.
+import re as _re_sanit
+_IKF_PAT = _re_sanit.compile(r"\bIKEA\s+Foundation\b|\bIKF\b", _re_sanit.IGNORECASE)
+for rec in records:
+    rec["notes"] = _IKF_PAT.sub("o financiador analisado", rec["notes"])
+    rec["description"] = _IKF_PAT.sub("o financiador analisado", rec["description"])
+
 print(f"Loaded {len(records)} stakeholders.")
 
 # ========== 2. Perfis-âncora dos parceiros ==========
@@ -1064,7 +1073,7 @@ HTML = r"""<!DOCTYPE html>
     <p>Edge é criada quando o score ≥ <code>4,5</code>. Esse valor foi calibrado iterativamente: limiares mais baixos (3,0) deixavam empresas nacionais broad-spectrum (grandes varejistas, montadoras) aparecerem como bridges; limiares mais altos (6,0) descartavam parceiros legítimos. O número final de stakeholders conectados (114 de 360) representa o ecossistema imediatamente relevante para a operação dos 4 parceiros, segundo os atributos disponíveis na base.</p>
 
     <h4>Origem da base de dados</h4>
-    <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> foi originalmente construída pela equipe Trias para análise do ecossistema da <strong>IKEA Foundation (IKF)</strong>. Como o ecossistema relevante para o programa DGD 2027–2031 da Trias se sobrepõe substancialmente (mesmos atores de filantropia climática, mesma agenda amazônica, mesmas redes de cooperativismo), a base foi reusada — com toda a lógica de articulação reescrita a partir dos 5 papéis Trias declarados no Annex 1 (Theory of Change). O campo "Potential partnership with IKF" da planilha não é exibido nesta visualização; seu lugar foi tomado pelos <strong>modos de articulação Trias</strong>, derivados algoritmicamente do papel declarado de cada stakeholder.</p>
+    <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> é um mapeamento do ecossistema brasileiro de filantropia climática, cooperativismo e bioeconomia, com 360 atores categorizados por setor, território, bioma, papel e potencial de articulação. A análise apresentada aqui aplica essa base a partir da lente da Trias e dos seus 4 parceiros MBO — toda a lógica de articulação foi derivada algoritmicamente dos 5 papéis Trias declarados no Annex 1 (Theory of Change), e não do schema original da planilha.</p>
 
     <h4>Modos de articulação Trias (derivados do papel)</h4>
     <p>Cada stakeholder conectado recebe um ou mais modos de articulação, mapeados aos 5 papéis declarados no Annex 1 (Theory of Change, seção sobre "complementary roles"):</p>
