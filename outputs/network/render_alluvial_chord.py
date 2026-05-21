@@ -52,6 +52,10 @@ ROLE_COLOR = {
 ROLES_ORDER = list(ROLE_COLOR.keys())
 
 def primary_role(role_str):
+    """Mapeia role string (ex.: 'Financer + Bridge Builder') ao papel canônico
+    primário. Financer tem prioridade — é o papel mais distintivo do programa."""
+    if "Financer" in role_str:
+        return "Financer"
     for canonical in ROLES_ORDER:
         if canonical in role_str:
             return canonical

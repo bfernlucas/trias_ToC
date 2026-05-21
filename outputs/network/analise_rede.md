@@ -370,7 +370,7 @@ Cada stakeholder conectado tem um ou mais **modos de articulação** que corresp
 | Advocacy compartilhado | 29 | Bridge Builder | incidência conjunta em PNRS, PNAE, PLANAPO, MROSC |
 | Advisory técnico-temático | 24 | Thematic Advisor | ATER, formação técnica, mentoria temática para MBOs |
 | Pesquisa & evidência | 24 | Thematic Advisor | estudos, baselines, MRV, avaliação |
-| Co-financiamento | 22 | Financer + Bridge Builder | captação conjunta, edital co-financiado, fundos paralelos |
+| Apoio financeiro catalítico | 22 | Financer + Bridge Builder | capital-semente que destrava outros recursos; co-funding pontual |
 | Articulação multistakeholder | 11 | Bridge Builder | convocatória, plataforma multi-ator, redes temáticas |
 | Finanças mistas/inovadoras | 8 | Bridge Builder + Financer | blended finance, garantias, crédito, instrumentos climáticos |
 | MRV / dados | 8 | Thematic Advisor | plataformas, monitoramento ambiental, traceabilidade |
@@ -429,7 +429,7 @@ Cada stakeholder conectado tem um ou mais **modos de articulação** que corresp
 - Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
 - Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
 
-**Co-financiamento** (22)
+**Apoio financeiro catalítico** (22)
 - Instituto Ibirapitanga (Philanthropy foundations)
 - Fundo Brasileiro para a Biodiversidade (FUNBIO) (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)

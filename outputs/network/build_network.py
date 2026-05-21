@@ -783,15 +783,15 @@ INSTITUTIONAL_COLOR = "#1E293B"  # slate-800 — backbone institucional Trias
 # stakeholder pode contribuir para o programa.
 TRIAS_MODE_RULES = [
     # (role substring, modo, papel Trias mobilizado, descrição operacional)
-    ("Funder",                "Co-financiamento",
+    ("Funder",                "Apoio financeiro catalítico",
      "Financer + Bridge Builder",
-     "captação conjunta, edital co-financiado, fundos paralelos"),
+     "capital-semente que destrava outros recursos; co-funding pontual"),
     ("Capital provider",      "Finanças mistas/inovadoras",
      "Bridge Builder + Financer",
      "blended finance, garantias, crédito, instrumentos climáticos"),
-    ("Capital provider",      "Co-financiamento",
+    ("Capital provider",      "Apoio financeiro catalítico",
      "Financer + Bridge Builder",
-     "captação conjunta, edital co-financiado, fundos paralelos"),
+     "capital-semente que destrava outros recursos; co-funding pontual"),
     ("Strategic partner",     "Parceria estratégica",
      "Bridge Builder",
      "co-criação de agenda, alinhamento programático plurianual"),
