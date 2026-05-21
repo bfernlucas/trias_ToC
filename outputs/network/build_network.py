@@ -270,6 +270,278 @@ for stk in records:
         results.append({"stk": stk, "scores": scores})
 print(f"Conectados (score >= {THRESHOLD}): {len(results)}")
 
+# ========== 3a. Camada institucional Trias ==========
+# Atores que compõem a base institucional, programática e operacional da Trias
+# globalmente — financiadores históricos, redes belgas/europeias, agri-agências
+# irmãs da AgriCord, parceiros diplomáticos e corporativos. Fontes: trias.ngo
+# (Worldwide, South America, East Africa), Annual Report 2024, AgriCord.org,
+# Annex 1 e Narrative DGD. Estes são vínculos *existentes*, não potenciais —
+# por isso entram como camada separada, sem entrar no cálculo de adicionalidade.
+ALL_MBOS = ["UNICAFES_PA", "UNICAFES_RO", "CSA_BRASIL", "UNICATADORES"]
+AMAZON_MBOS = ["UNICAFES_PA", "UNICAFES_RO"]
+
+TRIAS_INSTITUTIONAL = {
+    # ---- Doadores institucionais ----
+    "T_DGD": {"name": "DGD", "long_name": "Direction-Générale de la Coopération au Développement (Bélgica)",
+              "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
+              "country": "Bélgica",
+              "role": "Principal financiador do programa Trias DGD 2027-2031",
+              "connects_to": ALL_MBOS},
+    "T_EU":  {"name": "Comissão Europeia", "long_name": "European Commission · DG INTPA",
+              "subcat": "Doador institucional", "type": "Multilateral",
+              "country": "União Europeia",
+              "role": "Financiador histórico, EU-Mercosur Agreement, EUDR",
+              "connects_to": ALL_MBOS},
+    "T_ENABEL": {"name": "Enabel", "long_name": "Agência Belga de Cooperação para o Desenvolvimento",
+                 "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
+                 "country": "Bélgica",
+                 "role": "Cooperação técnica complementar à DGD",
+                 "connects_to": ALL_MBOS},
+    "T_WB":  {"name": "World Bank", "long_name": "Banco Mundial",
+              "subcat": "Doador institucional", "type": "Multilateral · banco de desenvolvimento",
+              "country": "EUA",
+              "role": "Sustainable Landscapes Brasil, financiamento climático",
+              "connects_to": ["UNICAFES_PA", "UNICAFES_RO", "CSA_BRASIL"]},
+    "T_AFD": {"name": "AFD", "long_name": "Agence Française de Développement",
+              "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
+              "country": "França",
+              "role": "Co-funding histórico em SAM, voluntários AFD em Brasil",
+              "connects_to": ALL_MBOS},
+    "T_IKI": {"name": "IKI", "long_name": "Internationale Klimaschutzinitiative (BMUV)",
+              "subcat": "Doador institucional", "type": "Fundo climático bilateral",
+              "country": "Alemanha",
+              "role": "Mencionado no Annex 1 como complementaridade UNICAFES RO pós-2028",
+              "connects_to": ["UNICAFES_RO", "UNICAFES_PA"]},
+    "T_GSTIC": {"name": "GSTIC", "long_name": "Global Sustainable Tech & Innovation Centre",
+                "subcat": "Doador institucional", "type": "Multilateral",
+                "country": "Bélgica",
+                "role": "Co-funding em tecnologia para inovação sustentável",
+                "connects_to": ALL_MBOS},
+    "T_MDA": {"name": "MDA", "long_name": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
+              "subcat": "Doador institucional", "type": "Agência pública federal",
+              "country": "Brasil",
+              "role": "Mencionado no Annex 1 como parceiro de financiamento doméstico",
+              "connects_to": AMAZON_MBOS},
+
+    # ---- Agri-agências da AgriCord ----
+    "T_AGRICORD": {"name": "AgriCord", "long_name": "AgriCord — Aliança global de agri-agências",
+                   "subcat": "Rede peer (AgriCord)", "type": "Aliança global",
+                   "country": "Bélgica (secretariado)",
+                   "role": "Aliança da qual Trias é membro-fundador (via Boerenbond); plataforma de knowledge management entre agri-agências",
+                   "connects_to": ALL_MBOS},
+    "T_AGRITERRA": {"name": "Agriterra", "long_name": "Agriterra — Cooperative Development Agency",
+                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                    "country": "Holanda",
+                    "role": "Toolkit Company Assessment é referência metodológica para diagnóstico institucional de MBOs (Diagnóstico Técnico ToC, Lacuna 2)",
+                    "connects_to": ALL_MBOS},
+    "T_CRESOL_AA": {"name": "Cresol Agri-Agency", "long_name": "Cresol Agri-Agency (Sistema Cresol)",
+                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                    "country": "Brasil",
+                    "role": "Única agri-agência brasileira da AgriCord; parceria histórica Trias (revolving funds via Act/Misereor); ~120.000 agricultores familiares atendidos",
+                    "connects_to": ALL_MBOS},
+    "T_FFD": {"name": "FFD", "long_name": "Food and Forest Development Finland",
+              "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+              "country": "Finlândia",
+              "role": "Mandato florestal, sociobiodiversidade; ToC inspirada pelo Forest and Farm Facility (FAO-IIED-IUCN-AgriCord)",
+              "connects_to": AMAZON_MBOS + ["CSA_BRASIL"]},
+    "T_SOLIDARIDAD": {"name": "Solidaridad", "long_name": "Solidaridad Network",
+                      "subcat": "Rede peer (AgriCord)", "type": "ONG internacional",
+                      "country": "Holanda",
+                      "role": "Parceira em certificação RTRS (soja Cresol/Colruyt 2017); cadeias sustentáveis",
+                      "connects_to": ["UNICAFES_PA", "UNICAFES_RO", "CSA_BRASIL"]},
+    "T_CSA_BE": {"name": "CSA (Bélgica)", "long_name": "Collectif Stratégies Alimentaires",
+                 "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                 "country": "Bélgica",
+                 "role": "Sistemas alimentares, peer-learning com CSA Brasil",
+                 "connects_to": ["CSA_BRASIL"]},
+    "T_FERT": {"name": "Fert", "long_name": "Fert — Coopération internationale agricole",
+               "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+               "country": "França",
+               "role": "Desenvolvimento agrícola e cooperativismo",
+               "connects_to": ALL_MBOS},
+    "T_UPA_DI": {"name": "UPA DI", "long_name": "UPA Développement International",
+                 "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                 "country": "Quebec, Canadá",
+                 "role": "Cooperativismo agrícola, intercâmbio Americas",
+                 "connects_to": ALL_MBOS},
+    "T_WE_EFFECT": {"name": "We Effect", "long_name": "We Effect (former Swedish Cooperative Centre)",
+                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                    "country": "Suécia",
+                    "role": "Direitos rurais, cooperativismo, gênero",
+                    "connects_to": ALL_MBOS},
+    "T_ASPRODEB": {"name": "Asprodeb", "long_name": "Asprodeb — Senegal",
+                   "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                   "country": "Senegal",
+                   "role": "Agricultura familiar, cooperativas; peer south-south",
+                   "connects_to": ALL_MBOS},
+    "T_AHA":      {"name": "AHA", "long_name": "AHA — Agri-agency",
+                   "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                   "country": "Multipaís",
+                   "role": "Peer-learning AgriCord",
+                   "connects_to": ALL_MBOS},
+    "T_ASIADHRRA": {"name": "AsiaDHRRA", "long_name": "AsiaDHRRA — Asian Partnership",
+                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
+                    "country": "Filipinas (regional)",
+                    "role": "Rede asiática de capacitação rural; peer south-south",
+                    "connects_to": ALL_MBOS},
+
+    # ---- Redes belgas/europeias ----
+    "T_11_11":  {"name": "11.11.11", "long_name": "11.11.11 · Umbrella belga de solidariedade internacional",
+                 "subcat": "Rede belga/europeia", "type": "Federação de ONGs",
+                 "country": "Bélgica",
+                 "role": "Articulação política das ONGs belgas; Trias é membro",
+                 "connects_to": ALL_MBOS},
+    "T_NGO_FED": {"name": "NGO Federation BE", "long_name": "Federação Belga de ONGs (ngo-federatie)",
+                  "subcat": "Rede belga/europeia", "type": "Federação de ONGs",
+                  "country": "Bélgica",
+                  "role": "Diálogo institucional com DGD; harmonização de procedimentos",
+                  "connects_to": ALL_MBOS},
+    "T_CCH":    {"name": "Coalition Against Hunger", "long_name": "Coalition Against Hunger (CCH) Bélgica",
+                 "subcat": "Rede belga/europeia", "type": "Coalizão temática",
+                 "country": "Bélgica",
+                 "role": "Sistemas alimentares sustentáveis; Trias planeja rejoin em 2026 (Guidance ENG)",
+                 "connects_to": ALL_MBOS},
+    "T_BEYOND_CHOC": {"name": "Beyond Chocolate", "long_name": "Beyond Chocolate · Plataforma belga para cacau sustentável",
+                      "subcat": "Rede belga/europeia", "type": "Plataforma setorial",
+                      "country": "Bélgica",
+                      "role": "Plataforma para cacau sustentável; cacau é cadeia central UNICAFES PA/RO",
+                      "connects_to": AMAZON_MBOS},
+    "T_BASCOF":  {"name": "BASCOF", "long_name": "Belgian Sustainable Coffee Initiative",
+                  "subcat": "Rede belga/europeia", "type": "Plataforma setorial",
+                  "country": "Bélgica",
+                  "role": "Iniciativa belga em formação para café sustentável (cf. Guidance ENG)",
+                  "connects_to": AMAZON_MBOS},
+    "T_URGENCI": {"name": "Urgenci", "long_name": "Urgenci · International CSA Network",
+                  "subcat": "Rede belga/europeia", "type": "Rede temática internacional",
+                  "country": "Internacional",
+                  "role": "Rede internacional de Community-Supported Agriculture; CSA Brasil é membro ativo",
+                  "connects_to": ["CSA_BRASIL"]},
+    "T_UN_GC":   {"name": "UN Global Compact", "long_name": "UN Global Compact",
+                  "subcat": "Rede belga/europeia", "type": "Pacto global",
+                  "country": "ONU",
+                  "role": "Trias é signatária; due diligence ética de parceiros e doadores",
+                  "connects_to": ALL_MBOS},
+
+    # ---- Diplomacia e mercado Bélgica-Brasil ----
+    "T_EMB_BE":  {"name": "Embaixada da Bélgica no Brasil", "long_name": "Embaixada da Bélgica em Brasília",
+                  "subcat": "Diplomacia/mercado", "type": "Diplomático",
+                  "country": "Bélgica/Brasil",
+                  "role": "Missão econômica 2024 e agenda de cooperação bilateral",
+                  "connects_to": ALL_MBOS},
+    "T_AWEX":    {"name": "AWEX", "long_name": "Wallonia Export and Investment Agency",
+                  "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
+                  "country": "Bélgica (Valônia)",
+                  "role": "Parceiro do Gastronomy Lab Santarém-PA (com BID e Liège)",
+                  "connects_to": AMAZON_MBOS},
+    "T_HUB_BR":  {"name": "Hub Brussels", "long_name": "Hub Brussels · Brussels Export",
+                  "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
+                  "country": "Bélgica (Bruxelas)",
+                  "role": "Comércio bilateral Bruxelas-Brasil",
+                  "connects_to": ALL_MBOS},
+    "T_FIT":     {"name": "FIT", "long_name": "Flanders Investment & Trade",
+                  "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
+                  "country": "Bélgica (Flandres)",
+                  "role": "Comércio flamengo-Brasil",
+                  "connects_to": ALL_MBOS},
+    "T_BELGALUX": {"name": "Belgalux", "long_name": "Belgalux · Câmara comercial Bélgica-Brasil",
+                   "subcat": "Diplomacia/mercado", "type": "Câmara de comércio",
+                   "country": "Bélgica/Brasil",
+                   "role": "Câmara comercial bilateral",
+                   "connects_to": ALL_MBOS},
+    "T_BEM_2024": {"name": "Belgian Economic Mission 2024", "long_name": "Belgian Economic Mission to Brazil (Princesa Astrid, nov/2024)",
+                   "subcat": "Diplomacia/mercado", "type": "Missão diplomática",
+                   "country": "Bélgica/Brasil",
+                   "role": "405 participantes, 173 empresas; marco histórico Trias-Brasil",
+                   "connects_to": ALL_MBOS},
+    "T_ABC":     {"name": "ABC", "long_name": "Agência Brasileira de Cooperação · MRE",
+                  "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
+                  "country": "Brasil",
+                  "role": "Cooperação técnica internacional; Sul-Sul",
+                  "connects_to": ALL_MBOS},
+    "T_ITAMARATY": {"name": "Itamaraty", "long_name": "Ministério das Relações Exteriores",
+                    "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
+                    "country": "Brasil",
+                    "role": "Diplomacia, cooperação Sul-Sul",
+                    "connects_to": ALL_MBOS},
+    "T_SAF":     {"name": "SAF/MDA", "long_name": "Secretaria de Agricultura Familiar · MDA",
+                  "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
+                  "country": "Brasil",
+                  "role": "Política nacional de agricultura familiar (PRONAF, PAA, PNAE)",
+                  "connects_to": AMAZON_MBOS},
+
+    # ---- Setor privado parceiro ----
+    "T_COLRUYT": {"name": "Colruyt Group", "long_name": "Colruyt Group · Belgian retailer",
+                  "subcat": "Setor privado parceiro", "type": "Varejo (Bélgica)",
+                  "country": "Bélgica",
+                  "role": "Mel orgânico Coopemapi 2024-2027; soja certificada Cresol 2017; parceria histórica Trias",
+                  "connects_to": AMAZON_MBOS + ["CSA_BRASIL"]},
+    "T_BOERENBOND": {"name": "Boerenbond", "long_name": "Boerenbond · Belgian Farmers' Association",
+                     "subcat": "Setor privado parceiro", "type": "Associação de produtores",
+                     "country": "Bélgica",
+                     "role": "Co-fundadora da Trias; mandante AgriCord; ~100k agricultores",
+                     "connects_to": ALL_MBOS},
+    "T_COOPEMAPI": {"name": "Coopemapi", "long_name": "Coopemapi · Cooperativa de Apicultores Amazônicos",
+                    "subcat": "Setor privado parceiro", "type": "Cooperativa de produtores",
+                    "country": "Brasil (Amazônia)",
+                    "role": "Fornecedora do mel orgânico para Colruyt; cadeia Amazônia-Bélgica",
+                    "connects_to": AMAZON_MBOS},
+    "T_KALLARI": {"name": "Kallari", "long_name": "Asociación Kallari · Cooperativa de cacao",
+                  "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                  "country": "Equador (Amazônia)",
+                  "role": "Cacau orgânico; peer regional UNICAFES PA/RO no corredor amazônico trinacional",
+                  "connects_to": AMAZON_MBOS},
+    "T_UNOCACE": {"name": "Unocace", "long_name": "Unión de Organizaciones Campesinas Cacaoteras del Ecuador",
+                  "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                  "country": "Equador",
+                  "role": "Cacau; peer regional UNICAFES PA/RO",
+                  "connects_to": AMAZON_MBOS},
+    "T_APROCAM": {"name": "Aprocam", "long_name": "Aprocam · Cooperativa de Productores de Cacao",
+                  "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                  "country": "Peru",
+                  "role": "Cacau; peer regional UNICAFES PA/RO",
+                  "connects_to": AMAZON_MBOS},
+    "T_AGROPAPA": {"name": "AGROPAPA Tungurahua", "long_name": "AGROPAPA · Cooperativa de productores de papa",
+                   "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                   "country": "Equador (Tungurahua)",
+                   "role": "Modelo de business partner management; peer cooperativista para UNICAFES PA/RO",
+                   "connects_to": AMAZON_MBOS},
+    "T_CONPAPA": {"name": "CONPAPA Chimborazo", "long_name": "CONPAPA · Consorcio de papas",
+                  "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                  "country": "Equador (Chimborazo)",
+                  "role": "Modelo cooperativo replicável; peer UNICAFES PA/RO",
+                  "connects_to": AMAZON_MBOS},
+    "T_COOPAGROS": {"name": "COOPAGROS", "long_name": "COOPAGROS · Cooperativa peruana de productores",
+                    "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
+                    "country": "Peru",
+                    "role": "Modelo de business partner management; peer UNICAFES PA/RO",
+                    "connects_to": AMAZON_MBOS},
+
+    # ---- Academia ----
+    "T_LIEGE": {"name": "Université de Liège", "long_name": "Université de Liège (ULiège)",
+                "subcat": "Academia", "type": "Universidade",
+                "country": "Bélgica",
+                "role": "Gastronomy Lab em Santarém-PA (parceria com BID e AWEX)",
+                "connects_to": ["UNICAFES_PA"]},
+    "T_VLERICK": {"name": "Vlerick Business School", "long_name": "Vlerick Business School",
+                  "subcat": "Academia", "type": "Business school",
+                  "country": "Bélgica",
+                  "role": "Capacitação executiva para lideranças MBO; mencionada no Narrative",
+                  "connects_to": ALL_MBOS},
+    "T_BRS":    {"name": "BRS", "long_name": "Belgian Raiffeisen Society",
+                 "subcat": "Academia", "type": "Cooperativa financeira / academia",
+                 "country": "Bélgica",
+                 "role": "Microfinanças cooperativas; expertise em finance cooperativa",
+                 "connects_to": ALL_MBOS},
+    "T_A4D":    {"name": "Academics for Development", "long_name": "Academics for Development",
+                 "subcat": "Academia", "type": "Rede de voluntários acadêmicos",
+                 "country": "Bélgica",
+                 "role": "Apoio voluntário acadêmico a OSCs e MBOs",
+                 "connects_to": ALL_MBOS},
+}
+
+# Paleta para a camada institucional — cor única, distinta dos setores
+INSTITUTIONAL_COLOR = "#3A5A87"  # azul-ardósia profundo
+
 # ========== 3b. Modo de articulação Trias ==========
 # Mapeia o papel declarado do stakeholder ao modo de articulação que a Trias
 # pode mobilizar com ele, segundo os 5 papéis declarados no Annex 1 (Theory of
@@ -532,6 +804,17 @@ peer_pairs = [("UNICAFES_PA", "UNICAFES_RO"),
 for a, b in peer_pairs:
     G.add_edge(a, b, weight=8, kind="peer")
 
+# Camada institucional Trias
+for inst_id, inst in TRIAS_INSTITUTIONAL.items():
+    G.add_node(inst_id, kind="trias_institutional",
+               name=inst["name"], long_name=inst["long_name"],
+               subcat=inst["subcat"], type=inst["type"],
+               country=inst["country"], role=inst["role"],
+               color=INSTITUTIONAL_COLOR,
+               connects_to=inst["connects_to"])
+    for mbo in inst["connects_to"]:
+        G.add_edge(inst_id, mbo, weight=6, kind="institutional")
+
 betweenness = nx.betweenness_centrality(G, weight="weight")
 for nid in G.nodes:
     G.nodes[nid]["betweenness"] = round(betweenness[nid], 4)
@@ -653,6 +936,10 @@ graph_data = {
     "dist_trias_role": dict(trias_role_counter.most_common()),
     "dist_additionality": dict(addit_class_counter),
     "addit_per_partner": {pid: dict(addit_class_per_partner[pid]) for pid in PARTNERS},
+    "institutional_color": INSTITUTIONAL_COLOR,
+    "dist_institutional_subcat": dict(Counter(inst["subcat"] for inst in TRIAS_INSTITUTIONAL.values())),
+    "dist_institutional_country": dict(Counter(inst["country"] for inst in TRIAS_INSTITUTIONAL.values()).most_common()),
+    "n_institutional": len(TRIAS_INSTITUTIONAL),
     "config": {
         "threshold": THRESHOLD,
     },
@@ -844,8 +1131,13 @@ HTML = r"""<!DOCTYPE html>
   .link { stroke: var(--link); fill: none; stroke-linecap: round;
            transition: stroke 0.25s, stroke-width 0.25s, opacity 0.25s; }
   .link.peer { stroke: rgba(177,69,69,0.25); stroke-dasharray: 4 3; }
+  .link.institutional { stroke: rgba(58,90,135,0.45); stroke-width: 1.2px; }
   .link.dim { opacity: 0.06; }
   .link.focus { stroke: rgba(177,69,69,0.65); }
+  .link.institutional.focus { stroke: rgba(58,90,135,0.85); stroke-width: 2px; }
+  body.institutional-hidden .node.trias-institutional,
+  body.institutional-hidden .link.institutional { display: none; }
+  .btn-institutional-off { background: var(--panel-2); color: var(--muted-2); }
   .node { cursor: pointer; }
   .node-halo { fill: var(--accent); opacity: 0; transition: opacity 0.25s; }
   .node-halo.show { opacity: 0.14; }
@@ -919,6 +1211,7 @@ HTML = r"""<!DOCTYPE html>
     <div class="title">Ecossistema Trias Brasil</div>
     <div class="subtitle">DGD 2027–2031 · rede ancorada nos 4 parceiros MBO</div>
     <div class="spacer"></div>
+    <button class="text-btn" id="btn-institutional" title="Mostrar/ocultar camada institucional Trias (I)">Camada institucional Trias</button>
     <button class="text-btn" id="btn-methodology">Metodologia</button>
     <button class="icon-btn" id="toggle-right" title="Mostrar/ocultar painel direito (D)" aria-label="Toggle right panel">▣</button>
   </header>
@@ -951,6 +1244,18 @@ HTML = r"""<!DOCTYPE html>
     <h2>Adicionalidade Trias <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="additionality" data-action="all">tudo</button><button data-group="additionality" data-action="none">limpar</button></span></h2>
     <div class="small" style="margin-bottom:6px;">quanto a mediação Trias adiciona vs. relação espontânea</div>
     <div class="filter-group" id="filter-addit"></div>
+
+    <h2>Camadas no mapa</h2>
+    <div style="font-size:11.5px;line-height:1.6;color:var(--text-2);">
+      <div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><span style="width:14px;height:14px;background:#B14545;display:inline-block;transform:rotate(45deg);margin-left:3px;"></span> Parceiro MBO (4)</div>
+      <div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><span style="width:11px;height:11px;border-radius:50%;background:#4A6FA5;display:inline-block;"></span> Ecossistema brasileiro</div>
+      <div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><span style="width:11px;height:11px;border-radius:2px;background:#3A5A87;display:inline-block;"></span> Camada institucional Trias</div>
+    </div>
+
+    <h2>Atalhos de teclado</h2>
+    <div class="muted" style="line-height: 1.6;">
+      <b>F</b> esconde filtros · <b>D</b> esconde painel direito · <b>I</b> esconde camada institucional · <b>Esc</b> limpa seleção.
+    </div>
   </aside>
 
   <main id="stage">
@@ -1010,8 +1315,15 @@ HTML = r"""<!DOCTYPE html>
       <div class="bars" id="bars-trias-role"></div>
 
       <h2>Adicionalidade Trias</h2>
-      <div class="small" style="margin-bottom:6px;">distribuição das 182 conexões</div>
+      <div class="small" style="margin-bottom:6px;">distribuição das conexões potenciais</div>
       <div class="bars" id="bars-addit"></div>
+
+      <h2>Camada institucional Trias</h2>
+      <div class="small" style="margin-bottom:6px;"><span id="n-inst"></span> atores institucionais vinculados aos parceiros MBO. Tecla <b>I</b> para esconder/mostrar.</div>
+      <div class="bars" id="bars-inst-subcat"></div>
+
+      <h2>Origem / país (camada institucional)</h2>
+      <div class="bars" id="bars-inst-country"></div>
     </div>
 
     <div class="tab-pane" id="pane-inspector">
@@ -1075,6 +1387,10 @@ HTML = r"""<!DOCTYPE html>
     <h4>Origem da base de dados</h4>
     <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> é um mapeamento do ecossistema brasileiro de filantropia climática, cooperativismo e bioeconomia, com 360 atores categorizados por setor, território, bioma, papel e potencial de articulação. A análise apresentada aqui aplica essa base a partir da lente da Trias e dos seus 4 parceiros MBO — toda a lógica de articulação foi derivada algoritmicamente dos 5 papéis Trias declarados no Annex 1 (Theory of Change), e não do schema original da planilha.</p>
 
+    <h4>Camada institucional Trias (overlay)</h4>
+    <p>Sobrepostos à base brasileira, foram adicionados ~50 atores institucionais que compõem a rede global da Trias e que não estavam na planilha de origem: doadores históricos (DGD, EU, Enabel, IFAD, AFD, IKI, GIZ), agri-agências da AgriCord (Agriterra, Solidaridad, FFD, Cresol Agri-Agency, Fert, We Effect, Asprodeb, UPA DI), redes belgas (11.11.11, NGO Federation, Coalition Against Hunger, Beyond Chocolate, BASCOF, Urgenci, UN Global Compact), diplomacia e mercado Bélgica-Brasil (Embaixada belga, AWEX, Hub Brussels, FIT, Belgalux, ABC, Itamaraty, SAF), parceiros corporativos (Colruyt, Boerenbond, Coopemapi) e MBOs irmãs do corredor amazônico SAM (Kallari, Unocace, Aprocam, AGROPAPA, CONPAPA, COOPAGROS), além de academia (Université de Liège, Vlerick, BRS). Fontes: <code>trias.ngo</code>, <code>agricord.org</code>, Annual Report Trias 2024, Annex 1 ToC, Narrative DGD.</p>
+    <p>Esses nós representam <strong>vínculos institucionais existentes ou em construção formal</strong>, não potenciais — por isso são renderizados em <strong>quadrados azul-ardósia</strong> (vs. círculos coloridos do ecossistema brasileiro) e <strong>não entram no cálculo de adicionalidade</strong>. Podem ser ocultados pelo botão "Camada institucional Trias" no header (tecla I).</p>
+
     <h4>Modos de articulação Trias (derivados do papel)</h4>
     <p>Cada stakeholder conectado recebe um ou mais modos de articulação, mapeados aos 5 papéis declarados no Annex 1 (Theory of Change, seção sobre "complementary roles"):</p>
     <table class="formula-table">
@@ -1136,8 +1452,19 @@ document.addEventListener('keydown', ev => {
   if (ev.target.tagName === 'INPUT') return;
   if (ev.key === 'f' || ev.key === 'F') $('#toggle-left').click();
   if (ev.key === 'd' || ev.key === 'D') $('#toggle-right').click();
+  if (ev.key === 'i' || ev.key === 'I') $('#btn-institutional').click();
   if (ev.key === 'Escape') clearFocus();
 });
+
+// Toggle camada institucional Trias
+$('#btn-institutional').onclick = () => {
+  document.body.classList.toggle('institutional-hidden');
+  const hidden = document.body.classList.contains('institutional-hidden');
+  $('#btn-institutional').classList.toggle('btn-institutional-off', hidden);
+  $('#btn-institutional').textContent = hidden
+    ? 'Mostrar camada institucional'
+    : 'Camada institucional Trias';
+};
 
 // ========== Methodology modal ==========
 $('#btn-methodology').onclick = () => $('#modal-bg').classList.add('show');
@@ -1192,6 +1519,9 @@ renderBars('#bars-chain', DATA.stats.dist_chain_all);
 renderBars('#bars-mode', DATA.dist_trias_mode);
 renderBars('#bars-trias-role', DATA.dist_trias_role);
 renderBars('#bars-addit', DATA.dist_additionality);
+renderBars('#bars-inst-subcat', DATA.dist_institutional_subcat);
+renderBars('#bars-inst-country', DATA.dist_institutional_country);
+$('#n-inst').textContent = DATA.n_institutional;
 
 // ========== Rankings panel ==========
 const bridgesEl = $('#bridges-list');
@@ -1367,26 +1697,51 @@ const sim = d3.forceSimulation(nodes)
 
 function nodeRadius(d) {
   if (d.kind === 'partner') return 22;
+  if (d.kind === 'trias_institutional') return 10;
   return 6 + (d.n_partners || 1) * 4;
 }
 
 const linkSel = linkLayer.selectAll('path.link')
   .data(links).join('path')
-  .attr('class', d => 'link ' + (d.kind === 'peer' ? 'peer' : ''))
-  .attr('stroke-width', d => d.kind === 'peer' ? 1.5 : 0.5 + d.weight * 0.16);
+  .attr('class', d => 'link ' + (d.kind === 'peer' ? 'peer ' : '')
+                              + (d.kind === 'institutional' ? 'institutional ' : ''))
+  .attr('stroke-width', d => {
+    if (d.kind === 'peer') return 1.5;
+    if (d.kind === 'institutional') return 1.2;
+    return 0.5 + d.weight * 0.16;
+  });
 
 const nodeSel = nodeLayer.selectAll('g.node')
   .data(nodes).join('g')
-  .attr('class', d => 'node ' + (d.kind === 'partner' ? 'partner' : ''))
+  .attr('class', d => 'node '
+                       + (d.kind === 'partner' ? 'partner ' : '')
+                       + (d.kind === 'trias_institutional' ? 'trias-institutional ' : ''))
   .attr('data-id', d => d.id)
   .call(d3.drag().on('start', dragstart).on('drag', dragmove).on('end', dragend));
 
+// halo
 nodeSel.append('circle').attr('class', 'node-halo').attr('r', d => nodeRadius(d) + 8);
-nodeSel.append('circle').attr('class', 'node-circle').attr('r', nodeRadius).attr('fill', d => d.color);
+// shape: circle for stakeholders/partners; rounded square for institutional
+nodeSel.each(function(d) {
+  const r = nodeRadius(d);
+  const sel = d3.select(this);
+  if (d.kind === 'trias_institutional') {
+    sel.append('rect').attr('class', 'node-circle')
+       .attr('x', -r).attr('y', -r).attr('width', r*2).attr('height', r*2)
+       .attr('rx', 3).attr('ry', 3)
+       .attr('fill', d.color);
+  } else {
+    sel.append('circle').attr('class', 'node-circle')
+       .attr('r', r).attr('fill', d.color);
+  }
+});
 nodeSel.append('text')
   .attr('dy', d => nodeRadius(d) + 13)
   .text(d => {
     if (d.kind === 'partner') return d.name;
+    if (d.kind === 'trias_institutional') {
+      return d.name.length > 28 ? d.name.slice(0, 25) + '…' : d.name;
+    }
     if ((d.n_partners || 0) >= 2 || d.betweenness > 0.01) {
       return d.name.length > 32 ? d.name.slice(0, 29) + '…' : d.name;
     }
@@ -1491,6 +1846,25 @@ function clearFocus() {
 function showInspector(n) {
   const ec = $('#ins-content'); const ee = $('#ins-empty');
   ee.style.display = 'none'; ec.style.display = 'block';
+  if (n.kind === 'trias_institutional') {
+    const connsLst = (n.connects_to || []).map(pid => {
+      const pname = DATA.partners.find(p => p.id === pid).name;
+      return `<span class="conn">${pname}</span>`;
+    }).join('');
+    ec.innerHTML = `
+      <div class="ins-header">
+        <div class="name">${n.name}</div>
+        <div class="type">Camada institucional Trias · ${n.subcat}</div>
+      </div>
+      <div class="ins-row"><div class="k">Nome completo</div><div class="v">${n.long_name || ''}</div></div>
+      <div class="ins-row"><div class="k">Tipo</div><div class="v">${n.type || ''}</div></div>
+      <div class="ins-row"><div class="k">País / origem</div><div class="v">${n.country || ''}</div></div>
+      <div class="ins-row"><div class="k">Papel na operação Trias</div><div class="v">${n.role || ''}</div></div>
+      <div class="ins-row"><div class="k">Conectado aos parceiros MBO</div><div class="v">${connsLst || '—'}</div></div>
+      <div class="ins-row"><div class="k">Nota metodológica</div><div class="v" style="font-size:11px;color:var(--muted);">Vínculos institucionais existentes ou em curso, não potenciais. Não entram no cálculo de adicionalidade (Trias já tem essa relação ou ela está em construção formal).</div></div>
+    `;
+    return;
+  }
   if (n.kind === 'partner') {
     const priorities = (n.trias_priorities || []).map(p => `<li>${p}</li>`).join('');
     ec.innerHTML = `
@@ -1590,6 +1964,13 @@ function applyFilters() {
   const q = filterState.search;
   nodeSel.classed('dim', n => {
     if (n.kind === 'partner') return false;
+    if (n.kind === 'trias_institutional') {
+      // institucionais só são afetados por filtro de parceiro e busca
+      if (partner !== 'ALL' && !partnerConnected.has(n.id)) return true;
+      if (q && !n.name.toLowerCase().includes(q) &&
+              !(n.role || '').toLowerCase().includes(q)) return true;
+      return false;
+    }
     if (partner !== 'ALL' && !partnerConnected.has(n.id)) return true;
     const sects = (n.sector || '').split(/[,;]/).map(s => s.trim());
     if (!sects.some(s => filterState.sector.has(s))) return true;
