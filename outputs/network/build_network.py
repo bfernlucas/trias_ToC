@@ -1143,7 +1143,7 @@ HTML = r"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
   :root {
@@ -1162,9 +1162,9 @@ HTML = r"""<!DOCTYPE html>
     --indigo-soft: rgba(67,56,202,0.06);
     --link: rgba(15,23,42,0.14);
     --link-strong: rgba(15,23,42,0.48);
-    --serif: 'IBM Plex Serif', Georgia, serif;
-    --sans: 'IBM Plex Sans', system-ui, sans-serif;
-    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --serif: 'Roboto', system-ui, sans-serif;
+    --sans: 'Roboto', system-ui, sans-serif;
+    --mono: 'Roboto', system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; font-family: var(--sans);
@@ -1418,7 +1418,7 @@ HTML = r"""<!DOCTYPE html>
   .modal .formula-table th { color: var(--muted); font-weight: 600;
                               text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.7px; }
   .modal code { background: var(--panel-2); padding: 1px 6px; border-radius: 3px;
-                 font-size: 11.5px; font-family: 'JetBrains Mono', monospace; }
+                 font-size: 11.5px; font-family: var(--mono); font-weight: 500; }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 8px; }
@@ -2018,18 +2018,22 @@ nodeSel.append('text')
   .attr('dy', d => nodeRadius(d) + 12)
   .text(d => {
     if (d.kind === 'partner') return d.name;
-    if (d.kind === 'trias_institutional') {
-      // só mostra label se nome curto, evita poluição
-      return d.name.length > 20 ? d.name.slice(0, 17) + '…' : d.name;
-    }
-    // ecossistema brasileiro: só labels para tri-bridges e altos brokers
-    if ((d.n_partners || 0) >= 3 || d.betweenness > 0.015) {
-      return d.name.length > 32 ? d.name.slice(0, 29) + '…' : d.name;
-    }
-    return '';
+    const maxLen = d.kind === 'trias_institutional' ? 22 : 28;
+    return d.name.length > maxLen ? d.name.slice(0, maxLen - 1) + '…' : d.name;
   })
-  .style('font-size', d => d.kind === 'trias_institutional' ? '9.5px' : null)
-  .style('fill', d => d.kind === 'trias_institutional' ? 'var(--muted)' : null);
+  .style('font-size', d => {
+    if (d.kind === 'partner') return null;
+    if (d.kind === 'trias_institutional') return '9px';
+    // ecossistema brasileiro: tamanho varia por importância
+    if ((d.n_partners || 0) >= 3 || d.betweenness > 0.015) return '10.5px';
+    return '9px';
+  })
+  .style('fill', d => {
+    if (d.kind === 'partner') return null;
+    if (d.kind === 'trias_institutional') return 'var(--muted)';
+    if ((d.n_partners || 0) >= 3 || d.betweenness > 0.015) return 'var(--text)';
+    return 'var(--muted)';
+  });
 
 const tip = $('#tip');
 nodeSel.on('mouseenter', function(ev, d) {
