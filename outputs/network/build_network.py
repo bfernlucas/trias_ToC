@@ -59,6 +59,7 @@ PARTNERS = {
     "UNICAFES_PA": {
         "name": "UNICAFES Pará",
         "long_name": "União das Cooperativas da Agricultura Familiar e Economia Solidária — Pará",
+        "maturity": "2º nível · em consolidação",
         "type": "MBO de 2º nível · Amazônia rural",
         "biomes": {"Amazonia"},
         "impacts": {"Land, Food and Forest"},
@@ -70,13 +71,28 @@ PARTNERS = {
                      "sociobiodiversidade", "family farming", "agroecolog",
                      "northern brazil", "pará"],
         "territory": "Pará · Amazônia Legal",
+        "units": "13 cooperativas de primeiro nível",
+        "members": "1.241 agricultores familiares (FFEs)",
+        "women_pct": 29, "youth_pct": 15, "staff": 2,
+        "value_chains": "açaí, castanha, mel, cacau, café",
+        "strategic_role": ("Âncora estratégica para a bioeconomia pan-amazônica e expansão "
+                           "do cooperativismo familiar no Pará. Cacau e café conectam às "
+                           "cadeias da Trias SAM em Peru e Equador."),
         "description": ("Articula 13 cooperativas de primeiro nível no estado do Pará. "
-                        "Foco em cadeias da sociobiodiversidade (açaí, castanha, mel, cacau, "
-                        "café) e bioeconomia amazônica."),
+                        "Foco em cadeias da sociobiodiversidade (açaí, castanha, mel, "
+                        "cacau, café) e bioeconomia amazônica. 1.241 agricultores "
+                        "familiares afiliados, 29% mulheres, 15% jovens."),
+        "trias_priorities": [
+            "Governança cooperativa e fortalecimento de serviços aos membros",
+            "Acesso a mercados diferenciados (orgânico, EUDR-compliant, fair trade)",
+            "Práticas agroflorestais e agroecológicas",
+            "Inclusão de mulheres e jovens nos espaços de decisão"
+        ],
     },
     "UNICAFES_RO": {
         "name": "UNICAFES Rondônia",
         "long_name": "União das Cooperativas da Agricultura Familiar e Economia Solidária — Rondônia",
+        "maturity": "2º nível · em consolidação · exit 2028",
         "type": "MBO de 2º nível · Amazônia rural · exit 2028",
         "biomes": {"Amazonia"},
         "impacts": {"Land, Food and Forest"},
@@ -87,14 +103,29 @@ PARTNERS = {
                      "café", "coffee", "cocoa", "cacau", "agroflorest",
                      "blended finance", "pes", "carbon", "rondônia", "rondonia"],
         "territory": "Rondônia · Amazônia Legal",
-        "description": ("Coordena 15 cooperativas de primeiro nível em Rondônia. Exit "
-                        "strategy programado para 2028. Foco em agroflorestal, café e "
-                        "instrumentos de finanças inovadoras (blended finance, PES, "
-                        "mercados de carbono)."),
+        "units": "15-16 cooperativas de primeiro nível",
+        "members": "1.265 agricultores familiares (FFEs)",
+        "women_pct": 56, "youth_pct": 30, "staff": 2,
+        "value_chains": "açaí, castanha, mel, cacau, café",
+        "strategic_role": ("Pilotagem de instrumentos de finança climática (blended finance, "
+                           "PES, mercados de carbono) na Amazônia. Transição planejada para "
+                           "papel de parceria estratégica a partir de 2028, com complementos "
+                           "via IKI, GIZ e MDA."),
+        "description": ("Coordena 15-16 cooperativas de primeiro nível em Rondônia. Exit "
+                        "strategy programado para 2028 (transição gradual 2027-2028). "
+                        "1.265 agricultores afiliados, 56% mulheres, 30% jovens — perfil "
+                        "de gênero/juventude significativamente mais inclusivo do que PA."),
+        "trias_priorities": [
+            "Cooperativism expansion (governança e serviços aos cooperados)",
+            "Agricultura climate-resilient (agroecológica e agroflorestal)",
+            "Finanças inovadoras (blended finance, PES, carbono)",
+            "Articulação com IKI, GIZ, MDA para complementaridade pós-2028"
+        ],
     },
     "CSA_BRASIL": {
         "name": "CSA Brasil",
         "long_name": "Comunidade que Sustenta a Agricultura — Brasil",
+        "maturity": "3º nível · em consolidação",
         "type": "MBO de 3º nível · rural-urbano nacional",
         "biomes": {"Mata Atlântica", "Cerrado", "Amazonia"},
         "impacts": {"Land, Food and Forest"},
@@ -105,14 +136,29 @@ PARTNERS = {
                      "sistema alimentar", "saudáve", "food and nutrition",
                      "agricultura urbana", "peri-urb", "agricultor familiar",
                      "organic", "orgânico", "consumer", "rural-urban", "solidari"],
-        "territory": "Nacional · 19 estados · rural-urbano",
-        "description": ("Rede nacional de 200 unidades CSA em 19 estados (5 regiões). "
-                        "Conecta produtores agroecológicos a co-agricultores urbanos. "
-                        "Foco em educação alimentar e cadeias curtas peri-urbanas."),
+        "territory": "Nacional · 19 estados · 5 regiões · rural-urbano",
+        "units": "200 unidades CSA",
+        "members": "540 FFEs + 3.600 NFEs (co-agricultores)",
+        "women_pct": 70, "youth_pct": 30, "staff": 3,
+        "value_chains": "agroecologia, cestas saudáveis, educação alimentar",
+        "strategic_role": ("Modelo nacional para conectar produção agroecológica a consumidores "
+                           "em centros urbanos. Membro do Urgenci (rede internacional CSA). "
+                           "Foco de expansão da Trias: levar o modelo CSA para a região Norte."),
+        "description": ("Rede nacional de 200 unidades CSA em 19 estados (5 regiões). 540 "
+                        "agricultores familiares + 3.600 co-agricultores urbanos. 70% "
+                        "mulheres — o perfil mais feminilizado dos 4 parceiros. Membro ativo "
+                        "do Urgenci, conectando experiências brasileiras a movimentos globais."),
+        "trias_priorities": [
+            "Expansão do modelo CSA para a região Norte (gap territorial)",
+            "Educação alimentar e cadeias curtas peri-urbanas",
+            "Conexão de produtores agroecológicos a co-agricultores urbanos",
+            "Liderança feminina (70% das beneficiárias)"
+        ],
     },
     "UNICATADORES": {
         "name": "UNICATADORES",
         "long_name": "União Nacional de Catadoras e Catadores de Materiais Recicláveis",
+        "maturity": "3º nível · maduro",
         "type": "MBO de 3º nível · urbano nacional",
         "biomes": set(),
         "impacts": {"Land, Food and Forest", "Buildings & Transport"},
@@ -124,10 +170,26 @@ PARTNERS = {
                      "pnrs", "logística reversa", "extended producer", "epr",
                      "lixo", "urban"],
         "territory": "Nacional · 26 estados · urbano",
-        "description": ("Federação nacional de 230 cooperativas de catadores em 26 estados. "
-                        "Cerca de 50.000 catadores organizados (60% mulheres). Sede em São "
-                        "Paulo. Participa do Comitê Interministerial CIISC e dos fóruns "
-                        "da PNRS."),
+        "units": "230 cooperativas de catadores",
+        "members": "~50.000 catadores organizados (NFEs)",
+        "women_pct": 60, "youth_pct": 30, "staff": 28,
+        "value_chains": "papel, plástico, metais, eletrônicos, vidro",
+        "strategic_role": ("Única MBO madura entre os 4 parceiros. Operação policy-driven, "
+                           "ancorada no PNRS (Política Nacional de Resíduos Sólidos) e no "
+                           "Comitê Interministerial CIISC. Equipe de 28 funcionários e "
+                           "capacidade própria significativa — Trias atua como parceiro "
+                           "estratégico, não como organizational developer."),
+        "description": ("Federação nacional de 230 cooperativas em 26 estados. ~50.000 "
+                        "catadores organizados, 60% mulheres. Sede em São Paulo, 28 "
+                        "funcionários. Participa do CIISC e dos fóruns da PNRS. Foco em "
+                        "advocacy, capacitação de liderança jovem e feminina, conectividade "
+                        "digital e resiliência climática urbana."),
+        "trias_priorities": [
+            "Pilotos de PES e mercados de carbono para serviços ecossistêmicos urbanos",
+            "Logística reversa, EPR (Extended Producer Responsibility), contratação municipal",
+            "Capacitação de liderança jovem e feminina",
+            "Conectividade digital e ferramentas de traceabilidade"
+        ],
     },
 }
 
@@ -199,44 +261,147 @@ for stk in records:
         results.append({"stk": stk, "scores": scores})
 print(f"Conectados (score >= {THRESHOLD}): {len(results)}")
 
-# ========== 3b. Tipo de relação derivado do papel ==========
-# Mapeia roles brutos do mapeamento para um vocabulário operacional de
-# "como esta organização pode se relacionar com um parceiro MBO".
-RELATIONSHIP_RULES = [
-    # (role substring, relationship_type, descrição operacional)
-    ("Funder",                          "Financiador",        "doação direta, edital, co-funding"),
-    ("Capital provider",                "Provedor de capital","blended finance, crédito, garantias"),
-    ("Strategic partner",               "Parceiro estratégico","co-criação de agenda, co-investimento"),
-    ("Technical assistance",            "Assistência técnica","ATER, pesquisa aplicada, formação técnica"),
-    ("Research",                        "Pesquisa & evidência","produção de dados, MRV, avaliação"),
-    ("Data / MRV",                      "MRV/dados",          "monitoramento, plataformas, traceabilidade"),
-    ("Monitoring",                      "MRV/dados",          "MEAL, avaliação, learning"),
-    ("Project developer",               "Co-implementador",   "execução conjunta de projetos"),
-    ("Implementer",                     "Co-implementador",   "execução conjunta de projetos"),
-    ("Implementation capacity",         "Co-implementador",   "execução conjunta de projetos"),
-    ("Policy influence",                "Advocacy/incidência","incidência em PNRS, PNAE, PLANAPO etc."),
-    ("Convenor",                        "Articulador",        "convocatória, plataforma multistakeholder"),
-    ("enablers",                        "Articulador",        "convocatória, plataforma multistakeholder"),
-    ("Territorial anchor",              "Âncora territorial", "presença local, legitimidade comunitária"),
-    ("Community legitimacy",            "Âncora territorial", "legitimidade junto a beneficiários"),
-    ("proximate leadership",            "Âncora territorial", "liderança comunitária"),
+# ========== 3b. Modo de articulação Trias ==========
+# Mapeia o papel declarado do stakeholder ao modo de articulação que a Trias
+# pode mobilizar com ele, segundo os 5 papéis declarados no Annex 1 (Theory of
+# Change) — Process Facilitator, Thematic Advisor, Peer-to-Peer Facilitator,
+# Bridge Builder e Financer. Cada modo descreve OPERACIONALMENTE como o
+# stakeholder pode contribuir para o programa.
+TRIAS_MODE_RULES = [
+    # (role substring, modo, papel Trias mobilizado, descrição operacional)
+    ("Funder",                "Co-financiamento",
+     "Financer + Bridge Builder",
+     "captação conjunta, edital co-financiado, fundos paralelos"),
+    ("Capital provider",      "Finanças mistas/inovadoras",
+     "Bridge Builder + Financer",
+     "blended finance, garantias, crédito, instrumentos climáticos"),
+    ("Capital provider",      "Co-financiamento",
+     "Financer + Bridge Builder",
+     "captação conjunta, edital co-financiado, fundos paralelos"),
+    ("Strategic partner",     "Parceria estratégica",
+     "Bridge Builder",
+     "co-criação de agenda, alinhamento programático plurianual"),
+    ("Technical assistance",  "Advisory técnico-temático",
+     "Thematic Advisor",
+     "ATER, formação técnica, mentoria temática para MBOs"),
+    ("Research",              "Pesquisa & evidência",
+     "Thematic Advisor",
+     "estudos, baselines, MRV, avaliação"),
+    ("Data / MRV",            "MRV / dados",
+     "Thematic Advisor",
+     "plataformas, monitoramento ambiental, traceabilidade"),
+    ("Monitoring",            "MRV / dados",
+     "Thematic Advisor",
+     "sistemas MEAL, avaliação, learning"),
+    ("Project developer",     "Co-implementação",
+     "Peer-to-Peer Facilitator",
+     "execução conjunta de projetos com as MBOs"),
+    ("Implementer",           "Co-implementação",
+     "Peer-to-Peer Facilitator",
+     "execução conjunta de projetos com as MBOs"),
+    ("Implementation capacity", "Co-implementação",
+     "Peer-to-Peer Facilitator",
+     "execução conjunta de projetos com as MBOs"),
+    ("Policy influence",      "Advocacy compartilhado",
+     "Bridge Builder",
+     "incidência conjunta em PNRS, PNAE, PLANAPO, MROSC"),
+    ("Convenor",              "Articulação multistakeholder",
+     "Bridge Builder",
+     "convocatória, plataforma multi-ator, redes temáticas"),
+    ("enablers",              "Articulação multistakeholder",
+     "Bridge Builder",
+     "convocatória, plataforma multi-ator, redes temáticas"),
+    ("Territorial anchor",    "Ancoragem territorial",
+     "Process Facilitator",
+     "presença local, legitimidade junto aos membros"),
+    ("Community legitimacy",  "Ancoragem territorial",
+     "Process Facilitator",
+     "legitimidade comunitária, voz de membros"),
+    ("proximate leadership",  "Ancoragem territorial",
+     "Process Facilitator",
+     "liderança próxima dos beneficiários"),
 ]
 
-def derive_relationship_types(role_str):
-    """Retorna lista de (tipo, descrição) baseado no role do stakeholder."""
+def derive_trias_modes(role_str):
+    """Retorna lista de modos de articulação Trias com base no papel do stakeholder."""
     if not role_str:
         return []
     seen = set()
     out = []
     role_lower = role_str.lower()
-    for rule, rtype, desc in RELATIONSHIP_RULES:
-        if rule.lower() in role_lower and rtype not in seen:
-            seen.add(rtype)
-            out.append({"type": rtype, "desc": desc})
+    for rule, mode, trias_role, desc in TRIAS_MODE_RULES:
+        if rule.lower() in role_lower and mode not in seen:
+            seen.add(mode)
+            out.append({"mode": mode, "trias_role": trias_role, "desc": desc})
     return out
 
+# ========== 3c. Adicionalidade Trias ==========
+# Para cada par (stakeholder, parceiro MBO), estima quanto a mediação da Trias
+# agrega valor além do que aconteceria espontaneamente. Heurística baseada em:
+# (a) gap territorial entre stakeholder e MBO, (b) maturidade do MBO (mais
+# imaturo = mais bridging necessário), (c) escala/formalidade do stakeholder
+# (mais institucional = mais necessidade de tradução), e (d) penalização se a
+# relação já parece existir (mencionada em notas ou descrição).
+PARTNER_MATURITY_SCORE = {
+    "UNICAFES_PA": 1.0,    # 2º nível em consolidação → mais bridging necessário
+    "UNICAFES_RO": 1.0,    # idem
+    "CSA_BRASIL": 0.5,     # 3º nível em consolidação
+    "UNICATADORES": 0.0,   # 3º nível maduro, Trias é parceiro estratégico
+}
+
+def compute_additionality(stk, partner_id):
+    """Retorna (score 0-3, classe, fatores) — quanto maior, mais adicionalidade."""
+    factors = []
+    sc = 0.0
+    territory = (stk["territory"] or "").lower()
+    type_ = (stk["type"] or "").lower()
+    notes_blob = (stk["notes"] + " " + stk["description"]).lower()
+    # (a) gap territorial — parceiros amazônicos vs stakeholder não-amazônico
+    p = PARTNERS[partner_id]
+    if p["biomes"] == {"Amazonia"}:
+        primary_biome = (stk["biome_primary"] or "").lower()
+        if "amazon" not in primary_biome and "national" not in territory:
+            sc += 1.0
+            factors.append("gap territorial (parceiro amazônico, stakeholder não-amazônico)")
+        elif "national" in territory:
+            sc += 0.5
+            factors.append("alcance nacional (precisa aterrissagem amazônica)")
+    if "cross-border" in territory or "international" in territory:
+        sc += 1.0
+        factors.append("ator internacional — bridging Brasil-mundo")
+    # (b) maturidade do MBO
+    mat = PARTNER_MATURITY_SCORE[partner_id]
+    if mat > 0:
+        sc += mat
+        factors.append(f"MBO em desenvolvimento ({p['maturity']})")
+    # (c) escala/formalidade do stakeholder
+    big_keywords = ["development bank", "multilateral", "bilateral",
+                    "philanthropy foundation", "large", "industry platform"]
+    if any(k in type_ for k in big_keywords):
+        sc += 0.7
+        factors.append("ator institucional de grande porte")
+    # Impact investor pequeno também precisa ponte
+    if "impact invest" in type_ or "fund" in type_.lower():
+        sc += 0.4
+        factors.append("intermediário financeiro — exige tradução de pipeline")
+    # (d) penalização: relação aparentemente já existente
+    mbo_terms = ["unicafes", "unicatadores", "csa brasil", "catador cooperat",
+                 "agricultura familiar trias", "trias parc"]
+    if any(t in notes_blob for t in mbo_terms):
+        sc -= 1.5
+        factors.append("relação aparentemente preexistente — penalização")
+    sc = max(0, min(3, sc))
+    if sc >= 2.0: cls = "Alta"
+    elif sc >= 1.0: cls = "Média"
+    else: cls = "Baixa"
+    return round(sc, 1), cls, factors
+
 for r in results:
-    r["relationships"] = derive_relationship_types(r["stk"]["role"])
+    r["trias_modes"] = derive_trias_modes(r["stk"]["role"])
+    r["additionality"] = {}
+    for pid in r["scores"]:
+        sc_add, cls, factors = compute_additionality(r["stk"], pid)
+        r["additionality"][pid] = {"score": sc_add, "class": cls, "factors": factors}
 
 # ========== 4. Estatísticas agregadas ==========
 def split_tokens(s):
@@ -314,7 +479,14 @@ for r in results:
     stk = r["stk"]
     node_id = f"S{stk['id']}"
     sector = stk["sector"] or "Others"
-    rel_types = r["relationships"]
+    modes = r["trias_modes"]
+    # adicionalidade agregada do stakeholder = média das conexões com parceiros
+    addit_scores = [r["additionality"][pid]["score"] for pid in r["scores"]]
+    addit_max = max(addit_scores) if addit_scores else 0
+    addit_avg = round(sum(addit_scores) / len(addit_scores), 1) if addit_scores else 0
+    if addit_avg >= 2.0: addit_class = "Alta"
+    elif addit_avg >= 1.0: addit_class = "Média"
+    else: addit_class = "Baixa"
     G.add_node(node_id, kind="stakeholder",
                name=stk["name"], sector=sector, type=stk["type"],
                territory=stk["territory"], biome=stk["biome_primary"],
@@ -322,19 +494,24 @@ for r in results:
                impact=stk["impact_area"], role=stk["role"],
                value_chain=stk["value_chain"],
                funding_role=stk["funding_role"],
-               potential_partnership=stk["potential_partnership"],
                hq=stk["hq"], url=stk["url"],
                description=stk["description"], notes=stk["notes"],
                n_partners=len(r["scores"]),
-               relationship_types=[rt["type"] for rt in rel_types],
-               relationship_details=rel_types,
+               trias_modes=[m["mode"] for m in modes],
+               trias_mode_details=modes,
+               additionality_per_partner={pid: r["additionality"][pid]
+                                          for pid in r["scores"]},
+               additionality_avg=addit_avg,
+               additionality_max=addit_max,
+               additionality_class=addit_class,
                color=SECTOR_COLOR.get(sector, "#999999"),
                connections={pid: r["scores"][pid]["score"] for pid in r["scores"]},
                score_breakdowns={pid: r["scores"][pid]["breakdown"]
                                  for pid in r["scores"]})
     for pid, s in r["scores"].items():
         G.add_edge(node_id, pid, weight=s["score"],
-                   relationship_types=[rt["type"] for rt in rel_types])
+                   trias_modes=[m["mode"] for m in modes],
+                   additionality_class=r["additionality"][pid]["class"])
 
 # Peer links MBO
 peer_pairs = [("UNICAFES_PA", "UNICAFES_RO"),
@@ -406,18 +583,21 @@ def unique_tokens(field):
                 s.add(tok)
     return sorted(s)
 
-# Distribuição de relationship_types e potential_partnership
-rel_type_counter = Counter()
-pp_counter = Counter()
+# Distribuições derivadas: modos Trias, adicionalidade
+mode_counter = Counter()
+addit_class_counter = Counter()
+addit_class_per_partner = defaultdict(Counter)
+trias_role_counter = Counter()
 for r in results:
-    for rt in r["relationships"]:
-        rel_type_counter[rt["type"]] += 1
-    if r["stk"]["potential_partnership"]:
-        for tok in split_tokens(r["stk"]["potential_partnership"]):
-            pp_counter[tok] += 1
+    for m in r["trias_modes"]:
+        mode_counter[m["mode"]] += 1
+        trias_role_counter[m["trias_role"]] += 1
+    for pid, ad in r["additionality"].items():
+        addit_class_counter[ad["class"]] += 1
+        addit_class_per_partner[pid][ad["class"]] += 1
 
-rel_type_options = sorted(rel_type_counter.keys())
-pp_options = sorted(pp_counter.keys())
+mode_options = sorted(mode_counter.keys())
+addit_options = ["Alta", "Média", "Baixa"]
 
 graph_data = {
     "nodes": nodes_json,
@@ -457,11 +637,13 @@ graph_data = {
                           for tok in split_tokens(r.get("role", ""))}),
         "funding_role": sorted({r.get("funding_role", "") for r in nodes_json
                                 if r.get("kind") == "stakeholder" and r.get("funding_role")}),
-        "relationship_type": rel_type_options,
-        "potential_partnership": pp_options,
+        "trias_mode": mode_options,
+        "additionality": addit_options,
     },
-    "dist_relationship": dict(rel_type_counter.most_common()),
-    "dist_partnership": dict(pp_counter.most_common()),
+    "dist_trias_mode": dict(mode_counter.most_common()),
+    "dist_trias_role": dict(trias_role_counter.most_common()),
+    "dist_additionality": dict(addit_class_counter),
+    "addit_per_partner": {pid: dict(addit_class_per_partner[pid]) for pid in PARTNERS},
     "config": {
         "threshold": THRESHOLD,
     },
@@ -753,12 +935,13 @@ HTML = r"""<!DOCTYPE html>
     <h2>Funding role <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="funding_role" data-action="all">tudo</button><button data-group="funding_role" data-action="none">limpar</button></span></h2>
     <div class="filter-group" id="filter-funding"></div>
 
-    <h2>Tipo de relação possível <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="relationship_type" data-action="all">tudo</button><button data-group="relationship_type" data-action="none">limpar</button></span></h2>
-    <div class="small" style="margin-bottom:6px;">derivado do papel declarado da organização</div>
-    <div class="filter-group" id="filter-reltype"></div>
+    <h2>Modo de articulação Trias <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="trias_mode" data-action="all">tudo</button><button data-group="trias_mode" data-action="none">limpar</button></span></h2>
+    <div class="small" style="margin-bottom:6px;">derivado do papel do stakeholder, mapeado aos 5 papéis Trias do Annex 1</div>
+    <div class="filter-group" id="filter-mode"></div>
 
-    <h2>Potencial de parceria (IKF) <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="potential_partnership" data-action="all">tudo</button><button data-group="potential_partnership" data-action="none">limpar</button></span></h2>
-    <div class="filter-group" id="filter-pp"></div>
+    <h2>Adicionalidade Trias <span class="filter-actions" style="float:right;display:inline-flex;margin:0;width:auto;"><button data-group="additionality" data-action="all">tudo</button><button data-group="additionality" data-action="none">limpar</button></span></h2>
+    <div class="small" style="margin-bottom:6px;">quanto a mediação Trias adiciona vs. relação espontânea</div>
+    <div class="filter-group" id="filter-addit"></div>
   </aside>
 
   <main id="stage">
@@ -809,12 +992,17 @@ HTML = r"""<!DOCTYPE html>
       <h2>Posição na cadeia</h2>
       <div class="bars" id="bars-chain"></div>
 
-      <h2>Tipo de relação possível</h2>
+      <h2>Modo de articulação Trias</h2>
       <div class="small" style="margin-bottom:6px;">entre os 114 stakeholders conectados</div>
-      <div class="bars" id="bars-reltype"></div>
+      <div class="bars" id="bars-mode"></div>
 
-      <h2>Potencial de parceria (IKF)</h2>
-      <div class="bars" id="bars-pp"></div>
+      <h2>Papel Trias mobilizado</h2>
+      <div class="small" style="margin-bottom:6px;">os 5 papéis declarados no Annex 1</div>
+      <div class="bars" id="bars-trias-role"></div>
+
+      <h2>Adicionalidade Trias</h2>
+      <div class="small" style="margin-bottom:6px;">distribuição das 182 conexões</div>
+      <div class="bars" id="bars-addit"></div>
     </div>
 
     <div class="tab-pane" id="pane-inspector">
@@ -841,7 +1029,7 @@ HTML = r"""<!DOCTYPE html>
     <p>A rede é uma <em>projeção bipartite</em>: cada stakeholder externo recebe uma aresta ponderada para cada um dos 4 parceiros MBO da Trias se o alinhamento temático/territorial passar de um limiar. Não há ligações diretas entre stakeholders externos — a leitura visual privilegia o papel de cada um <em>em relação aos parceiros</em>.</p>
 
     <h4>Base de origem</h4>
-    <p>360 organizações registradas em <code>Stakeholder Ecosystem Mapping.xlsx</code> (última atualização: 11/02/2026). Cada registro traz: setor, tipo, descrição, território, bioma primário e secundário, área de impacto, papel no ecossistema, posição na cadeia de valor, funding role e potencial de parceria com IKF.</p>
+    <p>360 organizações registradas em <code>Stakeholder Ecosystem Mapping.xlsx</code> (última atualização: 11/02/2026). Cada registro traz: setor, tipo, descrição, território, bioma primário e secundário, área de impacto, papel no ecossistema, posição na cadeia de valor e funding role (donor / grantee / re-granter).</p>
 
     <h4>Nós-âncora (parceiros MBO)</h4>
     <p>Os 4 parceiros não estão na base original (apenas UNICAFES Nacional e UNICATADORES aparecem como entradas). Foram adicionados manualmente com perfis derivados do <em>Annex 1 — Theory of Change</em> e do <em>BRAZIL_DGD Narrative_DRAFT</em>:</p>
@@ -875,14 +1063,47 @@ HTML = r"""<!DOCTYPE html>
     <h4>Limiar de conexão</h4>
     <p>Edge é criada quando o score ≥ <code>4,5</code>. Esse valor foi calibrado iterativamente: limiares mais baixos (3,0) deixavam empresas nacionais broad-spectrum (grandes varejistas, montadoras) aparecerem como bridges; limiares mais altos (6,0) descartavam parceiros legítimos. O número final de stakeholders conectados (114 de 360) representa o ecossistema imediatamente relevante para a operação dos 4 parceiros, segundo os atributos disponíveis na base.</p>
 
+    <h4>Origem da base de dados</h4>
+    <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> foi originalmente construída pela equipe Trias para análise do ecossistema da <strong>IKEA Foundation (IKF)</strong>. Como o ecossistema relevante para o programa DGD 2027–2031 da Trias se sobrepõe substancialmente (mesmos atores de filantropia climática, mesma agenda amazônica, mesmas redes de cooperativismo), a base foi reusada — com toda a lógica de articulação reescrita a partir dos 5 papéis Trias declarados no Annex 1 (Theory of Change). O campo "Potential partnership with IKF" da planilha não é exibido nesta visualização; seu lugar foi tomado pelos <strong>modos de articulação Trias</strong>, derivados algoritmicamente do papel declarado de cada stakeholder.</p>
+
+    <h4>Modos de articulação Trias (derivados do papel)</h4>
+    <p>Cada stakeholder conectado recebe um ou mais modos de articulação, mapeados aos 5 papéis declarados no Annex 1 (Theory of Change, seção sobre "complementary roles"):</p>
+    <table class="formula-table">
+      <thead><tr><th>Papel Trias</th><th>Modo operacional</th></tr></thead>
+      <tbody>
+        <tr><td>Process Facilitator</td><td>Ancoragem territorial · facilitação de OS/ID</td></tr>
+        <tr><td>Thematic Advisor</td><td>Advisory técnico · pesquisa & evidência · MRV/dados</td></tr>
+        <tr><td>Peer-to-Peer Facilitator</td><td>Co-implementação · mediação entre MBOs</td></tr>
+        <tr><td>Bridge Builder</td><td>Co-financiamento · parceria estratégica · advocacy compartilhado · articulação multistakeholder</td></tr>
+        <tr><td>Financer</td><td>Finanças mistas/inovadoras · mobilização direta de recursos</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Adicionalidade Trias</h4>
+    <p>Para cada conexão (stakeholder, parceiro MBO), uma heurística estima quanto a mediação da Trias <em>adiciona valor</em> além do que aconteceria espontaneamente. O conceito vem da literatura de impact investing e cooperação para o desenvolvimento — Trias só justifica seu papel de hub onde a relação não emerge sem mediação.</p>
+    <table class="formula-table">
+      <thead><tr><th>Fator</th><th>Pontos</th></tr></thead>
+      <tbody>
+        <tr><td>Gap territorial — parceiro amazônico, stakeholder não-amazônico</td><td>+1,0</td></tr>
+        <tr><td>Stakeholder nacional precisa aterrissagem amazônica</td><td>+0,5</td></tr>
+        <tr><td>Stakeholder internacional / cross-border</td><td>+1,0</td></tr>
+        <tr><td>MBO em desenvolvimento (UNICAFES PA/RO: +1,0; CSA: +0,5; UNICATADORES: 0)</td><td>varia</td></tr>
+        <tr><td>Ator institucional de grande porte (multilateral, foundation, dev bank)</td><td>+0,7</td></tr>
+        <tr><td>Intermediário financeiro (impact investor, fundo)</td><td>+0,4</td></tr>
+        <tr><td>Relação aparentemente preexistente (menção em notas)</td><td>−1,5</td></tr>
+      </tbody>
+    </table>
+    <p>Classificação final: <strong>Alta</strong> (≥ 2,0) · <strong>Média</strong> (1,0–2,0) · <strong>Baixa</strong> (&lt; 1,0). Score cap em 0–3.</p>
+
     <h4>O que a rede <em>não</em> captura</h4>
     <ul>
-      <li>Relacionamentos efetivos (contratos, parcerias formais). A base é descritiva, não relacional.</li>
-      <li>Histórico de colaboração com a Trias ou entre os próprios parceiros.</li>
-      <li>Alinhamento ideológico/político (ex.: posição sobre agronegócio).</li>
-      <li>Capacidade técnica ou solidez institucional (não há indicadores quantitativos).</li>
+      <li>Relacionamentos efetivos (contratos, parcerias formais) — a base é descritiva, não relacional.</li>
+      <li>Histórico de colaboração com a Trias ou entre os parceiros — só captura preexistência se for textualmente declarada nas notas.</li>
+      <li>Alinhamento ideológico/político — ex.: posição sobre agronegócio, marco regulatório socioambiental.</li>
+      <li>Capacidade técnica ou solidez institucional — não há indicadores quantitativos na base original.</li>
+      <li>Os scores de adicionalidade são <em>proxies heurísticos</em>, não medidas validadas.</li>
     </ul>
-    <p>Por isso, a rede deve ser lida como <strong>hipótese inicial de proximidade</strong> baseada em atributos declarados, e validada com a equipe Brasil/SAM antes de qualquer ação de articulação.</p>
+    <p>Por isso, a rede deve ser lida como <strong>hipótese inicial de proximidade e prioridade</strong>, validada com a equipe Brasil/SAM e com os parceiros MBO antes de qualquer ação de articulação.</p>
   </div>
 </div>
 
@@ -959,8 +1180,9 @@ renderBars('#bars-biome', DATA.stats.dist_biome_all);
 renderBars('#bars-role', DATA.stats.dist_role_all);
 renderBars('#bars-funding', DATA.stats.dist_funding_all);
 renderBars('#bars-chain', DATA.stats.dist_chain_all);
-renderBars('#bars-reltype', DATA.dist_relationship);
-renderBars('#bars-pp', DATA.dist_partnership);
+renderBars('#bars-mode', DATA.dist_trias_mode);
+renderBars('#bars-trias-role', DATA.dist_trias_role);
+renderBars('#bars-addit', DATA.dist_additionality);
 
 // ========== Rankings panel ==========
 const bridgesEl = $('#bridges-list');
@@ -1006,8 +1228,8 @@ const filterState = {
   biome: new Set(DATA.filter_options.biome),
   role: new Set(DATA.filter_options.role),
   funding_role: new Set(DATA.filter_options.funding_role),
-  relationship_type: new Set(DATA.filter_options.relationship_type),
-  potential_partnership: new Set(DATA.filter_options.potential_partnership),
+  trias_mode: new Set(DATA.filter_options.trias_mode),
+  additionality: new Set(DATA.filter_options.additionality),
   partner: 'ALL',
   search: '',
 };
@@ -1015,12 +1237,12 @@ const filterState = {
 const FILTER_CONTAINERS = {
   sector: '#filter-sector', biome: '#filter-biome',
   role: '#filter-role', funding_role: '#filter-funding',
-  relationship_type: '#filter-reltype', potential_partnership: '#filter-pp',
+  trias_mode: '#filter-mode', additionality: '#filter-addit',
 };
 
 function getNodeTokens(n, group) {
-  // relationship_type lives in array `relationship_types`
-  if (group === 'relationship_type') return n.relationship_types || [];
+  if (group === 'trias_mode') return n.trias_modes || [];
+  if (group === 'additionality') return n.additionality_class ? [n.additionality_class] : [];
   const field = group === 'biome' ? 'biome' : group;
   const v = n[field] || '';
   return String(v).split(/[,;]/).map(s => s.trim()).filter(Boolean);
@@ -1051,8 +1273,8 @@ buildFilter('sector', DATA.filter_options.sector, DATA.sectors);
 buildFilter('biome', DATA.filter_options.biome);
 buildFilter('role', DATA.filter_options.role);
 buildFilter('funding_role', DATA.filter_options.funding_role);
-buildFilter('relationship_type', DATA.filter_options.relationship_type);
-buildFilter('potential_partnership', DATA.filter_options.potential_partnership);
+buildFilter('trias_mode', DATA.filter_options.trias_mode);
+buildFilter('additionality', DATA.filter_options.additionality);
 
 $$('.filter-actions button').forEach(btn => btn.addEventListener('click', () => {
   const g = btn.dataset.group, a = btn.dataset.action;
@@ -1261,14 +1483,21 @@ function showInspector(n) {
   const ec = $('#ins-content'); const ee = $('#ins-empty');
   ee.style.display = 'none'; ec.style.display = 'block';
   if (n.kind === 'partner') {
+    const priorities = (n.trias_priorities || []).map(p => `<li>${p}</li>`).join('');
     ec.innerHTML = `
       <div class="ins-header">
         <div class="name">${n.name}</div>
-        <div class="type">${n.type}</div>
+        <div class="type">${n.maturity || n.type || ''}</div>
       </div>
       <div class="ins-row"><div class="k">Nome completo</div><div class="v">${n.long_name || ''}</div></div>
       <div class="ins-row"><div class="k">Território</div><div class="v">${n.territory || ''}</div></div>
-      <div class="ins-row"><div class="k">Descrição</div><div class="v">${n.description || ''}</div></div>
+      <div class="ins-row"><div class="k">Unidades organizativas</div><div class="v">${n.units || '—'}</div></div>
+      <div class="ins-row"><div class="k">Beneficiários</div><div class="v">${n.members || '—'}</div></div>
+      <div class="ins-row"><div class="k">Perfil de gênero/juventude</div><div class="v">${n.women_pct || 0}% mulheres · ${n.youth_pct || 0}% jovens · ${n.staff || 0} staff</div></div>
+      <div class="ins-row"><div class="k">Cadeias / produtos</div><div class="v">${n.value_chains || '—'}</div></div>
+      <div class="ins-row"><div class="k">Papel estratégico no programa</div><div class="v">${n.strategic_role || ''}</div></div>
+      <div class="ins-row"><div class="k">Prioridades de intervenção Trias</div><div class="v"><ul style="margin:4px 0 0 0;padding-left:18px;">${priorities}</ul></div></div>
+      <div class="ins-row"><div class="k">Descrição</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.description || ''}</div></div>
     `;
     return;
   }
@@ -1286,13 +1515,34 @@ function showInspector(n) {
       ${brHtml ? `<div style="padding:4px 0 8px 10px;">${brHtml}</div>` : ''}
     `;
   });
-  // relationship types como chips
-  let relHtml = '';
-  (n.relationship_details || []).forEach(rt => {
-    relHtml += `<div class="conn-row" style="background:var(--accent-soft);">
-      <span class="pname">${rt.type}</span>
-      <span style="color:var(--muted);font-size:10.5px;">${rt.desc}</span>
+  // Modos de articulação Trias
+  let modesHtml = '';
+  (n.trias_mode_details || []).forEach(m => {
+    modesHtml += `<div class="conn-row" style="background:var(--accent-soft);display:block;">
+      <div style="display:flex;justify-content:space-between;"><span class="pname">${m.mode}</span><span class="pscore" style="color:var(--muted);font-size:10px;">${m.trias_role}</span></div>
+      <div style="color:var(--muted);font-size:10.5px;margin-top:3px;">${m.desc}</div>
     </div>`;
+  });
+  // Conexões com breakdown + adicionalidade
+  connsHtml = '';
+  Object.entries(n.connections || {}).forEach(([pid, sc]) => {
+    const pname = DATA.partners.find(p => p.id === pid).name;
+    const br = (n.score_breakdowns && n.score_breakdowns[pid]) || [];
+    const ad = (n.additionality_per_partner && n.additionality_per_partner[pid]) || {};
+    let brHtml = '';
+    br.forEach(b => {
+      brHtml += `<div class="breakdown-line">${b.k}: ${b.v}<span class="pts">+${b.pts}</span></div>`;
+    });
+    const adClass = ad.class || '—';
+    const adColor = adClass === 'Alta' ? 'var(--accent)' : adClass === 'Média' ? '#9b7bb0' : 'var(--muted)';
+    const adFactors = (ad.factors || []).map(f => `<li>${f}</li>`).join('');
+    connsHtml += `
+      <div class="conn-row"><span class="pname">${pname}</span><span class="pscore">score ${sc} · adic. <b style="color:${adColor}">${adClass} (${ad.score || 0})</b></span></div>
+      <div style="padding:4px 0 10px 10px;font-size:10.5px;">
+        ${brHtml ? `<div style="margin-bottom:5px;color:var(--muted);">${brHtml}</div>` : ''}
+        ${adFactors ? `<div style="color:var(--muted-2);"><b>Fatores de adicionalidade:</b><ul style="margin:2px 0 0 14px;padding:0;">${adFactors}</ul></div>` : ''}
+      </div>
+    `;
   });
   ec.innerHTML = `
     <div class="ins-header">
@@ -1306,13 +1556,13 @@ function showInspector(n) {
     <div class="ins-row"><div class="k">Papel no ecossistema</div><div class="v">${n.role || '—'}</div></div>
     <div class="ins-row"><div class="k">Posição na cadeia</div><div class="v">${n.value_chain || '—'}</div></div>
     <div class="ins-row"><div class="k">Funding role</div><div class="v">${n.funding_role || '—'}</div></div>
-    <div class="ins-row"><div class="k">Potencial de parceria (IKF)</div><div class="v">${n.potential_partnership || '—'}</div></div>
     <div class="ins-row"><div class="k">HQ</div><div class="v">${n.hq || '—'}</div></div>
     ${n.url ? `<div class="ins-row"><div class="k">Site</div><div class="v"><a href="${n.url}" target="_blank">${n.url}</a></div></div>` : ''}
     ${n.description ? `<div class="ins-row"><div class="k">Descrição</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.description}</div></div>` : ''}
-    ${relHtml ? `<div class="ins-row"><div class="k">Como pode se relacionar com a Trias/parceiros</div><div class="v">${relHtml}</div></div>` : ''}
-    <div class="ins-row"><div class="k">Conexões com parceiros · breakdown do score</div><div class="v">${connsHtml}</div></div>
-    ${n.notes ? `<div class="ins-row"><div class="k">Notas estratégicas</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.notes}</div></div>` : ''}
+    <div class="ins-row"><div class="k">Adicionalidade Trias (média)</div><div class="v"><b>${n.additionality_class || '—'}</b> · score ${n.additionality_avg || 0}/3</div></div>
+    ${modesHtml ? `<div class="ins-row"><div class="k">Modos de articulação que a Trias pode mobilizar</div><div class="v">${modesHtml}</div></div>` : ''}
+    <div class="ins-row"><div class="k">Conexões com parceiros · breakdown do score · adicionalidade</div><div class="v">${connsHtml}</div></div>
+    ${n.notes ? `<div class="ins-row"><div class="k">Notas estratégicas (do mapeamento)</div><div class="v" style="font-size:11.5px;color:var(--muted);">${n.notes}</div></div>` : ''}
   `;
 }
 
@@ -1339,12 +1589,9 @@ function applyFilters() {
     const roles = (n.role || '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
     if (roles.length > 0 && !roles.some(r => filterState.role.has(r))) return true;
     if (n.funding_role && !filterState.funding_role.has(n.funding_role)) return true;
-    const reltypes = n.relationship_types || [];
-    if (reltypes.length > 0 && !reltypes.some(r => filterState.relationship_type.has(r))) return true;
-    if (n.potential_partnership) {
-      const pps = n.potential_partnership.split(/[,;]/).map(s => s.trim()).filter(Boolean);
-      if (pps.length > 0 && !pps.some(pp => filterState.potential_partnership.has(pp))) return true;
-    }
+    const modes = n.trias_modes || [];
+    if (modes.length > 0 && !modes.some(m => filterState.trias_mode.has(m))) return true;
+    if (n.additionality_class && !filterState.additionality.has(n.additionality_class)) return true;
     if (q && !n.name.toLowerCase().includes(q) &&
             !(n.description || '').toLowerCase().includes(q)) return true;
     return false;
@@ -1514,20 +1761,53 @@ md.append("\nNote a assimetria: UNICAFES Pará e Rondônia concentram a maior "
           "agricultura familiar/bioeconomia e a agenda de catadores/economia "
           "circular urbana.\n")
 
-# Por parceiro
-md.append("\n## 3. Assinatura de ecossistema por parceiro\n")
+# Por parceiro — perfil enriquecido
+md.append("\n## 3. As 4 MBOs parceiras — perfis e assinatura de ecossistema\n")
+md.append("Os 4 parceiros têm maturidade, território e tema distintos. Compreender "
+          "essas diferenças é pré-condição para a análise de adicionalidade. Os "
+          "dados abaixo vêm do *Annex 1 — Theory of Change* e do *BRAZIL_DGD "
+          "Narrative_DRAFT*.\n")
+md.append("\n### Quadro comparativo\n")
+md.append("| MBO | Maturidade | Território | Membros | Mulheres | Jovens | Staff | Conectados |")
+md.append("|---|---|---|---|---|---|---|---|")
 for pid, p in PARTNERS.items():
-    md.append(f"\n### {p['name']}")
-    md.append(f"*{p['type']} · {p['territory']}*")
-    md.append(f"\n{p['description']}\n")
-    md.append(f"**Conectados**: {per_partner_stats[pid]['n']} organizações.")
-    md.append("\n**Composição setorial dos aliados**:")
+    md.append(f"| {p['name']} | {p['maturity']} | {p['territory']} | "
+              f"{p['members']} | {p['women_pct']}% | {p['youth_pct']}% | "
+              f"{p['staff']} | {per_partner_stats[pid]['n']} |")
+md.append("\n**Leitura comparativa**\n")
+md.append("- **UNICAFES Rondônia e CSA Brasil têm o perfil de gênero mais "
+          "inclusivo** (56% e 70% mulheres respectivamente). UNICAFES Pará está "
+          "abaixo (29%), o que justifica a prioridade de inclusão de mulheres "
+          "como agenda da intervenção Trias.")
+md.append("- **UNICATADORES é a única madura** e a única com staff substancial "
+          "(28 funcionários vs. 2-3 dos outros). Trias não atua como "
+          "organisational developer ali — atua como parceiro estratégico "
+          "em pilotos de PES/carbono, EPR e finanças.")
+md.append("- **CSA Brasil tem alcance nacional mais amplo** (19 estados) mas "
+          "membership menor (540 + 3.600). É o canal preferencial para o pilar "
+          "rural-urbano e a internacionalização (Urgenci).")
+md.append("- **UNICAFES PA e RO compartilham território (Amazônia), cadeias "
+          "(açaí, castanha, mel, cacau, café) e maturidade** — peer learning "
+          "natural entre as duas é uma das alavancas estratégicas mais óbvias.\n")
+
+for pid, p in PARTNERS.items():
+    md.append(f"\n### {p['name']}\n")
+    md.append(f"**{p['maturity']} · {p['territory']}**\n")
+    md.append(f"- *Unidades*: {p['units']}")
+    md.append(f"- *Membros*: {p['members']} · {p['women_pct']}% mulheres · {p['youth_pct']}% jovens")
+    md.append(f"- *Staff*: {p['staff']}")
+    md.append(f"- *Cadeias/produtos*: {p['value_chains']}")
+    md.append(f"\n*Papel estratégico no programa*: {p['strategic_role']}\n")
+    md.append("\n**Prioridades de intervenção Trias**")
+    for pr in p["trias_priorities"]:
+        md.append(f"- {pr}")
+    md.append(f"\n**Composição do ecossistema conectado** ({per_partner_stats[pid]['n']} stakeholders):")
     for s, n in per_partner_stats[pid]["sectors"].items():
         md.append(f"- {s} — {n}")
-    md.append("\n**Tipos predominantes**:")
-    for t, n in list(per_partner_stats[pid]["types"].items())[:6]:
-        md.append(f"- {t} — {n}")
-    md.append("\n**Top 5 com maior score**:")
+    md.append("\n**Distribuição de adicionalidade** das conexões:")
+    for cls, n in addit_class_per_partner[pid].most_common():
+        md.append(f"- {cls} — {n}")
+    md.append("\n**Top 5 por alinhamento**:")
     for item in top_by_partner[pid][:5]:
         md.append(f"- **{item['name']}** (score {item['score']}) — {item['type']}")
     md.append("")
@@ -1558,29 +1838,116 @@ for b in graph_data["top_brokers"][:15]:
     md.append(f"- **{b['name']}** — betweenness {b['betweenness']:.4f} · {b['sector']}")
 
 # Gaps
-## Seção 6 — Tipos de relação possível
-md.append("\n\n## 6. Como os stakeholders podem se relacionar com os parceiros\n")
-md.append("Cada stakeholder conectado tem um ou mais **tipos de relação possível** "
-          "derivados do seu papel declarado no ecossistema. Esses tipos descrevem "
-          "*operacionalmente* como a Trias e os parceiros podem articular com cada ator.\n")
-md.append("\n### Distribuição dos tipos de relação no subconjunto conectado (n = 114)\n")
-md.append("| Tipo de relação | Contagem | Operacionalização |")
-md.append("|---|---|---|")
-rel_desc_map = {rt: desc for _, rt, desc in RELATIONSHIP_RULES}
-for rt, n in rel_type_counter.most_common():
-    md.append(f"| {rt} | {n} | {rel_desc_map.get(rt, '—')} |")
+## Seção 6 — Lógica de intervenção Trias
+md.append("\n\n## 6. Lógica de intervenção Trias e modos de articulação\n")
+md.append("A Trias declara no *Annex 1 — Theory of Change* cinco papéis "
+          "complementares no programa Brasil 2027–2031:\n")
+md.append("- **Process Facilitator** — facilita processos de OS/ID "
+          "(organisational strengthening / institutional development) junto às MBOs")
+md.append("- **Thematic Advisor** — provê advisory técnico-temático em clima, "
+          "inclusão, gestão financeira e desenvolvimento de negócios")
+md.append("- **Peer-to-Peer Facilitator** — media intercâmbios e aprendizado "
+          "entre MBOs e entre cooperativas afiliadas")
+md.append("- **Bridge Builder** — conecta MBOs ao ecossistema relevante "
+          "(setor privado, autoridades, academia, multilaterais)")
+md.append("- **Financer** — financiamento direto e mobilização de recursos "
+          "via co-funding e finanças mistas\n")
+md.append("Cada stakeholder conectado tem um ou mais **modos de articulação** "
+          "que correspondem a esses papéis. Os modos são derivados do papel "
+          "declarado da organização no mapeamento e descrevem operacionalmente "
+          "como a Trias pode mobilizar a relação.\n")
+md.append("\n### Distribuição dos modos de articulação (114 stakeholders conectados)\n")
+md.append("| Modo de articulação | Contagem | Papel Trias | Operacionalização |")
+md.append("|---|---|---|---|")
+mode_desc_map = {}
+for _, mode, role, desc in TRIAS_MODE_RULES:
+    if mode not in mode_desc_map:
+        mode_desc_map[mode] = (role, desc)
+for mode, n in mode_counter.most_common():
+    role, desc = mode_desc_map.get(mode, ("—", "—"))
+    md.append(f"| {mode} | {n} | {role} | {desc} |")
 
-md.append("\n### Stakeholders por tipo de relação (top 5 cada)\n")
-by_rel = defaultdict(list)
+md.append("\n### Distribuição por papel Trias mobilizado\n")
+for role, n in trias_role_counter.most_common():
+    md.append(f"- **{role}** — {n}")
+
+md.append("\n### Stakeholders por modo de articulação (top 5)\n")
+by_mode = defaultdict(list)
 for r in results:
-    for rt in r["relationships"]:
-        by_rel[rt["type"]].append(r["stk"])
-for rt, lst in sorted(by_rel.items(), key=lambda x: -len(x[1])):
-    md.append(f"\n**{rt}** ({len(lst)} organizações)")
+    for m in r["trias_modes"]:
+        by_mode[m["mode"]].append(r["stk"])
+for mode, lst in sorted(by_mode.items(), key=lambda x: -len(x[1])):
+    md.append(f"\n**{mode}** ({len(lst)})")
     for stk in lst[:5]:
         md.append(f"- {stk['name']} ({stk['type'] or '—'})")
 
-md.append("\n\n## 7. Lacunas e observações estratégicas\n")
+## Seção 7 — Adicionalidade
+md.append("\n\n## 7. Análise de adicionalidade Trias\n")
+md.append("Adicionalidade é a medida de quanto a presença da Trias agrega valor "
+          "*além* do que aconteceria sem ela. Em programas de cooperação para o "
+          "desenvolvimento, é critério crescente de legitimidade — particularmente "
+          "para um reposicionamento como hub/facilitador, em que a justificativa "
+          "do papel deve ser explícita.\n")
+md.append("\n### Definição operacional usada\n")
+md.append("A adicionalidade Trias por conexão (stakeholder × parceiro MBO) é "
+          "estimada por uma heurística que pondera:\n")
+md.append("- **Gap territorial** — quanto mais distante o stakeholder do "
+          "território do parceiro (ex.: amazônico), mais ponte é necessária")
+md.append("- **Maturidade do MBO** — UNICAFES PA/RO (2º nível em consolidação) "
+          "exigem mais bridging do que UNICATADORES (3º nível maduro)")
+md.append("- **Escala/formalidade do stakeholder** — multilaterais, fundações "
+          "grandes e dev banks precisam de tradução para chegar a uma MBO de "
+          "primeiro ou segundo nível")
+md.append("- **Penalização por preexistência** — se o stakeholder já é "
+          "mencionado nas notas do parceiro, a relação existe e a adicionalidade "
+          "Trias é baixa (papel limitado a coordenação)\n")
+md.append(f"\n### Distribuição agregada (182 conexões)\n")
+for cls, n in [("Alta", addit_class_counter.get("Alta", 0)),
+               ("Média", addit_class_counter.get("Média", 0)),
+               ("Baixa", addit_class_counter.get("Baixa", 0))]:
+    pct = (n / 182 * 100) if 182 > 0 else 0
+    md.append(f"- **{cls}** — {n} conexões ({pct:.0f}%)")
+
+md.append("\n### Adicionalidade por parceiro\n")
+md.append("| MBO | Alta | Média | Baixa | Total |")
+md.append("|---|---|---|---|---|")
+for pid, p in PARTNERS.items():
+    counts = addit_class_per_partner[pid]
+    total = sum(counts.values())
+    md.append(f"| {p['name']} | {counts.get('Alta',0)} | {counts.get('Média',0)} "
+              f"| {counts.get('Baixa',0)} | {total} |")
+
+md.append("\n**Leitura da adicionalidade por parceiro**\n")
+md.append("- **UNICAFES Pará e Rondônia** têm a maior proporção de conexões de "
+          "alta adicionalidade. Lógico: são MBOs em consolidação, em território "
+          "amazônico, com pouca capacidade própria de bridging para fora da "
+          "região. O papel da Trias é mais transformador ali.")
+md.append("- **CSA Brasil** tem adicionalidade média predominante. Sua escala "
+          "nacional e maturidade relativa diminuem a necessidade de mediação "
+          "Trias para alguns atores, mas a expansão para o Norte abre janelas "
+          "de alta adicionalidade.")
+md.append("- **UNICATADORES** tem adicionalidade média a baixa. A organização "
+          "já é atora política reconhecida (CIISC, PNRS) e tem 28 staff — não "
+          "precisa de Trias para acessar muitas das suas conexões. O papel Trias "
+          "ali é mais de parceria estratégica em pilotos específicos (PES, "
+          "carbono, EPR) do que de bridging.\n")
+
+md.append("\n### Conexões de alta adicionalidade — onde Trias adiciona mais valor\n")
+high_addit = []
+for r in results:
+    for pid, ad in r["additionality"].items():
+        if ad["class"] == "Alta":
+            high_addit.append({
+                "stk": r["stk"], "partner": PARTNERS[pid]["name"],
+                "score": ad["score"], "factors": ad["factors"]
+            })
+high_addit.sort(key=lambda x: -x["score"])
+md.append("\nTop 15 conexões com maior score de adicionalidade:\n")
+for h in high_addit[:15]:
+    md.append(f"- **{h['stk']['name']} → {h['partner']}** (adic. {h['score']}/3) — "
+              f"{h['stk']['type'] or '—'}. Fatores: {'; '.join(h['factors'])}")
+
+md.append("\n\n## 8. Lacunas e observações estratégicas\n")
 md.append("**(a) UNICATADORES como ilha temática.** Nenhum stakeholder do "
           "recorte amazônico (bioeconomia, agricultura familiar) se conecta a "
           "UNICATADORES com score ≥ 4,5. Isso confirma a hipótese de "
@@ -1615,7 +1982,7 @@ md.append("**(e) UNICAFES Nacional como hub interno.** A entidade nacional "
           "parceiros do recorte rural/peri-urbano.\n")
 
 # Reading guide
-md.append("\n## 8. Como usar este mapa\n")
+md.append("\n## 9. Como usar este mapa\n")
 md.append("**Para descrever o ecossistema na narrativa do programa.** As "
           "distribuições da seção 1 (sector, biome, role) fornecem os números "
           "agregados para a seção C.3 do BRAZIL_DGD Narrative_DRAFT. A "

@@ -120,32 +120,58 @@ Do total de 360 organizações, **114 (31,7%)** têm score de alinhamento ≥ 4.
 Note a assimetria: UNICAFES Pará e Rondônia concentram a maior densidade de potenciais aliados (compartilham território e tema), enquanto UNICATADORES tem um ecossistema próprio e relativamente isolado das demais — refletindo a clivagem entre as agendas de agricultura familiar/bioeconomia e a agenda de catadores/economia circular urbana.
 
 
-## 3. Assinatura de ecossistema por parceiro
+## 3. As 4 MBOs parceiras — perfis e assinatura de ecossistema
+
+Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas diferenças é pré-condição para a análise de adicionalidade. Os dados abaixo vêm do *Annex 1 — Theory of Change* e do *BRAZIL_DGD Narrative_DRAFT*.
+
+
+### Quadro comparativo
+
+| MBO | Maturidade | Território | Membros | Mulheres | Jovens | Staff | Conectados |
+|---|---|---|---|---|---|---|---|
+| UNICAFES Pará | 2º nível · em consolidação | Pará · Amazônia Legal | 1.241 agricultores familiares (FFEs) | 29% | 15% | 2 | 41 |
+| UNICAFES Rondônia | 2º nível · em consolidação · exit 2028 | Rondônia · Amazônia Legal | 1.265 agricultores familiares (FFEs) | 56% | 30% | 2 | 58 |
+| CSA Brasil | 3º nível · em consolidação | Nacional · 19 estados · 5 regiões · rural-urbano | 540 FFEs + 3.600 NFEs (co-agricultores) | 70% | 30% | 3 | 73 |
+| UNICATADORES | 3º nível · maduro | Nacional · 26 estados · urbano | ~50.000 catadores organizados (NFEs) | 60% | 30% | 28 | 4 |
+
+**Leitura comparativa**
+
+- **UNICAFES Rondônia e CSA Brasil têm o perfil de gênero mais inclusivo** (56% e 70% mulheres respectivamente). UNICAFES Pará está abaixo (29%), o que justifica a prioridade de inclusão de mulheres como agenda da intervenção Trias.
+- **UNICATADORES é a única madura** e a única com staff substancial (28 funcionários vs. 2-3 dos outros). Trias não atua como organisational developer ali — atua como parceiro estratégico em pilotos de PES/carbono, EPR e finanças.
+- **CSA Brasil tem alcance nacional mais amplo** (19 estados) mas membership menor (540 + 3.600). É o canal preferencial para o pilar rural-urbano e a internacionalização (Urgenci).
+- **UNICAFES PA e RO compartilham território (Amazônia), cadeias (açaí, castanha, mel, cacau, café) e maturidade** — peer learning natural entre as duas é uma das alavancas estratégicas mais óbvias.
 
 
 ### UNICAFES Pará
-*MBO de 2º nível · Amazônia rural · Pará · Amazônia Legal*
 
-Articula 13 cooperativas de primeiro nível no estado do Pará. Foco em cadeias da sociobiodiversidade (açaí, castanha, mel, cacau, café) e bioeconomia amazônica.
+**2º nível · em consolidação · Pará · Amazônia Legal**
 
-**Conectados**: 41 organizações.
+- *Unidades*: 13 cooperativas de primeiro nível
+- *Membros*: 1.241 agricultores familiares (FFEs) · 29% mulheres · 15% jovens
+- *Staff*: 2
+- *Cadeias/produtos*: açaí, castanha, mel, cacau, café
 
-**Composição setorial dos aliados**:
+*Papel estratégico no programa*: Âncora estratégica para a bioeconomia pan-amazônica e expansão do cooperativismo familiar no Pará. Cacau e café conectam às cadeias da Trias SAM em Peru e Equador.
+
+
+**Prioridades de intervenção Trias**
+- Governança cooperativa e fortalecimento de serviços aos membros
+- Acesso a mercados diferenciados (orgânico, EUDR-compliant, fair trade)
+- Práticas agroflorestais e agroecológicas
+- Inclusão de mulheres e jovens nos espaços de decisão
+
+**Composição do ecossistema conectado** (41 stakeholders):
 - Civil Society Organization (CSO) — 20
 - Others — 10
 - Funders — 7
 - Public sector — 2
 - Private sector — 2
 
-**Tipos predominantes**:
-- Local implementers — 11
-- Philanthropy foundations — 6
-- Monitoring, Evaluation, and Learning — 6
-- Grassroots networks — 5
-- Social moviments — 3
-- Private companies (SMEs / local enterprises) — 2
+**Distribuição de adicionalidade** das conexões:
+- Média — 29
+- Alta — 12
 
-**Top 5 com maior score**:
+**Top 5 por alinhamento**:
 - **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** (score 10.0) — Grassroots networks
 - **Instituto Ouro Verde (IOV)** (score 9.5) — Local implementers
 - **Articulação Nacional de Agroecologia (ANA)** (score 8.0) — Grassroots networks
@@ -154,28 +180,35 @@ Articula 13 cooperativas de primeiro nível no estado do Pará. Foco em cadeias 
 
 
 ### UNICAFES Rondônia
-*MBO de 2º nível · Amazônia rural · exit 2028 · Rondônia · Amazônia Legal*
 
-Coordena 15 cooperativas de primeiro nível em Rondônia. Exit strategy programado para 2028. Foco em agroflorestal, café e instrumentos de finanças inovadoras (blended finance, PES, mercados de carbono).
+**2º nível · em consolidação · exit 2028 · Rondônia · Amazônia Legal**
 
-**Conectados**: 58 organizações.
+- *Unidades*: 15-16 cooperativas de primeiro nível
+- *Membros*: 1.265 agricultores familiares (FFEs) · 56% mulheres · 30% jovens
+- *Staff*: 2
+- *Cadeias/produtos*: açaí, castanha, mel, cacau, café
 
-**Composição setorial dos aliados**:
+*Papel estratégico no programa*: Pilotagem de instrumentos de finança climática (blended finance, PES, mercados de carbono) na Amazônia. Transição planejada para papel de parceria estratégica a partir de 2028, com complementos via IKI, GIZ e MDA.
+
+
+**Prioridades de intervenção Trias**
+- Cooperativism expansion (governança e serviços aos cooperados)
+- Agricultura climate-resilient (agroecológica e agroflorestal)
+- Finanças inovadoras (blended finance, PES, carbono)
+- Articulação com IKI, GIZ, MDA para complementaridade pós-2028
+
+**Composição do ecossistema conectado** (58 stakeholders):
 - Civil Society Organization (CSO) — 25
 - Private sector — 11
 - Others — 9
 - Funders — 7
 - Public sector — 6
 
-**Tipos predominantes**:
-- Monitoring, Evaluation, and Learning — 12
-- Local implementers — 10
-- Private companies (large / leading) — 9
-- Philanthropy foundations — 6
-- Grassroots networks — 4
-- Social moviments — 3
+**Distribuição de adicionalidade** das conexões:
+- Média — 37
+- Alta — 21
 
-**Top 5 com maior score**:
+**Top 5 por alinhamento**:
 - **Instituto Arapyaú** (score 8.0) — Philanthropy foundations
 - **Instituto Conexões Sustentáveis (Conexsus)** (score 8.0) — Local implementers
 - **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** (score 8.0) — Grassroots networks
@@ -184,28 +217,36 @@ Coordena 15 cooperativas de primeiro nível em Rondônia. Exit strategy programa
 
 
 ### CSA Brasil
-*MBO de 3º nível · rural-urbano nacional · Nacional · 19 estados · rural-urbano*
 
-Rede nacional de 200 unidades CSA em 19 estados (5 regiões). Conecta produtores agroecológicos a co-agricultores urbanos. Foco em educação alimentar e cadeias curtas peri-urbanas.
+**3º nível · em consolidação · Nacional · 19 estados · 5 regiões · rural-urbano**
 
-**Conectados**: 73 organizações.
+- *Unidades*: 200 unidades CSA
+- *Membros*: 540 FFEs + 3.600 NFEs (co-agricultores) · 70% mulheres · 30% jovens
+- *Staff*: 3
+- *Cadeias/produtos*: agroecologia, cestas saudáveis, educação alimentar
 
-**Composição setorial dos aliados**:
+*Papel estratégico no programa*: Modelo nacional para conectar produção agroecológica a consumidores em centros urbanos. Membro do Urgenci (rede internacional CSA). Foco de expansão da Trias: levar o modelo CSA para a região Norte.
+
+
+**Prioridades de intervenção Trias**
+- Expansão do modelo CSA para a região Norte (gap territorial)
+- Educação alimentar e cadeias curtas peri-urbanas
+- Conexão de produtores agroecológicos a co-agricultores urbanos
+- Liderança feminina (70% das beneficiárias)
+
+**Composição do ecossistema conectado** (73 stakeholders):
 - Civil Society Organization (CSO) — 34
 - Others — 21
 - Private sector — 10
 - Public sector — 6
 - Funders — 2
 
-**Tipos predominantes**:
-- Monitoring, Evaluation, and Learning — 14
-- Social moviments — 11
-- Local implementers — 10
-- Private companies (large / leading) — 10
-- Bilateral cooperation agencies — 7
-- Grassroots networks — 6
+**Distribuição de adicionalidade** das conexões:
+- Baixa — 41
+- Média — 17
+- Alta — 15
 
-**Top 5 com maior score**:
+**Top 5 por alinhamento**:
 - **Movimento de Mulheres Camponesas (MMC)** (score 11.0) — Social moviments
 - **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** (score 9.5) — Grassroots networks
 - **Articulação Nacional de Agroecologia (ANA)** (score 9.5) — Grassroots networks
@@ -214,22 +255,31 @@ Rede nacional de 200 unidades CSA em 19 estados (5 regiões). Conecta produtores
 
 
 ### UNICATADORES
-*MBO de 3º nível · urbano nacional · Nacional · 26 estados · urbano*
 
-Federação nacional de 230 cooperativas de catadores em 26 estados. Cerca de 50.000 catadores organizados (60% mulheres). Sede em São Paulo. Participa do Comitê Interministerial CIISC e dos fóruns da PNRS.
+**3º nível · maduro · Nacional · 26 estados · urbano**
 
-**Conectados**: 4 organizações.
+- *Unidades*: 230 cooperativas de catadores
+- *Membros*: ~50.000 catadores organizados (NFEs) · 60% mulheres · 30% jovens
+- *Staff*: 28
+- *Cadeias/produtos*: papel, plástico, metais, eletrônicos, vidro
 
-**Composição setorial dos aliados**:
+*Papel estratégico no programa*: Única MBO madura entre os 4 parceiros. Operação policy-driven, ancorada no PNRS (Política Nacional de Resíduos Sólidos) e no Comitê Interministerial CIISC. Equipe de 28 funcionários e capacidade própria significativa — Trias atua como parceiro estratégico, não como organizational developer.
+
+
+**Prioridades de intervenção Trias**
+- Pilotos de PES e mercados de carbono para serviços ecossistêmicos urbanos
+- Logística reversa, EPR (Extended Producer Responsibility), contratação municipal
+- Capacitação de liderança jovem e feminina
+- Conectividade digital e ferramentas de traceabilidade
+
+**Composição do ecossistema conectado** (4 stakeholders):
 - Others — 3
 - Civil Society Organization (CSO) — 1
 
-**Tipos predominantes**:
-- Social moviments — 2
-- Industry platforms and sectoral initiatives — 1
-- Grassroots networks — 1
+**Distribuição de adicionalidade** das conexões:
+- Baixa — 4
 
-**Top 5 com maior score**:
+**Top 5 por alinhamento**:
 - **Movimento Nacional de Catadores de Materiais Recicláveis (MNCR)** (score 10.5) — Social moviments
 - **União Nacional de Catadoras e Catadores (Unicatadores)** (score 10.5) — Grassroots networks
 - **Associação Nacional das Empresas de Transportes Urbanos (NTU)** (score 6.0) — Industry platforms and sectoral initiatives
@@ -297,93 +347,110 @@ Betweenness centrality mede o quanto um nó está em caminhos curtos entre outro
 - **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** — betweenness 0.0000 · Public sector
 
 
-## 6. Como os stakeholders podem se relacionar com os parceiros
+## 6. Lógica de intervenção Trias e modos de articulação
 
-Cada stakeholder conectado tem um ou mais **tipos de relação possível** derivados do seu papel declarado no ecossistema. Esses tipos descrevem *operacionalmente* como a Trias e os parceiros podem articular com cada ator.
+A Trias declara no *Annex 1 — Theory of Change* cinco papéis complementares no programa Brasil 2027–2031:
 
+- **Process Facilitator** — facilita processos de OS/ID (organisational strengthening / institutional development) junto às MBOs
+- **Thematic Advisor** — provê advisory técnico-temático em clima, inclusão, gestão financeira e desenvolvimento de negócios
+- **Peer-to-Peer Facilitator** — media intercâmbios e aprendizado entre MBOs e entre cooperativas afiliadas
+- **Bridge Builder** — conecta MBOs ao ecossistema relevante (setor privado, autoridades, academia, multilaterais)
+- **Financer** — financiamento direto e mobilização de recursos via co-funding e finanças mistas
 
-### Distribuição dos tipos de relação no subconjunto conectado (n = 114)
-
-| Tipo de relação | Contagem | Operacionalização |
-|---|---|---|
-| Co-implementador | 52 | execução conjunta de projetos |
-| Âncora territorial | 42 | liderança comunitária |
-| Parceiro estratégico | 29 | co-criação de agenda, co-investimento |
-| Advocacy/incidência | 29 | incidência em PNRS, PNAE, PLANAPO etc. |
-| Assistência técnica | 24 | ATER, pesquisa aplicada, formação técnica |
-| Pesquisa & evidência | 24 | produção de dados, MRV, avaliação |
-| Financiador | 17 | doação direta, edital, co-funding |
-| Articulador | 11 | convocatória, plataforma multistakeholder |
-| Provedor de capital | 8 | blended finance, crédito, garantias |
-| MRV/dados | 8 | MEAL, avaliação, learning |
-
-### Stakeholders por tipo de relação (top 5 cada)
+Cada stakeholder conectado tem um ou mais **modos de articulação** que correspondem a esses papéis. Os modos são derivados do papel declarado da organização no mapeamento e descrevem operacionalmente como a Trias pode mobilizar a relação.
 
 
-**Co-implementador** (52 organizações)
+### Distribuição dos modos de articulação (114 stakeholders conectados)
+
+| Modo de articulação | Contagem | Papel Trias | Operacionalização |
+|---|---|---|---|
+| Co-implementação | 52 | Peer-to-Peer Facilitator | execução conjunta de projetos com as MBOs |
+| Ancoragem territorial | 42 | Process Facilitator | presença local, legitimidade junto aos membros |
+| Parceria estratégica | 29 | Bridge Builder | co-criação de agenda, alinhamento programático plurianual |
+| Advocacy compartilhado | 29 | Bridge Builder | incidência conjunta em PNRS, PNAE, PLANAPO, MROSC |
+| Advisory técnico-temático | 24 | Thematic Advisor | ATER, formação técnica, mentoria temática para MBOs |
+| Pesquisa & evidência | 24 | Thematic Advisor | estudos, baselines, MRV, avaliação |
+| Co-financiamento | 22 | Financer + Bridge Builder | captação conjunta, edital co-financiado, fundos paralelos |
+| Articulação multistakeholder | 11 | Bridge Builder | convocatória, plataforma multi-ator, redes temáticas |
+| Finanças mistas/inovadoras | 8 | Bridge Builder + Financer | blended finance, garantias, crédito, instrumentos climáticos |
+| MRV / dados | 8 | Thematic Advisor | plataformas, monitoramento ambiental, traceabilidade |
+
+### Distribuição por papel Trias mobilizado
+
+- **Bridge Builder** — 69
+- **Thematic Advisor** — 56
+- **Peer-to-Peer Facilitator** — 52
+- **Process Facilitator** — 42
+- **Financer + Bridge Builder** — 22
+- **Bridge Builder + Financer** — 8
+
+### Stakeholders por modo de articulação (top 5)
+
+
+**Co-implementação** (52)
 - Instituto Climate Ventures Brasil (Climate Ventures) (Think tanks)
 - Instituto Semeia (Philanthropy foundations)
 - Alcoa (Private companies (large / leading))
 - Norsk Hydro ASA (Hydro) (Private companies (large / leading))
 - The Nature Conservancy Brasil (TNC Brasil) (Local implementers)
 
-**Âncora territorial** (42 organizações)
+**Ancoragem territorial** (42)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 - Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
 - Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis (Ibama) (Public agencies and regulators)
 - Instituto Chico Mendes de Conservação da Biodiversidade (ICMBio) (Public agencies and regulators)
 
-**Parceiro estratégico** (29 organizações)
+**Parceria estratégica** (29)
 - Instituto Ibirapitanga (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 - Alcoa (Private companies (large / leading))
 
-**Advocacy/incidência** (29 organizações)
+**Advocacy compartilhado** (29)
 - Instituto Talanoa (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - WWF-Brasil (Local implementers)
 - WRI Brasil (Monitoring, Evaluation, and Learning)
 - Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis (Ibama) (Public agencies and regulators)
 
-**Assistência técnica** (24 organizações)
+**Advisory técnico-temático** (24)
 - Instituto Talanoa (Monitoring, Evaluation, and Learning)
 - Instituto Semeia (Philanthropy foundations)
 - WRI Brasil (Monitoring, Evaluation, and Learning)
 - Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
 - Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
 
-**Pesquisa & evidência** (24 organizações)
+**Pesquisa & evidência** (24)
 - Instituto Talanoa (Monitoring, Evaluation, and Learning)
 - Instituto Semeia (Philanthropy foundations)
 - WRI Brasil (Monitoring, Evaluation, and Learning)
 - Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
 - Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
 
-**Financiador** (17 organizações)
+**Co-financiamento** (22)
 - Instituto Ibirapitanga (Philanthropy foundations)
 - Fundo Brasileiro para a Biodiversidade (FUNBIO) (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 
-**Articulador** (11 organizações)
+**Articulação multistakeholder** (11)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Climate Ventures Brasil (Climate Ventures) (Think tanks)
 - CocoaAction Brasil (Multi-stakeholder initiatives)
 - Associação Nacional das Empresas de Transportes Urbanos (NTU) (Industry platforms and sectoral initiatives)
 - Coalizão Brasil Clima, Florestas e Agricultura (Alliances)
 
-**Provedor de capital** (8 organizações)
+**Finanças mistas/inovadoras** (8)
 - Fundo Brasileiro para a Biodiversidade (FUNBIO) (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Banco da Amazônia S.A. (BASA) (Development banks)
 - Instituto Conexões Sustentáveis (Conexsus) (Local implementers)
 - AMAZ (Impact investors)
 
-**MRV/dados** (8 organizações)
+**MRV / dados** (8)
 - Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
 - Instituto de Manejo e Certificação Florestal e Agrícola (Imaflora) (Monitoring, Evaluation, and Learning)
 - Global Canopy (Monitoring, Evaluation, and Learning)
@@ -391,7 +458,66 @@ Cada stakeholder conectado tem um ou mais **tipos de relação possível** deriv
 - Instituto Nacional de Pesquisas Espaciais (INPE) (Monitoring, Evaluation, and Learning)
 
 
-## 7. Lacunas e observações estratégicas
+## 7. Análise de adicionalidade Trias
+
+Adicionalidade é a medida de quanto a presença da Trias agrega valor *além* do que aconteceria sem ela. Em programas de cooperação para o desenvolvimento, é critério crescente de legitimidade — particularmente para um reposicionamento como hub/facilitador, em que a justificativa do papel deve ser explícita.
+
+
+### Definição operacional usada
+
+A adicionalidade Trias por conexão (stakeholder × parceiro MBO) é estimada por uma heurística que pondera:
+
+- **Gap territorial** — quanto mais distante o stakeholder do território do parceiro (ex.: amazônico), mais ponte é necessária
+- **Maturidade do MBO** — UNICAFES PA/RO (2º nível em consolidação) exigem mais bridging do que UNICATADORES (3º nível maduro)
+- **Escala/formalidade do stakeholder** — multilaterais, fundações grandes e dev banks precisam de tradução para chegar a uma MBO de primeiro ou segundo nível
+- **Penalização por preexistência** — se o stakeholder já é mencionado nas notas do parceiro, a relação existe e a adicionalidade Trias é baixa (papel limitado a coordenação)
+
+
+### Distribuição agregada (182 conexões)
+
+- **Alta** — 48 conexões (26%)
+- **Média** — 83 conexões (46%)
+- **Baixa** — 45 conexões (25%)
+
+### Adicionalidade por parceiro
+
+| MBO | Alta | Média | Baixa | Total |
+|---|---|---|---|---|
+| UNICAFES Pará | 12 | 29 | 0 | 41 |
+| UNICAFES Rondônia | 21 | 37 | 0 | 58 |
+| CSA Brasil | 15 | 17 | 41 | 73 |
+| UNICATADORES | 0 | 0 | 4 | 4 |
+
+**Leitura da adicionalidade por parceiro**
+
+- **UNICAFES Pará e Rondônia** têm a maior proporção de conexões de alta adicionalidade. Lógico: são MBOs em consolidação, em território amazônico, com pouca capacidade própria de bridging para fora da região. O papel da Trias é mais transformador ali.
+- **CSA Brasil** tem adicionalidade média predominante. Sua escala nacional e maturidade relativa diminuem a necessidade de mediação Trias para alguns atores, mas a expansão para o Norte abre janelas de alta adicionalidade.
+- **UNICATADORES** tem adicionalidade média a baixa. A organização já é atora política reconhecida (CIISC, PNRS) e tem 28 staff — não precisa de Trias para acessar muitas das suas conexões. O papel Trias ali é mais de parceria estratégica em pilotos específicos (PES, carbono, EPR) do que de bridging.
+
+
+### Conexões de alta adicionalidade — onde Trias adiciona mais valor
+
+
+Top 15 conexões com maior score de adicionalidade:
+
+- **Alcoa → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Norsk Hydro ASA (Hydro) → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Vale S.A. → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Suzano S.A. → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Amazon → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Gordon and Betty Moore Foundation → UNICAFES Pará** (adic. 3/3) — Philanthropy foundations. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação); ator institucional de grande porte
+- **Gordon and Betty Moore Foundation → UNICAFES Rondônia** (adic. 3/3) — Philanthropy foundations. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Amaggi → UNICAFES Rondônia** (adic. 3/3) — Private companies (large / leading). Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **Good Energies Foundation → UNICAFES Pará** (adic. 3/3) — Philanthropy foundations. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação); ator institucional de grande porte
+- **Good Energies Foundation → UNICAFES Rondônia** (adic. 3/3) — Philanthropy foundations. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028); ator institucional de grande porte
+- **WRI Brasil → UNICAFES Rondônia** (adic. 2.5/3) — Monitoring, Evaluation, and Learning. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028)
+- **Earth Innovation Institute → UNICAFES Rondônia** (adic. 2.5/3) — Think tanks. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028)
+- **Climate Policy Initiative (CPI) → UNICAFES Rondônia** (adic. 2.5/3) — Monitoring, Evaluation, and Learning. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028)
+- **Centro Internacional de Pesquisa Florestal e Agroflorestal (CIFOR-ICRAF) → UNICAFES Pará** (adic. 2.5/3) — Monitoring, Evaluation, and Learning. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação)
+- **Centro Internacional de Pesquisa Florestal e Agroflorestal (CIFOR-ICRAF) → UNICAFES Rondônia** (adic. 2.5/3) — Monitoring, Evaluation, and Learning. Fatores: alcance nacional (precisa aterrissagem amazônica); ator internacional — bridging Brasil-mundo; MBO em desenvolvimento (2º nível · em consolidação · exit 2028)
+
+
+## 8. Lacunas e observações estratégicas
 
 **(a) UNICATADORES como ilha temática.** Nenhum stakeholder do recorte amazônico (bioeconomia, agricultura familiar) se conecta a UNICATADORES com score ≥ 4,5. Isso confirma a hipótese de fragmentação do ecossistema apontada na árvore de causas-raiz (Annex 1, seção 1.3). Para a Trias atuar como hub entre as agendas rural-amazônica e urbano-circular, será preciso construir as pontes que hoje não existem — possivelmente via temas transversais como clima, gênero ou políticas públicas (PNRS + PNAE).
 
@@ -404,7 +530,7 @@ Cada stakeholder conectado tem um ou mais **tipos de relação possível** deriv
 **(e) UNICAFES Nacional como hub interno.** A entidade nacional aparece como bridge tri-partite (PA, RO, CSA Brasil) e funciona como ponte natural dentro da rede UNICOPAS. Estratégia de fortalecimento da UNICAFES Nacional gera spillover para os três parceiros do recorte rural/peri-urbano.
 
 
-## 8. Como usar este mapa
+## 9. Como usar este mapa
 
 **Para descrever o ecossistema na narrativa do programa.** As distribuições da seção 1 (sector, biome, role) fornecem os números agregados para a seção C.3 do BRAZIL_DGD Narrative_DRAFT. A assinatura por parceiro (seção 3) alimenta a seção D do mesmo documento.
 
