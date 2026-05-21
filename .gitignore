@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Office temp/lock files
+~$*
+*.tmp
+
+# Arquivos grandes / dados sensíveis (versionar com cuidado)
+*.zip
+*.7z
+
+# Local
+.env
+.env.local
