@@ -286,257 +286,433 @@ TRIAS_INSTITUTIONAL = {
               "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
               "country": "Bélgica",
               "role": "Principal financiador do programa Trias DGD 2027-2031",
-              "connects_to": ALL_MBOS},
+              "mbo_relations": {
+                  "UNICAFES_PA": "Financia o programa DGD 2027-2031, do qual a MBO é parceira central",
+                  "UNICAFES_RO": "Financia o programa DGD 2027-2031 incluindo o exit pathway 2028",
+                  "CSA_BRASIL": "Financia o programa DGD 2027-2031, pilar rural-urbano",
+                  "UNICATADORES": "Financia o programa DGD 2027-2031, pilar economia circular",
+              }},
     "T_EU":  {"name": "Comissão Europeia", "long_name": "European Commission · DG INTPA",
               "subcat": "Doador institucional", "type": "Multilateral",
               "country": "União Europeia",
-              "role": "Financiador histórico, EU-Mercosur Agreement, EUDR",
-              "connects_to": ALL_MBOS},
+              "role": "Acordo EU-Mercosur, EUDR (deforestation regulation), DG INTPA",
+              "mbo_relations": {
+                  "UNICAFES_PA": "EUDR cria barreira/oportunidade direta para cacau e café amazônicos",
+                  "UNICAFES_RO": "EUDR aplicada às cadeias de cacau e café de Rondônia",
+                  "CSA_BRASIL": "EU-Mercosur Agreement afeta sistemas alimentares e exportações",
+              }},
     "T_ENABEL": {"name": "Enabel", "long_name": "Agência Belga de Cooperação para o Desenvolvimento",
                  "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
                  "country": "Bélgica",
-                 "role": "Cooperação técnica complementar à DGD",
-                 "connects_to": ALL_MBOS},
+                 "role": "Cooperação técnica complementar à DGD, foco em programas bilaterais",
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Complementaridade técnica para programas amazônicos belgas",
+                     "UNICAFES_RO": "Complementaridade técnica para programas amazônicos belgas",
+                 }},
     "T_WB":  {"name": "World Bank", "long_name": "Banco Mundial",
               "subcat": "Doador institucional", "type": "Multilateral · banco de desenvolvimento",
               "country": "EUA",
-              "role": "Sustainable Landscapes Brasil, financiamento climático",
-              "connects_to": ["UNICAFES_PA", "UNICAFES_RO", "CSA_BRASIL"]},
+              "role": "Sustainable Landscapes Amazonia, financiamento climático",
+              "mbo_relations": {
+                  "UNICAFES_PA": "Sustainable Landscapes Amazonia (PA é estado-foco)",
+                  "UNICAFES_RO": "Sustainable Landscapes Amazonia (RO é estado-foco)",
+              }},
     "T_AFD": {"name": "AFD", "long_name": "Agence Française de Développement",
               "subcat": "Doador institucional", "type": "Agência de cooperação bilateral",
               "country": "França",
-              "role": "Co-funding histórico em SAM, voluntários AFD em Brasil",
-              "connects_to": ALL_MBOS},
-    "T_IKI": {"name": "IKI", "long_name": "Internationale Klimaschutzinitiative (BMUV)",
+              "role": "Co-funding em SAM, voluntários AFD nos parceiros brasileiros",
+              "mbo_relations": {
+                  "UNICAFES_PA": "Voluntários AFD em SAM (mencionado no Narrative)",
+                  "UNICAFES_RO": "Voluntários AFD em SAM, perfil cooperativista",
+                  "CSA_BRASIL": "Voluntários AFD em CSA (modelo educacional francês)",
+              }},
+    "T_IKI": {"name": "IKI", "long_name": "Internationale Klimaschutzinitiative (BMUV, Alemanha)",
               "subcat": "Doador institucional", "type": "Fundo climático bilateral",
               "country": "Alemanha",
-              "role": "Mencionado no Annex 1 como complementaridade UNICAFES RO pós-2028",
-              "connects_to": ["UNICAFES_RO", "UNICAFES_PA"]},
+              "role": "Iniciativa Internacional de Proteção Climática alemã",
+              "mbo_relations": {
+                  "UNICAFES_RO": "Mencionado no Annex 1 como complementaridade pós-2028 (instrumentos climáticos)",
+                  "UNICAFES_PA": "Potencial expansão de finanças climáticas para PA",
+              }},
     "T_GSTIC": {"name": "GSTIC", "long_name": "Global Sustainable Tech & Innovation Centre",
-                "subcat": "Doador institucional", "type": "Multilateral",
+                "subcat": "Doador institucional", "type": "Multilateral · tecnologia",
                 "country": "Bélgica",
-                "role": "Co-funding em tecnologia para inovação sustentável",
-                "connects_to": ALL_MBOS},
+                "role": "Co-funding em tecnologia e inovação para sustentabilidade",
+                "mbo_relations": {
+                    "CSA_BRASIL": "Conectividade digital e tecnologia para sistemas alimentares",
+                    "UNICATADORES": "Ferramentas digitais para traceabilidade reciclagem (AI/MRV)",
+                }},
     "T_MDA": {"name": "MDA", "long_name": "Ministério do Desenvolvimento Agrário e Agricultura Familiar",
               "subcat": "Doador institucional", "type": "Agência pública federal",
               "country": "Brasil",
-              "role": "Mencionado no Annex 1 como parceiro de financiamento doméstico",
-              "connects_to": AMAZON_MBOS},
+              "role": "PRONAF, PAA, política nacional de agricultura familiar",
+              "mbo_relations": {
+                  "UNICAFES_PA": "PRONAF Amazônia, crédito para agricultura familiar PA",
+                  "UNICAFES_RO": "PRONAF Amazônia, complementaridade pós-2028 (Annex 1)",
+                  "CSA_BRASIL": "PNAE, PAA — políticas de compras públicas alimentares",
+              }},
 
     # ---- Agri-agências da AgriCord ----
     "T_AGRICORD": {"name": "AgriCord", "long_name": "AgriCord — Aliança global de agri-agências",
                    "subcat": "Rede peer (AgriCord)", "type": "Aliança global",
                    "country": "Bélgica (secretariado)",
-                   "role": "Aliança da qual Trias é membro-fundador (via Boerenbond); plataforma de knowledge management entre agri-agências",
-                   "connects_to": ALL_MBOS},
+                   "role": "Aliança da qual Trias é membro-fundador via Boerenbond",
+                   "mbo_relations": {
+                       "UNICAFES_PA": "Knowledge management e peer-learning AgriCord",
+                       "UNICAFES_RO": "Knowledge management e peer-learning AgriCord",
+                       "CSA_BRASIL": "Knowledge management e peer-learning AgriCord",
+                       "UNICATADORES": "Knowledge management AgriCord (caso atípico, urbano)",
+                   }},
     "T_AGRITERRA": {"name": "Agriterra", "long_name": "Agriterra — Cooperative Development Agency",
                     "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                     "country": "Holanda",
-                    "role": "Toolkit Company Assessment é referência metodológica para diagnóstico institucional de MBOs (Diagnóstico Técnico ToC, Lacuna 2)",
-                    "connects_to": ALL_MBOS},
+                    "role": "Company Assessment é referência metodológica do Diagnóstico Técnico ToC",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Company Assessment aplicável a MBO 2º nível em consolidação",
+                        "UNICAFES_RO": "Company Assessment aplicável a MBO 2º nível em consolidação",
+                        "CSA_BRASIL": "Toolkit de governança aplicável a MBO 3º nível",
+                    }},
     "T_CRESOL_AA": {"name": "Cresol Agri-Agency", "long_name": "Cresol Agri-Agency (Sistema Cresol)",
                     "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                     "country": "Brasil",
-                    "role": "Única agri-agência brasileira da AgriCord; parceria histórica Trias (revolving funds via Act/Misereor); ~120.000 agricultores familiares atendidos",
-                    "connects_to": ALL_MBOS},
+                    "role": "Única agri-agência brasileira da AgriCord; parceria histórica Trias",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Crédito rural especializado, sistema irmão UNICAFES",
+                        "UNICAFES_RO": "Crédito rural especializado, sistema irmão UNICAFES",
+                        "CSA_BRASIL": "Cresol financia agricultores fornecedores de unidades CSA",
+                        "UNICATADORES": "Possível parceria em microcrédito para cooperativas urbanas",
+                    }},
     "T_FFD": {"name": "FFD", "long_name": "Food and Forest Development Finland",
               "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
               "country": "Finlândia",
-              "role": "Mandato florestal, sociobiodiversidade; ToC inspirada pelo Forest and Farm Facility (FAO-IIED-IUCN-AgriCord)",
-              "connects_to": AMAZON_MBOS + ["CSA_BRASIL"]},
+              "role": "Mandato florestal; ToC inspirada pelo Forest and Farm Facility",
+              "mbo_relations": {
+                  "UNICAFES_PA": "Forest/farm — sociobiodiversidade amazônica direta",
+                  "UNICAFES_RO": "Forest/farm — agroflorestal e bioeconomia",
+              }},
     "T_SOLIDARIDAD": {"name": "Solidaridad", "long_name": "Solidaridad Network",
                       "subcat": "Rede peer (AgriCord)", "type": "ONG internacional",
                       "country": "Holanda",
-                      "role": "Parceira em certificação RTRS (soja Cresol/Colruyt 2017); cadeias sustentáveis",
-                      "connects_to": ["UNICAFES_PA", "UNICAFES_RO", "CSA_BRASIL"]},
+                      "role": "Cadeias sustentáveis; certificação RTRS (Cresol/Colruyt 2017)",
+                      "mbo_relations": {
+                          "UNICAFES_PA": "Certificação de cadeias de cacau e café",
+                          "UNICAFES_RO": "Certificação de cadeias de cacau e café",
+                          "CSA_BRASIL": "Padrões de sustentabilidade em sistemas alimentares",
+                      }},
     "T_CSA_BE": {"name": "CSA (Bélgica)", "long_name": "Collectif Stratégies Alimentaires",
                  "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                  "country": "Bélgica",
-                 "role": "Sistemas alimentares, peer-learning com CSA Brasil",
-                 "connects_to": ["CSA_BRASIL"]},
+                 "role": "Sistemas alimentares; peer temático direto com CSA Brasil",
+                 "mbo_relations": {
+                     "CSA_BRASIL": "Peer temático direto — sistemas alimentares e cooperação",
+                 }},
     "T_FERT": {"name": "Fert", "long_name": "Fert — Coopération internationale agricole",
                "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                "country": "França",
-               "role": "Desenvolvimento agrícola e cooperativismo",
-               "connects_to": ALL_MBOS},
+               "role": "Cooperativismo agrícola francês",
+               "mbo_relations": {
+                   "UNICAFES_PA": "Peer-learning entre cooperativismo francês e brasileiro",
+                   "UNICAFES_RO": "Peer-learning entre cooperativismo francês e brasileiro",
+               }},
     "T_UPA_DI": {"name": "UPA DI", "long_name": "UPA Développement International",
                  "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                  "country": "Quebec, Canadá",
-                 "role": "Cooperativismo agrícola, intercâmbio Americas",
-                 "connects_to": ALL_MBOS},
+                 "role": "Cooperativismo agrícola das Américas",
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Intercâmbio cooperativo americano-canadense",
+                     "UNICAFES_RO": "Intercâmbio cooperativo americano-canadense",
+                 }},
     "T_WE_EFFECT": {"name": "We Effect", "long_name": "We Effect (former Swedish Cooperative Centre)",
                     "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                     "country": "Suécia",
-                    "role": "Direitos rurais, cooperativismo, gênero",
-                    "connects_to": ALL_MBOS},
+                    "role": "Direitos rurais, gênero, cooperativismo",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Agenda de gênero em cooperativismo rural (29% mulheres em PA é prioridade)",
+                        "UNICAFES_RO": "Agenda de gênero em cooperativismo rural",
+                        "CSA_BRASIL": "Gênero como driver (70% mulheres na rede)",
+                        "UNICATADORES": "Gênero em cooperativas urbanas (60% mulheres catadoras)",
+                    }},
     "T_ASPRODEB": {"name": "Asprodeb", "long_name": "Asprodeb — Senegal",
                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                    "country": "Senegal",
-                   "role": "Agricultura familiar, cooperativas; peer south-south",
-                   "connects_to": ALL_MBOS},
+                   "role": "Peer south-south em agricultura familiar",
+                   "mbo_relations": {
+                       "UNICAFES_PA": "Peer south-south agricultura familiar",
+                       "UNICAFES_RO": "Peer south-south agricultura familiar",
+                   }},
     "T_AHA":      {"name": "AHA", "long_name": "AHA — Agri-agency",
                    "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                    "country": "Multipaís",
                    "role": "Peer-learning AgriCord",
-                   "connects_to": ALL_MBOS},
+                   "mbo_relations": {
+                       "CSA_BRASIL": "Peer-learning multipaís de food systems",
+                   }},
     "T_ASIADHRRA": {"name": "AsiaDHRRA", "long_name": "AsiaDHRRA — Asian Partnership",
                     "subcat": "Rede peer (AgriCord)", "type": "Agri-agência",
                     "country": "Filipinas (regional)",
-                    "role": "Rede asiática de capacitação rural; peer south-south",
-                    "connects_to": ALL_MBOS},
+                    "role": "Rede asiática de cooperativismo e capacitação rural",
+                    "mbo_relations": {
+                        "CSA_BRASIL": "Peer asiática em sistemas alimentares",
+                    }},
 
     # ---- Redes belgas/europeias ----
     "T_11_11":  {"name": "11.11.11", "long_name": "11.11.11 · Umbrella belga de solidariedade internacional",
                  "subcat": "Rede belga/europeia", "type": "Federação de ONGs",
                  "country": "Bélgica",
                  "role": "Articulação política das ONGs belgas; Trias é membro",
-                 "connects_to": ALL_MBOS},
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Voz coletiva belga inclui a operação PA",
+                     "UNICAFES_RO": "Voz coletiva belga inclui a operação RO",
+                     "CSA_BRASIL": "Voz coletiva belga inclui o pilar rural-urbano",
+                     "UNICATADORES": "Voz coletiva belga inclui o pilar economia circular",
+                 }},
     "T_NGO_FED": {"name": "NGO Federation BE", "long_name": "Federação Belga de ONGs (ngo-federatie)",
                   "subcat": "Rede belga/europeia", "type": "Federação de ONGs",
                   "country": "Bélgica",
-                  "role": "Diálogo institucional com DGD; harmonização de procedimentos",
-                  "connects_to": ALL_MBOS},
+                  "role": "Diálogo com DGD; harmonização de procedimentos",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Procedimentos administrativos DGD",
+                      "UNICAFES_RO": "Procedimentos administrativos DGD",
+                      "CSA_BRASIL": "Procedimentos administrativos DGD",
+                      "UNICATADORES": "Procedimentos administrativos DGD",
+                  }},
     "T_CCH":    {"name": "Coalition Against Hunger", "long_name": "Coalition Against Hunger (CCH) Bélgica",
                  "subcat": "Rede belga/europeia", "type": "Coalizão temática",
                  "country": "Bélgica",
-                 "role": "Sistemas alimentares sustentáveis; Trias planeja rejoin em 2026 (Guidance ENG)",
-                 "connects_to": ALL_MBOS},
+                 "role": "Sistemas alimentares sustentáveis; Trias planeja rejoin 2026",
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Advocacy belga para sistemas alimentares amazônicos",
+                     "UNICAFES_RO": "Advocacy belga para sistemas alimentares amazônicos",
+                     "CSA_BRASIL": "CSA é diretamente sistemas alimentares — alinhamento natural",
+                 }},
     "T_BEYOND_CHOC": {"name": "Beyond Chocolate", "long_name": "Beyond Chocolate · Plataforma belga para cacau sustentável",
                       "subcat": "Rede belga/europeia", "type": "Plataforma setorial",
                       "country": "Bélgica",
-                      "role": "Plataforma para cacau sustentável; cacau é cadeia central UNICAFES PA/RO",
-                      "connects_to": AMAZON_MBOS},
+                      "role": "Plataforma belga para cacau sustentável",
+                      "mbo_relations": {
+                          "UNICAFES_PA": "Cacau é cadeia central em PA",
+                          "UNICAFES_RO": "Cacau é cadeia central em RO",
+                      }},
     "T_BASCOF":  {"name": "BASCOF", "long_name": "Belgian Sustainable Coffee Initiative",
                   "subcat": "Rede belga/europeia", "type": "Plataforma setorial",
                   "country": "Bélgica",
-                  "role": "Iniciativa belga em formação para café sustentável (cf. Guidance ENG)",
-                  "connects_to": AMAZON_MBOS},
+                  "role": "Iniciativa belga em formação para café sustentável",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Café é cadeia central em PA",
+                      "UNICAFES_RO": "Café é cadeia central em RO",
+                  }},
     "T_URGENCI": {"name": "Urgenci", "long_name": "Urgenci · International CSA Network",
                   "subcat": "Rede belga/europeia", "type": "Rede temática internacional",
                   "country": "Internacional",
-                  "role": "Rede internacional de Community-Supported Agriculture; CSA Brasil é membro ativo",
-                  "connects_to": ["CSA_BRASIL"]},
+                  "role": "Rede internacional de Community-Supported Agriculture",
+                  "mbo_relations": {
+                      "CSA_BRASIL": "CSA Brasil é membro ativo da rede internacional",
+                  }},
     "T_UN_GC":   {"name": "UN Global Compact", "long_name": "UN Global Compact",
                   "subcat": "Rede belga/europeia", "type": "Pacto global",
                   "country": "ONU",
-                  "role": "Trias é signatária; due diligence ética de parceiros e doadores",
-                  "connects_to": ALL_MBOS},
+                  "role": "Trias é signatária; due diligence ética de parceiros",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Due diligence ética aplicada a parceiros do programa",
+                      "UNICAFES_RO": "Due diligence ética aplicada a parceiros do programa",
+                      "CSA_BRASIL": "Due diligence ética aplicada a parceiros do programa",
+                      "UNICATADORES": "Due diligence ética aplicada a parceiros do programa",
+                  }},
 
     # ---- Diplomacia e mercado Bélgica-Brasil ----
-    "T_EMB_BE":  {"name": "Embaixada da Bélgica no Brasil", "long_name": "Embaixada da Bélgica em Brasília",
+    "T_EMB_BE":  {"name": "Embaixada da Bélgica", "long_name": "Embaixada da Bélgica em Brasília",
                   "subcat": "Diplomacia/mercado", "type": "Diplomático",
                   "country": "Bélgica/Brasil",
-                  "role": "Missão econômica 2024 e agenda de cooperação bilateral",
-                  "connects_to": ALL_MBOS},
+                  "role": "Coordena agenda bilateral e missões econômicas",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Apoio diplomático em iniciativas amazônicas",
+                      "UNICAFES_RO": "Apoio diplomático em iniciativas amazônicas",
+                      "CSA_BRASIL": "Apoio diplomático em iniciativas alimentares",
+                      "UNICATADORES": "Apoio diplomático em iniciativas urbanas",
+                  }},
     "T_AWEX":    {"name": "AWEX", "long_name": "Wallonia Export and Investment Agency",
                   "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
                   "country": "Bélgica (Valônia)",
-                  "role": "Parceiro do Gastronomy Lab Santarém-PA (com BID e Liège)",
-                  "connects_to": AMAZON_MBOS},
+                  "role": "Parceira do Gastronomy Lab Santarém-PA (com BID e Liège)",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Gastronomy Lab Santarém-PA é parceria direta AWEX-BID-Liège",
+                  }},
     "T_HUB_BR":  {"name": "Hub Brussels", "long_name": "Hub Brussels · Brussels Export",
                   "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
                   "country": "Bélgica (Bruxelas)",
                   "role": "Comércio bilateral Bruxelas-Brasil",
-                  "connects_to": ALL_MBOS},
+                  "mbo_relations": {
+                      "CSA_BRASIL": "Comércio bilateral de produtos agroecológicos",
+                  }},
     "T_FIT":     {"name": "FIT", "long_name": "Flanders Investment & Trade",
                   "subcat": "Diplomacia/mercado", "type": "Agência de comércio",
                   "country": "Bélgica (Flandres)",
-                  "role": "Comércio flamengo-Brasil",
-                  "connects_to": ALL_MBOS},
+                  "role": "Colruyt é empresa flamenga, foco em cadeias amazônicas",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Comércio Flandres-Amazônia (Colruyt mel, cacau)",
+                      "UNICAFES_RO": "Comércio Flandres-Amazônia (cacau, café)",
+                  }},
     "T_BELGALUX": {"name": "Belgalux", "long_name": "Belgalux · Câmara comercial Bélgica-Brasil",
                    "subcat": "Diplomacia/mercado", "type": "Câmara de comércio",
                    "country": "Bélgica/Brasil",
                    "role": "Câmara comercial bilateral",
-                   "connects_to": ALL_MBOS},
+                   "mbo_relations": {
+                       "UNICAFES_PA": "Câmara bilateral suporta cadeias exportadoras",
+                       "UNICAFES_RO": "Câmara bilateral suporta cadeias exportadoras",
+                       "CSA_BRASIL": "Câmara bilateral suporta produtos agroecológicos",
+                   }},
     "T_BEM_2024": {"name": "Belgian Economic Mission 2024", "long_name": "Belgian Economic Mission to Brazil (Princesa Astrid, nov/2024)",
-                   "subcat": "Diplomacia/mercado", "type": "Missão diplomática",
+                   "subcat": "Diplomacia/mercado", "type": "Missão diplomática (histórica)",
                    "country": "Bélgica/Brasil",
                    "role": "405 participantes, 173 empresas; marco histórico Trias-Brasil",
-                   "connects_to": ALL_MBOS},
+                   "mbo_relations": {
+                       "UNICAFES_PA": "Trias participou da missão e MoU Suzano referencia PA",
+                       "UNICAFES_RO": "Trias participou da missão",
+                       "CSA_BRASIL": "Trias participou da missão",
+                       "UNICATADORES": "Trias participou da missão",
+                   }},
     "T_ABC":     {"name": "ABC", "long_name": "Agência Brasileira de Cooperação · MRE",
                   "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
                   "country": "Brasil",
-                  "role": "Cooperação técnica internacional; Sul-Sul",
-                  "connects_to": ALL_MBOS},
+                  "role": "Cooperação Sul-Sul",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Sul-Sul no corredor amazônico trinacional",
+                      "UNICAFES_RO": "Sul-Sul no corredor amazônico trinacional",
+                  }},
     "T_ITAMARATY": {"name": "Itamaraty", "long_name": "Ministério das Relações Exteriores",
                     "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
                     "country": "Brasil",
-                    "role": "Diplomacia, cooperação Sul-Sul",
-                    "connects_to": ALL_MBOS},
+                    "role": "Diplomacia e cooperação internacional",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Diplomacia amazônica (COP30, NDC, sociobiodiversidade)",
+                        "UNICAFES_RO": "Diplomacia amazônica e mercados de carbono",
+                        "CSA_BRASIL": "Soberania alimentar nos fóruns internacionais",
+                        "UNICATADORES": "Política internacional de resíduos e economia circular",
+                    }},
     "T_SAF":     {"name": "SAF/MDA", "long_name": "Secretaria de Agricultura Familiar · MDA",
                   "subcat": "Diplomacia/mercado", "type": "Agência pública federal",
                   "country": "Brasil",
                   "role": "Política nacional de agricultura familiar (PRONAF, PAA, PNAE)",
-                  "connects_to": AMAZON_MBOS},
+                  "mbo_relations": {
+                      "UNICAFES_PA": "PRONAF e acesso a políticas de AF",
+                      "UNICAFES_RO": "PRONAF e acesso a políticas de AF",
+                      "CSA_BRASIL": "PNAE, PAA — compras públicas de agricultura familiar",
+                  }},
 
-    # ---- Setor privado parceiro ----
-    "T_COLRUYT": {"name": "Colruyt Group", "long_name": "Colruyt Group · Belgian retailer",
-                  "subcat": "Setor privado parceiro", "type": "Varejo (Bélgica)",
+    # ---- Setor privado parceiro + MBOs SAM ----
+    "T_COLRUYT": {"name": "Colruyt Group", "long_name": "Colruyt Group · varejista belga",
+                  "subcat": "Setor privado parceiro", "type": "Varejo",
                   "country": "Bélgica",
-                  "role": "Mel orgânico Coopemapi 2024-2027; soja certificada Cresol 2017; parceria histórica Trias",
-                  "connects_to": AMAZON_MBOS + ["CSA_BRASIL"]},
+                  "role": "Mel orgânico Coopemapi 2024-2027; soja Cresol 2017; parceria histórica",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Off-take de mel orgânico (cooperativa Coopemapi na Amazônia)",
+                      "UNICAFES_RO": "Off-take potencial de cacau e café orgânicos",
+                      "CSA_BRASIL": "Modelo de varejo orgânico belga, peer para CSA",
+                  }},
     "T_BOERENBOND": {"name": "Boerenbond", "long_name": "Boerenbond · Belgian Farmers' Association",
                      "subcat": "Setor privado parceiro", "type": "Associação de produtores",
                      "country": "Bélgica",
-                     "role": "Co-fundadora da Trias; mandante AgriCord; ~100k agricultores",
-                     "connects_to": ALL_MBOS},
+                     "role": "Co-fundadora da Trias; mandante AgriCord",
+                     "mbo_relations": {
+                         "UNICAFES_PA": "Origem institucional da Trias enquanto agri-agência",
+                         "UNICAFES_RO": "Origem institucional da Trias",
+                         "CSA_BRASIL": "Origem institucional da Trias",
+                         "UNICATADORES": "Origem institucional da Trias",
+                     }},
     "T_COOPEMAPI": {"name": "Coopemapi", "long_name": "Coopemapi · Cooperativa de Apicultores Amazônicos",
                     "subcat": "Setor privado parceiro", "type": "Cooperativa de produtores",
                     "country": "Brasil (Amazônia)",
-                    "role": "Fornecedora do mel orgânico para Colruyt; cadeia Amazônia-Bélgica",
-                    "connects_to": AMAZON_MBOS},
+                    "role": "Fornecedora do mel orgânico para Colruyt 2024-2027",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Cooperativa amazônica, peer direto de UNICAFES PA na cadeia do mel",
+                        "UNICAFES_RO": "Modelo replicável para cooperativas RO",
+                    }},
     "T_KALLARI": {"name": "Kallari", "long_name": "Asociación Kallari · Cooperativa de cacao",
                   "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                   "country": "Equador (Amazônia)",
-                  "role": "Cacau orgânico; peer regional UNICAFES PA/RO no corredor amazônico trinacional",
-                  "connects_to": AMAZON_MBOS},
+                  "role": "Cacau orgânico; peer regional no corredor amazônico trinacional",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Peer trinacional, cadeia do cacau amazônico",
+                      "UNICAFES_RO": "Peer trinacional, cadeia do cacau amazônico",
+                  }},
     "T_UNOCACE": {"name": "Unocace", "long_name": "Unión de Organizaciones Campesinas Cacaoteras del Ecuador",
                   "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                   "country": "Equador",
                   "role": "Cacau; peer regional UNICAFES PA/RO",
-                  "connects_to": AMAZON_MBOS},
-    "T_APROCAM": {"name": "Aprocam", "long_name": "Aprocam · Cooperativa de Productores de Cacao",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Peer cacau equatoriano-brasileiro",
+                      "UNICAFES_RO": "Peer cacau equatoriano-brasileiro",
+                  }},
+    "T_APROCAM": {"name": "Aprocam", "long_name": "Aprocam · Cooperativa peruana de cacao",
                   "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                   "country": "Peru",
-                  "role": "Cacau; peer regional UNICAFES PA/RO",
-                  "connects_to": AMAZON_MBOS},
-    "T_AGROPAPA": {"name": "AGROPAPA Tungurahua", "long_name": "AGROPAPA · Cooperativa de productores de papa",
+                  "role": "Cacau peruano; peer regional UNICAFES PA/RO",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Peer trinacional Peru-Brasil cacau",
+                      "UNICAFES_RO": "Peer trinacional Peru-Brasil cacau",
+                  }},
+    "T_AGROPAPA": {"name": "AGROPAPA Tungurahua", "long_name": "AGROPAPA · Cooperativa equatoriana de batata",
                    "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                    "country": "Equador (Tungurahua)",
-                   "role": "Modelo de business partner management; peer cooperativista para UNICAFES PA/RO",
-                   "connects_to": AMAZON_MBOS},
-    "T_CONPAPA": {"name": "CONPAPA Chimborazo", "long_name": "CONPAPA · Consorcio de papas",
+                   "role": "Modelo de business partner management replicável",
+                   "mbo_relations": {
+                       "UNICAFES_PA": "Modelo cooperativista equatoriano aplicável a PA",
+                       "UNICAFES_RO": "Modelo cooperativista equatoriano aplicável a RO",
+                   }},
+    "T_CONPAPA": {"name": "CONPAPA Chimborazo", "long_name": "CONPAPA · Consorcio equatoriano de papas",
                   "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                   "country": "Equador (Chimborazo)",
-                  "role": "Modelo cooperativo replicável; peer UNICAFES PA/RO",
-                  "connects_to": AMAZON_MBOS},
-    "T_COOPAGROS": {"name": "COOPAGROS", "long_name": "COOPAGROS · Cooperativa peruana de productores",
+                  "role": "Modelo cooperativista replicável",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Modelo cooperativista equatoriano aplicável a PA",
+                      "UNICAFES_RO": "Modelo cooperativista equatoriano aplicável a RO",
+                  }},
+    "T_COOPAGROS": {"name": "COOPAGROS", "long_name": "COOPAGROS · Cooperativa peruana",
                     "subcat": "Setor privado parceiro · SAM", "type": "Cooperativa de produtores",
                     "country": "Peru",
-                    "role": "Modelo de business partner management; peer UNICAFES PA/RO",
-                    "connects_to": AMAZON_MBOS},
+                    "role": "Business partner management; peer regional",
+                    "mbo_relations": {
+                        "UNICAFES_PA": "Peer cooperativista Peru-Brasil",
+                        "UNICAFES_RO": "Peer cooperativista Peru-Brasil",
+                    }},
 
     # ---- Academia ----
     "T_LIEGE": {"name": "Université de Liège", "long_name": "Université de Liège (ULiège)",
                 "subcat": "Academia", "type": "Universidade",
                 "country": "Bélgica",
-                "role": "Gastronomy Lab em Santarém-PA (parceria com BID e AWEX)",
-                "connects_to": ["UNICAFES_PA"]},
+                "role": "Gastronomy Lab em Santarém-PA (com BID, AWEX, Suzano)",
+                "mbo_relations": {
+                    "UNICAFES_PA": "Gastronomy Lab Santarém-PA — parceria ativa direta",
+                }},
     "T_VLERICK": {"name": "Vlerick Business School", "long_name": "Vlerick Business School",
                   "subcat": "Academia", "type": "Business school",
                   "country": "Bélgica",
-                  "role": "Capacitação executiva para lideranças MBO; mencionada no Narrative",
-                  "connects_to": ALL_MBOS},
+                  "role": "Capacitação executiva para lideranças MBO (Narrative)",
+                  "mbo_relations": {
+                      "UNICAFES_PA": "Capacitação executiva para staff e lideranças (2 staff)",
+                      "UNICAFES_RO": "Capacitação executiva para staff e lideranças (2 staff)",
+                      "CSA_BRASIL": "Capacitação executiva para liderança (3 staff)",
+                      "UNICATADORES": "Capacitação executiva para liderança (28 staff)",
+                  }},
     "T_BRS":    {"name": "BRS", "long_name": "Belgian Raiffeisen Society",
                  "subcat": "Academia", "type": "Cooperativa financeira / academia",
                  "country": "Bélgica",
-                 "role": "Microfinanças cooperativas; expertise em finance cooperativa",
-                 "connects_to": ALL_MBOS},
+                 "role": "Expertise em microfinanças cooperativas",
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Microfinanças cooperativas para agricultores familiares",
+                     "UNICAFES_RO": "Microfinanças e blended finance",
+                     "CSA_BRASIL": "Modelo de finança solidária para CSA",
+                 }},
     "T_A4D":    {"name": "Academics for Development", "long_name": "Academics for Development",
                  "subcat": "Academia", "type": "Rede de voluntários acadêmicos",
                  "country": "Bélgica",
-                 "role": "Apoio voluntário acadêmico a OSCs e MBOs",
-                 "connects_to": ALL_MBOS},
+                 "role": "Apoio voluntário acadêmico a OSCs",
+                 "mbo_relations": {
+                     "UNICAFES_PA": "Voluntariado acadêmico em projetos pontuais",
+                     "UNICAFES_RO": "Voluntariado acadêmico em projetos pontuais",
+                     "CSA_BRASIL": "Voluntariado acadêmico em projetos pontuais",
+                     "UNICATADORES": "Voluntariado acadêmico em projetos pontuais",
+                 }},
 }
 
 # Paleta para a camada institucional — cor única, distinta dos setores
@@ -806,14 +982,16 @@ for a, b in peer_pairs:
 
 # Camada institucional Trias
 for inst_id, inst in TRIAS_INSTITUTIONAL.items():
+    mbo_rels = inst.get("mbo_relations", {})
     G.add_node(inst_id, kind="trias_institutional",
                name=inst["name"], long_name=inst["long_name"],
                subcat=inst["subcat"], type=inst["type"],
                country=inst["country"], role=inst["role"],
                color=INSTITUTIONAL_COLOR,
-               connects_to=inst["connects_to"])
-    for mbo in inst["connects_to"]:
-        G.add_edge(inst_id, mbo, weight=6, kind="institutional")
+               connects_to=list(mbo_rels.keys()),
+               mbo_relations=mbo_rels)
+    for mbo, reason in mbo_rels.items():
+        G.add_edge(inst_id, mbo, weight=6, kind="institutional", reason=reason)
 
 betweenness = nx.betweenness_centrality(G, weight="weight")
 for nid in G.nodes:
@@ -992,6 +1170,11 @@ HTML = r"""<!DOCTYPE html>
          transition: grid-template-columns 0.25s ease; }
   body.left-hidden { --lw: 0px; }
   body.right-hidden { --rw: 0px; }
+  /* camada institucional escondida por padrao */
+  body .node.trias-institutional,
+  body .link.institutional { display: none; }
+  body.institutional-on .node.trias-institutional,
+  body.institutional-on .link.institutional { display: block; }
   header.bar { grid-area: header; background: var(--panel);
                border-bottom: 1px solid var(--border); display: flex;
                align-items: center; padding: 0 14px; gap: 10px; z-index: 20; }
@@ -1131,13 +1314,11 @@ HTML = r"""<!DOCTYPE html>
   .link { stroke: var(--link); fill: none; stroke-linecap: round;
            transition: stroke 0.25s, stroke-width 0.25s, opacity 0.25s; }
   .link.peer { stroke: rgba(177,69,69,0.25); stroke-dasharray: 4 3; }
-  .link.institutional { stroke: rgba(58,90,135,0.45); stroke-width: 1.2px; }
+  .link.institutional { stroke: rgba(58,90,135,0.18); stroke-width: 0.8px; }
   .link.dim { opacity: 0.06; }
   .link.focus { stroke: rgba(177,69,69,0.65); }
-  .link.institutional.focus { stroke: rgba(58,90,135,0.85); stroke-width: 2px; }
-  body.institutional-hidden .node.trias-institutional,
-  body.institutional-hidden .link.institutional { display: none; }
-  .btn-institutional-off { background: var(--panel-2); color: var(--muted-2); }
+  .link.institutional.focus { stroke: rgba(58,90,135,0.85); stroke-width: 1.8px; }
+  .btn-institutional-on { background: var(--text); color: #fff; border-color: var(--text); }
   .node { cursor: pointer; }
   .node-halo { fill: var(--accent); opacity: 0; transition: opacity 0.25s; }
   .node-halo.show { opacity: 0.14; }
@@ -1456,15 +1637,18 @@ document.addEventListener('keydown', ev => {
   if (ev.key === 'Escape') clearFocus();
 });
 
-// Toggle camada institucional Trias
+// Toggle camada institucional Trias — ESCONDIDA por padrão
 $('#btn-institutional').onclick = () => {
-  document.body.classList.toggle('institutional-hidden');
-  const hidden = document.body.classList.contains('institutional-hidden');
-  $('#btn-institutional').classList.toggle('btn-institutional-off', hidden);
-  $('#btn-institutional').textContent = hidden
-    ? 'Mostrar camada institucional'
-    : 'Camada institucional Trias';
+  document.body.classList.toggle('institutional-on');
+  const on = document.body.classList.contains('institutional-on');
+  $('#btn-institutional').classList.toggle('btn-institutional-on', on);
+  $('#btn-institutional').textContent = on
+    ? 'Ocultar camada institucional'
+    : 'Mostrar camada institucional Trias';
+  if (on) { sim.alpha(0.3).restart(); }
 };
+// Texto inicial do botão
+$('#btn-institutional').textContent = 'Mostrar camada institucional Trias';
 
 // ========== Methodology modal ==========
 $('#btn-methodology').onclick = () => $('#modal-bg').classList.add('show');
@@ -1686,19 +1870,53 @@ nodes.forEach(n => {
   }
 });
 
+// Layout-alvo dos nós institucionais por subcategoria (em coordenadas relativas
+// ao centro). Pelo menos 1.5x o raio do cluster MBO para ficarem na periferia.
+const INSTITUTIONAL_LAYOUT = {
+  'Doador institucional':         { x:  0.0, y: -1.6 },  // topo
+  'Rede peer (AgriCord)':         { x:  1.6, y: -0.8 },  // topo-direita
+  'Rede belga/europeia':          { x: -1.6, y: -0.4 },  // esquerda
+  'Diplomacia/mercado':           { x:  1.6, y:  0.8 },  // direita-baixo
+  'Setor privado parceiro':       { x: -1.6, y:  0.8 },  // esquerda-baixo
+  'Setor privado parceiro · SAM': { x:  0.0, y:  1.6 },  // base (perto da Amazônia)
+  'Academia':                     { x: -0.9, y: -1.4 },  // topo-esquerda
+};
+
+function instTarget(d, axis) {
+  if (d.kind !== 'trias_institutional') return 0;
+  const t = INSTITUTIONAL_LAYOUT[d.subcat];
+  if (!t) return 0;
+  const scale = Math.min(W(), H()) * 0.32;
+  return t[axis] * scale;
+}
+
 const sim = d3.forceSimulation(nodes)
   .force('link', d3.forceLink(links).id(d => d.id)
-                   .distance(l => l.kind === 'peer' ? 220 : 110 + (8 - l.weight) * 12)
-                   .strength(l => l.kind === 'peer' ? 0.04 : 0.45))
-  .force('charge', d3.forceManyBody().strength(d => d.kind === 'partner' ? -1500 : -240))
+                   .distance(l => {
+                     if (l.kind === 'peer') return 220;
+                     if (l.kind === 'institutional') return 160;
+                     return 110 + (8 - l.weight) * 12;
+                   })
+                   .strength(l => {
+                     if (l.kind === 'peer') return 0.04;
+                     if (l.kind === 'institutional') return 0.08;
+                     return 0.45;
+                   }))
+  .force('charge', d3.forceManyBody().strength(d => {
+    if (d.kind === 'partner') return -1500;
+    if (d.kind === 'trias_institutional') return -120;
+    return -240;
+  }))
   .force('center', d3.forceCenter(0, 0).strength(0.015))
   .force('collide', d3.forceCollide().radius(d => nodeRadius(d) + 4))
+  .force('inst-x', d3.forceX(d => instTarget(d, 'x')).strength(d => d.kind === 'trias_institutional' ? 0.18 : 0))
+  .force('inst-y', d3.forceY(d => instTarget(d, 'y')).strength(d => d.kind === 'trias_institutional' ? 0.18 : 0))
   .alphaDecay(0.025);
 
 function nodeRadius(d) {
-  if (d.kind === 'partner') return 22;
-  if (d.kind === 'trias_institutional') return 10;
-  return 6 + (d.n_partners || 1) * 4;
+  if (d.kind === 'partner') return 20;
+  if (d.kind === 'trias_institutional') return 7;
+  return 5 + (d.n_partners || 1) * 3.5;
 }
 
 const linkSel = linkLayer.selectAll('path.link')
@@ -1736,17 +1954,21 @@ nodeSel.each(function(d) {
   }
 });
 nodeSel.append('text')
-  .attr('dy', d => nodeRadius(d) + 13)
+  .attr('dy', d => nodeRadius(d) + 12)
   .text(d => {
     if (d.kind === 'partner') return d.name;
     if (d.kind === 'trias_institutional') {
-      return d.name.length > 28 ? d.name.slice(0, 25) + '…' : d.name;
+      // só mostra label se nome curto, evita poluição
+      return d.name.length > 20 ? d.name.slice(0, 17) + '…' : d.name;
     }
-    if ((d.n_partners || 0) >= 2 || d.betweenness > 0.01) {
+    // ecossistema brasileiro: só labels para tri-bridges e altos brokers
+    if ((d.n_partners || 0) >= 3 || d.betweenness > 0.015) {
       return d.name.length > 32 ? d.name.slice(0, 29) + '…' : d.name;
     }
     return '';
-  });
+  })
+  .style('font-size', d => d.kind === 'trias_institutional' ? '9.5px' : null)
+  .style('fill', d => d.kind === 'trias_institutional' ? 'var(--muted)' : null);
 
 const tip = $('#tip');
 nodeSel.on('mouseenter', function(ev, d) {
@@ -1847,10 +2069,15 @@ function showInspector(n) {
   const ec = $('#ins-content'); const ee = $('#ins-empty');
   ee.style.display = 'none'; ec.style.display = 'block';
   if (n.kind === 'trias_institutional') {
-    const connsLst = (n.connects_to || []).map(pid => {
+    const rels = n.mbo_relations || {};
+    let relsHtml = '';
+    Object.entries(rels).forEach(([pid, reason]) => {
       const pname = DATA.partners.find(p => p.id === pid).name;
-      return `<span class="conn">${pname}</span>`;
-    }).join('');
+      relsHtml += `<div class="conn-row" style="display:block;">
+        <div class="pname" style="font-weight:600;color:var(--text);">${pname}</div>
+        <div style="color:var(--muted);font-size:11px;margin-top:3px;line-height:1.4;">${reason}</div>
+      </div>`;
+    });
     ec.innerHTML = `
       <div class="ins-header">
         <div class="name">${n.name}</div>
@@ -1860,8 +2087,8 @@ function showInspector(n) {
       <div class="ins-row"><div class="k">Tipo</div><div class="v">${n.type || ''}</div></div>
       <div class="ins-row"><div class="k">País / origem</div><div class="v">${n.country || ''}</div></div>
       <div class="ins-row"><div class="k">Papel na operação Trias</div><div class="v">${n.role || ''}</div></div>
-      <div class="ins-row"><div class="k">Conectado aos parceiros MBO</div><div class="v">${connsLst || '—'}</div></div>
-      <div class="ins-row"><div class="k">Nota metodológica</div><div class="v" style="font-size:11px;color:var(--muted);">Vínculos institucionais existentes ou em curso, não potenciais. Não entram no cálculo de adicionalidade (Trias já tem essa relação ou ela está em construção formal).</div></div>
+      <div class="ins-row"><div class="k">Interesse específico de cada MBO neste ator</div><div class="v">${relsHtml || '—'}</div></div>
+      <div class="ins-row"><div class="k">Nota metodológica</div><div class="v" style="font-size:11px;color:var(--muted);">Vínculos institucionais existentes ou em construção formal — não potenciais. As conexões foram qualificadas caso-a-caso pelo interesse e perfil temático/territorial de cada MBO.</div></div>
     `;
     return;
   }
