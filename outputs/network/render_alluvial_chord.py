@@ -113,9 +113,48 @@ for r in results:
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9})
 
 # ===========================================================
+# Translations
+# ===========================================================
+LANG = {
+    "en": {
+        "title":    "How institutional capital flows to MBOs",
+        "subtitle": "Stakeholder sector → Trias role mobilized → MBO partner",
+        "eyebrow":  "TRIAS · BRAZIL · DGD 2027–2031",
+        "col_sector":  "SECTOR",
+        "col_role":    "TRIAS ROLE MOBILIZED",
+        "col_partner": "MBO PARTNER",
+        "sector_labels": {
+            "Organizações sociais":     "Civil society organizations",
+            "Cooperação internacional": "International cooperation",
+            "Setor privado":            "Private sector",
+            "Academia":                 "Academia",
+            "Governo":                  "Government",
+            "Outros":                   "Others",
+        },
+    },
+    "pt": {
+        "title":    "Fluxo de adicionalidade Trias Brasil vs. MBOs",
+        "subtitle": "Setor do stakeholder → Papel Trias mobilizado → Parceiro MBO",
+        "eyebrow":  "TRIAS · BRASIL · DGD 2027–2031",
+        "col_sector":  "SETOR",
+        "col_role":    "PAPEL TRIAS MOBILIZADO",
+        "col_partner": "PARCEIRO MBO",
+        "sector_labels": {
+            "Organizações sociais":     "Organizações sociais",
+            "Cooperação internacional": "Cooperação internacional",
+            "Setor privado":            "Setor privado",
+            "Academia":                 "Academia",
+            "Governo":                  "Governo",
+            "Outros":                   "Outros",
+        },
+    },
+}
+
+# ===========================================================
 # CHART 1 — ALLUVIAL
 # ===========================================================
-def render_alluvial(out_path):
+def render_alluvial(out_path, lang="en"):
+    L = LANG[lang]
     fig = plt.figure(figsize=(17, 11), dpi=180, facecolor="white")
     ax = fig.add_subplot(111)
     ax.set_xlim(0, 10)
@@ -123,14 +162,14 @@ def render_alluvial(out_path):
     ax.axis("off")
 
     # Header
-    fig.text(0.05, 0.96, "How institutional capital flows to MBOs",
+    fig.text(0.05, 0.96, L["title"],
              fontsize=22, fontweight="bold", color="#0F172A", ha="left", va="top")
-    fig.text(0.05, 0.925,
-             "Stakeholder sector → Trias role mobilized → MBO partner",
+    fig.text(0.05, 0.925, L["subtitle"],
              fontsize=11, color="#334155", style="italic", ha="left", va="top")
-    fig.text(0.05, 0.905, "TRIAS · BRAZIL · DGD 2027–2031",
+    fig.text(0.05, 0.905, L["eyebrow"],
              fontsize=8.5, color="#64748B", ha="left", va="top", family="monospace")
-    fig.text(0.97, 0.96, "Version 4.0 · May 2026",
+    fig.text(0.97, 0.96, ("Versão 4.1 · maio 2026" if lang == "pt"
+                          else "Version 4.1 · May 2026"),
              fontsize=8.5, color="#64748B", ha="right", va="top", family="monospace")
 
     COL_X = {"sector": (0.5, 1.8), "role": (4.3, 5.9), "partner": (8.4, 9.7)}
@@ -218,7 +257,8 @@ def render_alluvial(out_path):
 
     for s, (y0, y1) in sector_bins.items():
         draw_block(COL_X["sector"][0], COL_X["sector"][1], y0, y1,
-                   SECTOR_COLOR[s], SECTOR_LABEL_EN.get(s, s), sector_totals[s], side="left")
+                   SECTOR_COLOR[s], L["sector_labels"].get(s, s),
+                   sector_totals[s], side="left")
     for r, (y0, y1) in role_bins.items():
         draw_block(COL_X["role"][0], COL_X["role"][1], y0, y1,
                    ROLE_COLOR[r], r, role_totals_left[r], side="middle")
@@ -277,15 +317,15 @@ def render_alluvial(out_path):
 
     # Column headers — descritivos, alinhados ao topo da banda útil
     ax.text((COL_X["sector"][0] + COL_X["sector"][1])/2, TOP_Y + 2.5,
-            "SECTOR", ha="center", va="bottom",
+            L["col_sector"], ha="center", va="bottom",
             fontsize=9, color="#94A3B8", fontweight="bold",
             family="monospace")
     ax.text((COL_X["role"][0] + COL_X["role"][1])/2, TOP_Y + 2.5,
-            "TRIAS ROLE MOBILIZED", ha="center", va="bottom",
+            L["col_role"], ha="center", va="bottom",
             fontsize=9, color="#94A3B8", fontweight="bold",
             family="monospace")
     ax.text((COL_X["partner"][0] + COL_X["partner"][1])/2, TOP_Y + 2.5,
-            "MBO PARTNER", ha="center", va="bottom",
+            L["col_partner"], ha="center", va="bottom",
             fontsize=9, color="#94A3B8", fontweight="bold",
             family="monospace")
 
@@ -379,7 +419,8 @@ def render_bridges(out_path):
 # ===========================================================
 # RUN
 # ===========================================================
-render_alluvial(OUT_NET / "alluvial.png")
+render_alluvial(OUT_NET / "alluvial.png", lang="en")
+render_alluvial(OUT_NET / "fluxo_adicionalidade.png", lang="pt")
 render_bridges(OUT_NET / "bridges.png")
 
 # remove arquivo combinado antigo se existir
