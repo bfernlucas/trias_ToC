@@ -1,8 +1,8 @@
 # Ecossistema Trias Brasil — DGD 2027–2031
 
-Descrição analítica do ecossistema em que a Trias atuará no próximo ciclo programático, a partir do mapeamento de 360 organizações (`Stakeholder Ecosystem Mapping.xlsx`, última atualização 11/02/2026) e da rede ancorada nos 4 parceiros MBO (UNICAFES Pará, UNICAFES Rondônia, CSA Brasil, UNICATADORES).
+Descrição analítica do ecossistema em que a Trias atuará no próximo ciclo programático, a partir do mapeamento de 375 organizações (`Stakeholder Ecosystem Mapping.xlsx`) e da rede ancorada nos 4 parceiros MBO (UNICAFES Pará, UNICAFES Rondônia, CSA Brasil, UNICATADORES).
 
-> **Como ler este documento.** A primeira seção descreve a composição geral do ecossistema, sem filtro. A segunda mostra o subconjunto diretamente relevante para os parceiros MBO (114 organizações). As seções seguintes detalham bridges, brokers e a assinatura característica de cada parceiro.
+> **Como ler este documento.** A primeira seção descreve a composição geral do ecossistema, sem filtro. A segunda mostra o subconjunto diretamente relevante para os parceiros MBO (129 organizações). As seções seguintes detalham bridges, brokers e a assinatura característica de cada parceiro.
 
 
 ## Metodologia
@@ -33,59 +33,59 @@ A rede é uma **projeção bipartite**: cada stakeholder externo recebe uma ares
 **O que a rede não captura**: relacionamentos formais (contratos, parcerias), histórico de colaboração, alinhamento ideológico, capacidade institucional. A rede é uma hipótese inicial de proximidade baseada em atributos declarados, a ser validada com a equipe Brasil/SAM.
 
 
-## 1. Composição geral do ecossistema (n = 360)
+## 1. Composição geral do ecossistema (n = 375)
 
 ### Setor
 
-- **Organizações sociais** — 120 (33,3%)
-- **Setor privado** — 92 (25,6%)
-- **Academia** — 56 (15,6%)
-- **Cooperação internacional** — 55 (15,3%)
-- **Governo** — 37 (10,3%)
+- **Organizações sociais** — 127 (33,9%)
+- **Setor privado** — 100 (26,7%)
+- **Academia** — 56 (14,9%)
+- **Cooperação internacional** — 55 (14,7%)
+- **Governo** — 37 (9,9%)
 
 ### Tipo de organização (top 10)
 
-- Philanthropy foundations — 49
-- Private companies (large / leading) — 43
+- Philanthropy foundations — 51
+- Private companies (large / leading) — 48
+- Industry platforms and sectoral initiatives — 33
 - Monitoring, Evaluation, and Learning — 30
-- Industry platforms and sectoral initiatives — 30
-- Local implementers — 28
+- Local implementers — 29
 - Bilateral cooperation agencies — 25
+- Grassroots networks — 21
 - Public agencies and regulators — 19
-- Grassroots networks — 19
 - Social moviments — 19
-- Multi-stakeholder initiatives — 15
+- Multi-stakeholder initiatives — 17
 
 ### Bioma primário
 
-- Amazonia — 105 (29,2%)
-- Cerrado — 78 (21,7%)
-- Caatinga — 54 (15,0%)
+- Amazonia — 105 (28,0%)
+- Cerrado — 78 (20,8%)
+- Caatinga — 54 (14,4%)
 
 ### Funding role
 
-- Grantee — 198 (55,0%)
-- Donor — 116 (32,2%)
-- Re-granter — 37 (10,3%)
+- Grantee — 201 (53,6%)
+- Donor — 123 (32,8%)
+- Re-granter — 42 (11,2%)
 
 ### Papel no ecossistema (top 10)
 
-- Policy influence / regulation — 105
-- Strategic partner — 94
-- Implementation capacity (delivery) — 78
-- Technical assistance / research — 77
-- Funder — 74
-- Convenor/enablers — 68
+- Policy influence / regulation — 110
+- Strategic partner — 99
+- Implementation capacity (delivery) — 89
+- Technical assistance / research — 80
+- Funder — 76
+- Convenor/enablers — 73
 - Project developer / Implementer — 56
-- Community legitimacy / proximate leadership — 45
+- Community legitimacy / proximate leadership — 48
 - Territorial anchor — 41
-- Capital provider / Financial intermediary — 31
+- Capital provider / Financial intermediary — 35
 
 ### Posição na cadeia
 
-- Upstream — 165 (45,8%)
-- Downstream — 110 (30,6%)
-- Midstream — 85 (23,6%)
+- Upstream — 165 (44,0%)
+- Downstream — 117 (31,2%)
+- Midstream — 93 (24,8%)
 
 ### Leitura concreta
 
@@ -97,25 +97,25 @@ A rede é uma **projeção bipartite**: cada stakeholder externo recebe uma ares
 - **Policy influence** é o papel mais declarado (105), confirmando que muitas organizações se posicionam como atores de incidência política — uma característica relevante para um ecossistema que discute marcos como PNRS, PNAE, MROSC, Plano Safra Familiar e Plano Nacional de Bioeconomia.
 
 
-## 2. Subconjunto conectado aos parceiros MBO (n = 114)
+## 2. Subconjunto conectado aos parceiros MBO (n = 129)
 
-Do total de 360 organizações, **114 (31,7%)** têm score de alinhamento ≥ 4.5 com pelo menos um dos 4 parceiros. Esse é o ecossistema imediatamente acionável pela Trias para mediação de relacionamentos.
+Do total de 375 organizações, **129 (34,4%)** têm score de alinhamento ≥ 4.5 com pelo menos um dos 4 parceiros. Esse é o ecossistema imediatamente acionável pela Trias para mediação de relacionamentos.
 
 
 ### Distribuição da relevância
 
-- **62** conectam exatamente 1 parceiro
-- **42** conectam 2 parceiros (bridges duplas)
+- **75** conectam exatamente 1 parceiro
+- **44** conectam 2 parceiros (bridges duplas)
 - **10** conectam 3 parceiros (tri-bridges)
 - **0** conectam os 4 parceiros
 
 
 ### Conexões por parceiro
 
-- **UNICAFES Pará** — 41 organizações relevantes
-- **UNICAFES Rondônia** — 58 organizações relevantes
+- **UNICAFES Pará** — 42 organizações relevantes
+- **UNICAFES Rondônia** — 59 organizações relevantes
 - **CSA Brasil** — 73 organizações relevantes
-- **UNICATADORES** — 4 organizações relevantes
+- **UNICATADORES** — 19 organizações relevantes
 
 Note a assimetria: UNICAFES Pará e Rondônia concentram a maior densidade de potenciais aliados (compartilham território e tema), enquanto UNICATADORES tem um ecossistema próprio e relativamente isolado das demais — refletindo a clivagem entre as agendas de agricultura familiar/bioeconomia e a agenda de catadores/economia circular urbana.
 
@@ -129,10 +129,10 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 
 | MBO | Maturidade | Território | Membros | Mulheres | Jovens | Staff | Conectados |
 |---|---|---|---|---|---|---|---|
-| UNICAFES Pará | 2º nível · em consolidação | Pará · Amazônia Legal | 1.241 agricultores familiares (FFEs) | 29% | 15% | 2 | 41 |
-| UNICAFES Rondônia | 2º nível · em consolidação · exit 2028 | Rondônia · Amazônia Legal | 1.265 agricultores familiares (FFEs) | 56% | 30% | 2 | 58 |
+| UNICAFES Pará | 2º nível · em consolidação | Pará · Amazônia Legal | 1.241 agricultores familiares (FFEs) | 29% | 15% | 2 | 42 |
+| UNICAFES Rondônia | 2º nível · em consolidação · exit 2028 | Rondônia · Amazônia Legal | 1.265 agricultores familiares (FFEs) | 56% | 30% | 2 | 59 |
 | CSA Brasil | 3º nível · em consolidação | Nacional · 19 estados · 5 regiões · rural-urbano | 540 FFEs + 3.600 NFEs (co-agricultores) | 70% | 30% | 3 | 73 |
-| UNICATADORES | 3º nível · maduro | Nacional · 26 estados · urbano | ~50.000 catadores organizados (NFEs) | 60% | 30% | 28 | 4 |
+| UNICATADORES | 3º nível · maduro | Nacional · 26 estados · urbano | ~50.000 catadores organizados (NFEs) | 60% | 30% | 28 | 19 |
 
 **Leitura comparativa**
 
@@ -160,8 +160,8 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Práticas agroflorestais e agroecológicas
 - Inclusão de mulheres e jovens nos espaços de decisão
 
-**Composição do ecossistema conectado** (41 stakeholders):
-- Organizações sociais — 26
+**Composição do ecossistema conectado** (42 stakeholders):
+- Organizações sociais — 27
 - Academia — 8
 - Setor privado — 5
 - Governo — 1
@@ -170,6 +170,7 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 **Distribuição de adicionalidade** das conexões:
 - Média — 29
 - Alta — 12
+- Baixa — 1
 
 **Top 5 por alinhamento**:
 - **União Nacional de Cooperativas da Agricultura Familiar e Economia Solidária (Unicafes)** (score 10.0) — Grassroots networks
@@ -197,15 +198,15 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Finanças inovadoras (blended finance, PES, carbono)
 - Articulação com IKI, GIZ, MDA para complementaridade pós-2028
 
-**Composição do ecossistema conectado** (58 stakeholders):
-- Organizações sociais — 25
+**Composição do ecossistema conectado** (59 stakeholders):
+- Organizações sociais — 26
 - Academia — 15
 - Setor privado — 14
 - Governo — 3
 - Cooperação internacional — 1
 
 **Distribuição de adicionalidade** das conexões:
-- Média — 37
+- Média — 38
 - Alta — 21
 
 **Top 5 por alinhamento**:
@@ -272,18 +273,19 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 - Capacitação de liderança jovem e feminina
 - Conectividade digital e ferramentas de traceabilidade
 
-**Composição do ecossistema conectado** (4 stakeholders):
-- Organizações sociais — 3
-- Setor privado — 1
+**Composição do ecossistema conectado** (19 stakeholders):
+- Organizações sociais — 10
+- Setor privado — 9
 
 **Distribuição de adicionalidade** das conexões:
-- Baixa — 4
+- Baixa — 19
 
 **Top 5 por alinhamento**:
 - **Movimento Nacional de Catadores de Materiais Recicláveis (MNCR)** (score 10.5) — Social moviments
 - **União Nacional de Catadoras e Catadores (Unicatadores)** (score 10.5) — Grassroots networks
-- **Associação Nacional das Empresas de Transportes Urbanos (NTU)** (score 6.0) — Industry platforms and sectoral initiatives
-- **Movimento dos Trabalhadores Sem Teto (MTST)** (score 4.5) — Social moviments
+- **ANCAT — Associação Nacional dos Catadores e Catadoras de Materiais Recicláveis** (score 10.5) — Grassroots networks
+- **INSEA — Instituto Nenuca de Desenvolvimento Sustentável** (score 10.5) — Local implementers
+- **CEMPRE — Compromisso Empresarial para a Reciclagem** (score 10.0) — Industry platforms and sectoral initiatives
 
 
 ## 4. Bridges — atores que conectam múltiplos parceiros
@@ -291,7 +293,7 @@ Os 4 parceiros têm maturidade, território e tema distintos. Compreender essas 
 Bridges são organizações com alinhamento simultâneo a dois ou mais parceiros MBO. Têm valor estratégico desproporcional para o reposicionamento da Trias como hub: uma ação de articulação que envolva um bridge propaga efeitos por múltiplos parceiros ao mesmo tempo.
 
 
-**Total**: 52 bridges identificadas.
+**Total**: 54 bridges identificadas.
 
 
 ### Tri-bridges (3 parceiros) — núcleo da articulação
@@ -320,10 +322,10 @@ Bridges são organizações com alinhamento simultâneo a dois ou mais parceiros
 - **Amaggi** (Private companies (large / leading)) — UNICAFES Rondônia · CSA Brasil
 - **Good Energies Foundation** (Philanthropy foundations) — UNICAFES Pará · UNICAFES Rondônia
 - **Instituto Peabiru** (Local implementers) — UNICAFES Pará · UNICAFES Rondônia
+- **Fundação Banco do Brasil (FBB)** (Philanthropy foundations) — UNICAFES Pará · UNICATADORES
+- **Plastic Bank** (Multi-stakeholder initiatives) — UNICAFES Rondônia · UNICATADORES
 - **Instituto Clima e Sociedade (iCS)** (Monitoring, Evaluation, and Learning) — UNICAFES Rondônia · CSA Brasil
 - **Empresa Brasileira de Pesquisa Agropecuária (Embrapa)** (Research centers) — UNICAFES Rondônia · CSA Brasil
-- **Coalizão Brasil Clima, Florestas e Agricultura** (Alliances) — UNICAFES Rondônia · CSA Brasil
-- **WRI Brasil** (Monitoring, Evaluation, and Learning) — UNICAFES Rondônia · CSA Brasil
 
 
 ## 5. Brokers — alta intermediação
@@ -360,90 +362,90 @@ A Trias declara no *Annex 1 — Theory of Change* cinco papéis complementares n
 Cada stakeholder conectado tem um ou mais **modos de articulação** que correspondem a esses papéis. Os modos são derivados do papel declarado da organização no mapeamento e descrevem operacionalmente como a Trias pode mobilizar a relação.
 
 
-### Distribuição dos modos de articulação (114 stakeholders conectados)
+### Distribuição dos modos de articulação (129 stakeholders conectados)
 
 | Modo de articulação | Contagem | Papel Trias | Operacionalização |
 |---|---|---|---|
-| Co-implementação | 52 | Peer-to-Peer Facilitator | execução conjunta de projetos com as MBOs |
-| Ancoragem territorial | 42 | Process Facilitator | presença local, legitimidade junto aos membros |
-| Parceria estratégica | 29 | Bridge Builder | co-criação de agenda, alinhamento programático plurianual |
-| Advocacy compartilhado | 29 | Bridge Builder | incidência conjunta em PNRS, PNAE, PLANAPO, MROSC |
-| Advisory técnico-temático | 24 | Thematic Advisor | ATER, formação técnica, mentoria temática para MBOs |
-| Pesquisa & evidência | 24 | Thematic Advisor | estudos, baselines, MRV, avaliação |
-| Apoio financeiro catalítico | 22 | Financer + Bridge Builder | capital-semente que destrava outros recursos; co-funding pontual |
-| Articulação multistakeholder | 11 | Bridge Builder | convocatória, plataforma multi-ator, redes temáticas |
-| Finanças mistas/inovadoras | 8 | Bridge Builder + Financer | blended finance, garantias, crédito, instrumentos climáticos |
+| Co-implementação | 63 | Peer-to-Peer Facilitator | execução conjunta de projetos com as MBOs |
+| Ancoragem territorial | 45 | Process Facilitator | presença local, legitimidade junto aos membros |
+| Parceria estratégica | 34 | Bridge Builder | co-criação de agenda, alinhamento programático plurianual |
+| Advocacy compartilhado | 34 | Bridge Builder | incidência conjunta em PNRS, PNAE, PLANAPO, MROSC |
+| Apoio financeiro catalítico | 28 | Financer + Bridge Builder | capital-semente que destrava outros recursos; co-funding pontual |
+| Advisory técnico-temático | 27 | Thematic Advisor | ATER, formação técnica, mentoria temática para MBOs |
+| Pesquisa & evidência | 27 | Thematic Advisor | estudos, baselines, MRV, avaliação |
+| Articulação multistakeholder | 16 | Bridge Builder | convocatória, plataforma multi-ator, redes temáticas |
+| Finanças mistas/inovadoras | 12 | Bridge Builder + Financer | blended finance, garantias, crédito, instrumentos climáticos |
 | MRV / dados | 8 | Thematic Advisor | plataformas, monitoramento ambiental, traceabilidade |
 
 ### Distribuição por papel Trias mobilizado
 
-- **Bridge Builder** — 69
-- **Thematic Advisor** — 56
-- **Peer-to-Peer Facilitator** — 52
-- **Process Facilitator** — 42
-- **Financer + Bridge Builder** — 22
-- **Bridge Builder + Financer** — 8
+- **Bridge Builder** — 84
+- **Peer-to-Peer Facilitator** — 63
+- **Thematic Advisor** — 62
+- **Process Facilitator** — 45
+- **Financer + Bridge Builder** — 28
+- **Bridge Builder + Financer** — 12
 
 ### Stakeholders por modo de articulação (top 5)
 
 
-**Co-implementação** (52)
+**Co-implementação** (63)
 - Instituto Climate Ventures Brasil (Climate Ventures) (Think tanks)
 - Instituto Semeia (Philanthropy foundations)
 - Alcoa (Private companies (large / leading))
 - Norsk Hydro ASA (Hydro) (Private companies (large / leading))
 - The Nature Conservancy Brasil (TNC Brasil) (Local implementers)
 
-**Ancoragem territorial** (42)
+**Ancoragem territorial** (45)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 - Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
 - Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis (Ibama) (Public agencies and regulators)
 - Instituto Chico Mendes de Conservação da Biodiversidade (ICMBio) (Public agencies and regulators)
 
-**Parceria estratégica** (29)
+**Parceria estratégica** (34)
 - Instituto Ibirapitanga (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 - Alcoa (Private companies (large / leading))
 
-**Advocacy compartilhado** (29)
+**Advocacy compartilhado** (34)
 - Instituto Talanoa (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - WWF-Brasil (Local implementers)
 - WRI Brasil (Monitoring, Evaluation, and Learning)
 - Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis (Ibama) (Public agencies and regulators)
 
-**Advisory técnico-temático** (24)
-- Instituto Talanoa (Monitoring, Evaluation, and Learning)
-- Instituto Semeia (Philanthropy foundations)
-- WRI Brasil (Monitoring, Evaluation, and Learning)
-- Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
-- Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
-
-**Pesquisa & evidência** (24)
-- Instituto Talanoa (Monitoring, Evaluation, and Learning)
-- Instituto Semeia (Philanthropy foundations)
-- WRI Brasil (Monitoring, Evaluation, and Learning)
-- Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
-- Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
-
-**Apoio financeiro catalítico** (22)
+**Apoio financeiro catalítico** (28)
 - Instituto Ibirapitanga (Philanthropy foundations)
 - Fundo Brasileiro para a Biodiversidade (FUNBIO) (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Alana (Philanthropy foundations)
 - Instituto Arapyaú (Philanthropy foundations)
 
-**Articulação multistakeholder** (11)
+**Advisory técnico-temático** (27)
+- Instituto Talanoa (Monitoring, Evaluation, and Learning)
+- Instituto Semeia (Philanthropy foundations)
+- WRI Brasil (Monitoring, Evaluation, and Learning)
+- Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
+- Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
+
+**Pesquisa & evidência** (27)
+- Instituto Talanoa (Monitoring, Evaluation, and Learning)
+- Instituto Semeia (Philanthropy foundations)
+- WRI Brasil (Monitoring, Evaluation, and Learning)
+- Empresa Brasileira de Pesquisa Agropecuária (Embrapa) (Research centers)
+- Instituto do Homem e Meio Ambiente da Amazônia (Imazon) (Monitoring, Evaluation, and Learning)
+
+**Articulação multistakeholder** (16)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Instituto Climate Ventures Brasil (Climate Ventures) (Think tanks)
 - CocoaAction Brasil (Multi-stakeholder initiatives)
 - Associação Nacional das Empresas de Transportes Urbanos (NTU) (Industry platforms and sectoral initiatives)
 - Coalizão Brasil Clima, Florestas e Agricultura (Alliances)
 
-**Finanças mistas/inovadoras** (8)
+**Finanças mistas/inovadoras** (12)
 - Fundo Brasileiro para a Biodiversidade (FUNBIO) (Philanthropy foundations)
 - Instituto Clima e Sociedade (iCS) (Monitoring, Evaluation, and Learning)
 - Banco da Amazônia S.A. (BASA) (Development banks)
@@ -476,17 +478,17 @@ A adicionalidade Trias por conexão (stakeholder × parceiro MBO) é estimada po
 ### Distribuição agregada (182 conexões)
 
 - **Alta** — 48 conexões (26%)
-- **Média** — 83 conexões (46%)
-- **Baixa** — 45 conexões (25%)
+- **Média** — 84 conexões (46%)
+- **Baixa** — 61 conexões (34%)
 
 ### Adicionalidade por parceiro
 
 | MBO | Alta | Média | Baixa | Total |
 |---|---|---|---|---|
-| UNICAFES Pará | 12 | 29 | 0 | 41 |
-| UNICAFES Rondônia | 21 | 37 | 0 | 58 |
+| UNICAFES Pará | 12 | 29 | 1 | 42 |
+| UNICAFES Rondônia | 21 | 38 | 0 | 59 |
 | CSA Brasil | 15 | 17 | 41 | 73 |
-| UNICATADORES | 0 | 0 | 4 | 4 |
+| UNICATADORES | 0 | 0 | 19 | 19 |
 
 **Leitura da adicionalidade por parceiro**
 

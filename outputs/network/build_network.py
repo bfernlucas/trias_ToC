@@ -1609,7 +1609,7 @@ HTML = r"""<!DOCTYPE html>
       <div class="bars" id="bars-chain"></div>
 
       <h2>Modo de articulação Trias</h2>
-      <div class="small" style="margin-bottom:6px;">entre os 114 stakeholders conectados</div>
+      <div class="small" style="margin-bottom:6px;">entre os __N_CONNECTED__ stakeholders conectados</div>
       <div class="bars" id="bars-mode"></div>
 
       <h2>Papel Trias mobilizado</h2>
@@ -1652,7 +1652,7 @@ HTML = r"""<!DOCTYPE html>
     <p>A rede é uma <em>projeção bipartite</em>: cada stakeholder externo recebe uma aresta ponderada para cada um dos 4 parceiros MBO da Trias se o alinhamento temático/territorial passar de um limiar. Não há ligações diretas entre stakeholders externos — a leitura visual privilegia o papel de cada um <em>em relação aos parceiros</em>.</p>
 
     <h4>Base de origem</h4>
-    <p>360 organizações registradas em <code>Stakeholder Ecosystem Mapping.xlsx</code> (última atualização: 11/02/2026). Cada registro traz: setor, tipo, descrição, território, bioma primário e secundário, área de impacto, papel no ecossistema, posição na cadeia de valor e funding role (donor / grantee / re-granter).</p>
+    <p>__N_RECORDS__ organizações registradas em <code>Stakeholder Ecosystem Mapping.xlsx</code>. Cada registro traz: setor, tipo, descrição, território, bioma primário e secundário, área de impacto, papel no ecossistema, posição na cadeia de valor e funding role (donor / grantee / re-granter).</p>
 
     <h4>Nós-âncora (parceiros MBO)</h4>
     <p>Os 4 parceiros não estão na base original (apenas UNICAFES Nacional e UNICATADORES aparecem como entradas). Foram adicionados manualmente com perfis derivados do <em>Annex 1 — Theory of Change</em> e do <em>BRAZIL_DGD Narrative_DRAFT</em>:</p>
@@ -1684,10 +1684,10 @@ HTML = r"""<!DOCTYPE html>
     </ul>
 
     <h4>Limiar de conexão</h4>
-    <p>Edge é criada quando o score ≥ <code>4,5</code>. Esse valor foi calibrado iterativamente: limiares mais baixos (3,0) deixavam empresas nacionais broad-spectrum (grandes varejistas, montadoras) aparecerem como bridges; limiares mais altos (6,0) descartavam parceiros legítimos. O número final de stakeholders conectados (114 de 360) representa o ecossistema imediatamente relevante para a operação dos 4 parceiros, segundo os atributos disponíveis na base.</p>
+    <p>Edge é criada quando o score ≥ <code>4,5</code>. Esse valor foi calibrado iterativamente: limiares mais baixos (3,0) deixavam empresas nacionais broad-spectrum (grandes varejistas, montadoras) aparecerem como bridges; limiares mais altos (6,0) descartavam parceiros legítimos. O número final de stakeholders conectados (__N_CONNECTED__ de __N_RECORDS__) representa o ecossistema imediatamente relevante para a operação dos 4 parceiros, segundo os atributos disponíveis na base.</p>
 
     <h4>Origem da base de dados</h4>
-    <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> é um mapeamento do ecossistema brasileiro de filantropia climática, cooperativismo e bioeconomia, com 360 atores categorizados por setor, território, bioma, papel e potencial de articulação. A análise apresentada aqui aplica essa base a partir da lente da Trias e dos seus 4 parceiros MBO — toda a lógica de articulação foi derivada algoritmicamente dos 5 papéis Trias declarados no Annex 1 (Theory of Change), e não do schema original da planilha.</p>
+    <p>A planilha <code>Stakeholder Ecosystem Mapping.xlsx</code> é um mapeamento do ecossistema brasileiro de filantropia climática, cooperativismo e bioeconomia, com __N_RECORDS__ atores categorizados por setor, território, bioma, papel e potencial de articulação. A análise apresentada aqui aplica essa base a partir da lente da Trias e dos seus 4 parceiros MBO — toda a lógica de articulação foi derivada algoritmicamente dos 5 papéis Trias declarados no Annex 1 (Theory of Change), e não do schema original da planilha.</p>
 
     <h4>Camada institucional Trias (overlay)</h4>
     <p>Sobrepostos à base brasileira, foram adicionados ~50 atores institucionais que compõem a rede global da Trias e que não estavam na planilha de origem: doadores históricos (DGD, EU, Enabel, IFAD, AFD, IKI, GIZ), agri-agências da AgriCord (Agriterra, Solidaridad, FFD, Cresol Agri-Agency, Fert, We Effect, Asprodeb, UPA DI), redes belgas (11.11.11, NGO Federation, Coalition Against Hunger, Beyond Chocolate, BASCOF, Urgenci, UN Global Compact), diplomacia e mercado Bélgica-Brasil (Embaixada belga, AWEX, Hub Brussels, FIT, Belgalux, ABC, Itamaraty, SAF), parceiros corporativos (Colruyt, Boerenbond, Coopemapi) e MBOs irmãs do corredor amazônico SAM (Kallari, Unocace, Aprocam, AGROPAPA, CONPAPA, COOPAGROS), além de academia (Université de Liège, Vlerick, BRS). Fontes: <code>trias.ngo</code>, <code>agricord.org</code>, Annual Report Trias 2024, Annex 1 ToC, Narrative DGD.</p>
@@ -2378,7 +2378,10 @@ sim.alpha(1).restart();
 </html>
 """
 
-html = HTML.replace("__GRAPH_JSON__", graph_json_str)
+html = (HTML
+        .replace("__GRAPH_JSON__", graph_json_str)
+        .replace("__N_RECORDS__", str(len(records)))
+        .replace("__N_CONNECTED__", str(len(results))))
 (OUT_NET / "ecossistema_trias_brasil.html").write_text(html, encoding="utf-8")
 (OUT_PAGES / "index.html").write_text(html, encoding="utf-8")
 print(f"HTML: {OUT_PAGES / 'index.html'}")
@@ -2392,16 +2395,18 @@ bridges_list = sorted(bridges_data, key=lambda x: -x["n"])
 
 md = []
 md.append("# Ecossistema Trias Brasil — DGD 2027–2031\n")
-md.append("Descrição analítica do ecossistema em que a Trias atuará no próximo "
-          "ciclo programático, a partir do mapeamento de 360 organizações "
-          "(`Stakeholder Ecosystem Mapping.xlsx`, última atualização 11/02/2026) "
-          "e da rede ancorada nos 4 parceiros MBO (UNICAFES Pará, UNICAFES "
-          "Rondônia, CSA Brasil, UNICATADORES).\n")
-md.append("> **Como ler este documento.** A primeira seção descreve a composição "
-          "geral do ecossistema, sem filtro. A segunda mostra o subconjunto "
-          "diretamente relevante para os parceiros MBO (114 organizações). As "
-          "seções seguintes detalham bridges, brokers e a assinatura "
-          "característica de cada parceiro.\n\n")
+N_RECORDS = len(records)
+N_CONNECTED = len(results)
+md.append(f"Descrição analítica do ecossistema em que a Trias atuará no próximo "
+          f"ciclo programático, a partir do mapeamento de {N_RECORDS} organizações "
+          f"(`Stakeholder Ecosystem Mapping.xlsx`) e da rede ancorada nos 4 "
+          f"parceiros MBO (UNICAFES Pará, UNICAFES Rondônia, CSA Brasil, "
+          f"UNICATADORES).\n")
+md.append(f"> **Como ler este documento.** A primeira seção descreve a composição "
+          f"geral do ecossistema, sem filtro. A segunda mostra o subconjunto "
+          f"diretamente relevante para os parceiros MBO ({N_CONNECTED} organizações). "
+          f"As seções seguintes detalham bridges, brokers e a assinatura "
+          f"característica de cada parceiro.\n\n")
 
 # Metodologia
 md.append("## Metodologia\n")
@@ -2432,10 +2437,10 @@ md.append("\n**O que a rede não captura**: relacionamentos formais (contratos, 
           "atributos declarados, a ser validada com a equipe Brasil/SAM.\n\n")
 
 # Composição geral
-md.append("## 1. Composição geral do ecossistema (n = 360)\n")
+md.append(f"## 1. Composição geral do ecossistema (n = {N_RECORDS})\n")
 md.append("### Setor\n")
 for k, v in stats_all["sector"].most_common():
-    md.append(f"- **{k}** — {v} ({fmt_pct(v, 360)})")
+    md.append(f"- **{k}** — {v} ({fmt_pct(v, N_RECORDS)})")
 md.append("\n### Tipo de organização (top 10)\n")
 tipo_c = Counter()
 for stk in records:
@@ -2445,16 +2450,16 @@ for k, v in tipo_c.most_common(10):
     md.append(f"- {k} — {v}")
 md.append("\n### Bioma primário\n")
 for k, v in stats_all["biome"].most_common():
-    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
+    md.append(f"- {k} — {v} ({fmt_pct(v, N_RECORDS)})")
 md.append("\n### Funding role\n")
 for k, v in stats_all["funding_role"].most_common():
-    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
+    md.append(f"- {k} — {v} ({fmt_pct(v, N_RECORDS)})")
 md.append("\n### Papel no ecossistema (top 10)\n")
 for k, v in stats_all["role"].most_common(10):
     md.append(f"- {k} — {v}")
 md.append("\n### Posição na cadeia\n")
 for k, v in stats_all["value_chain"].most_common():
-    md.append(f"- {k} — {v} ({fmt_pct(v, 360)})")
+    md.append(f"- {k} — {v} ({fmt_pct(v, N_RECORDS)})")
 
 # Leitura concreta
 md.append("\n### Leitura concreta\n")
@@ -2482,7 +2487,7 @@ md.append("- **Policy influence** é o papel mais declarado (105), confirmando "
 
 # Subset conectado
 md.append(f"\n## 2. Subconjunto conectado aos parceiros MBO (n = {len(results)})\n")
-md.append(f"Do total de 360 organizações, **{len(results)} ({fmt_pct(len(results), 360)})** "
+md.append(f"Do total de {N_RECORDS} organizações, **{len(results)} ({fmt_pct(len(results), N_RECORDS)})** "
           f"têm score de alinhamento ≥ {THRESHOLD} com pelo menos um dos 4 parceiros. "
           f"Esse é o ecossistema imediatamente acionável pela Trias para mediação "
           f"de relacionamentos.\n")
@@ -2598,7 +2603,7 @@ md.append("Cada stakeholder conectado tem um ou mais **modos de articulação** 
           "que correspondem a esses papéis. Os modos são derivados do papel "
           "declarado da organização no mapeamento e descrevem operacionalmente "
           "como a Trias pode mobilizar a relação.\n")
-md.append("\n### Distribuição dos modos de articulação (114 stakeholders conectados)\n")
+md.append(f"\n### Distribuição dos modos de articulação ({N_CONNECTED} stakeholders conectados)\n")
 md.append("| Modo de articulação | Contagem | Papel Trias | Operacionalização |")
 md.append("|---|---|---|---|")
 mode_desc_map = {}
